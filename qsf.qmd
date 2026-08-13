@@ -1,0 +1,124 @@
+# Quantitative Structure Forest {#sec-qsf}
+
+A **Quantitative Structure Model (QSM)** is a three-dimensional representation of a single individual tree that explicitly describes its geometry and topology (stems, branches, radii, volumes). QSMs provide a physically meaningful model, rather than a purely statistical description.
+
+In this book, we extend this concept from individual trees to entire forests by introducing the **Quantitative Structure Forest (QSF)**. A QSF is a coherent collection of QSMs that together reconstruct the three-dimensional structure of all trees within a forested area.
+
+This conceptual extension is made possible by our advances in QSM algorithms that are fast and robust enough to reconstruct tens of thousands of trees, enabling full 3D modelling of forests spanning several hectares. The QSF concept bridges the gap between tree-level and forest-level analysis, providing a unified framework to study tree architecture, stand structure, competition, biomass distribution, and canopy organisation within a single 3D representation.
+
+## Building a QSF
+
+Building a QSF is relatively straightforward. Users could simply loop over all trees and compute a QSM for each one. Arbor includes a function, `qsf()`, that performs this task in parallel and in an optimized manner.
+
+As described in previous chapters, the variable `las` contains the segmented scene.
+
+```r
+qsf = qsf(las)
+```
+
+The `qsf` function is blazingly fast and can produce up to 100 QSMs in 1 minute!
+
+::: {.callout-tip}
+A `qsf` object is simply a `list` with an additional class to enable convenient printing and plotting methods. Thus, `qsf[[1]]` contains a `qsm` object.
+:::
+
+`qsf()` does not throw any warnings because, on a typical 1/4-hectare plot with 400 saplings and 200 young trees, this would generate at least 600 warnings. This is unmanageable. Indeed, `qsm()` warns about non-measurable young trees. Instead, all QSMs record a message. Users can call `qsf_log()` to obtain a summary of troubleshooting.
+
+Be careful: by default, `qsf()` produces a QSM for every instance taller than 2 m. This can create a large number of QSMs with negligible volume, which is not always desirable. The function provides a parameter to control this threshold e.g. `qsf(las, min_height = 4)`.
+
+## What to Do with a QSF?
+
+### 3D Rendering
+
+The first thing we can do with a QSF is render it in 3D within R.
+
+```{r, echo=F, eval=F}
+library(rgl)
+library(arbor)
+#options(rgl.useNULL = TRUE) # Suppress separate window
+#setupKnitr(autoprint = TRUE) # Automatically print rgl plots
+qsf = readRDS("data/chap_qsf/PRF193_qsf.rds")
+dtm = terra::rast("data/chap_qsf/PRF193_dtm.tif")
+plot(qsf, pal = "chocolate4") |> lidR::add_dtm3d(dtm)
+```
+
+```r
+plot(qsf, pal = "chocolate4") |> lidR::add_dtm3d(dtm)
+```
+
+![](figures/chap_qsf/qsf1.jpg){width=400px}
+
+![](figures/chap_qsf/qsf3.jpg){width=400px}
+
+![3D rendering of a QSF. QSF computed in 4 seconds](figures/chap_qsf/qsf2.jpg){width=400px}
+
+### Tree Map & Volume Inventory
+
+A QSF can also be used to perform complete forest inventories, producing a tree map with detailed information for each tree, such as basal area, volume, height, and other structural attributes.
+
+```r
+tm <- qsf_treemap(qsf)
+```
+
+![A tree map with volume displayed (trees are scaled ×2 for rendering)](figures/chap_qsf/treemap.jpg){width=500px}
+
+### Export to 3D Software
+
+The `qsf()` function includes an option to export all trees into separate folders. Users can also use `qsf_write()` to export individual trees to formats such as `.qsm`, `.obj`, `.stl`, `.ply`, `.csv` or other formats supported by 3D software. For example, Blender can be used as an open-source solution for realistic rendering while CloudCompare can be use for casual rendering.
+
+![](figures/chap_qsf/render2.jpg){width=500px}
+
+![Rendering with Blender](figures/chap_qsf/render1.jpg){width=500px}
+
+### Reclassifying Wood and Foliage
+
+Our semantic segmentation is not perfect. It intentionally over-segments in order to ensure that the entire tree branching structure is captured. As a result, this approach produces numerous false positives in foliage (by design) and some false negatives (not by design). The semantic segmentation is therefore not intended for direct scientific use; it is primarily designed to support QSM reconstruction.
+
+With a QSF, it becomes possible to reclassify points based on each individual QSM. This reclassification can be useful for downstream analyses such as estimating Plant Area Index (PAI) or Leaf Area Index (LAI), where a more accurate separation between wood and foliage is required.
+
+
+```r
+las = qsf_segment_semantic(las, qsf)
+```
+
+![Raw semantic segmentation (left) and post-processing using QSMs and a QSF (right)](figures/chap_qsf/segment_from_qsf.jpg){width=800px}
+
+### Merchandable Volume
+
+See @sec-opforestry for more information about forestry operations.
+
+## Code
+
+### Function list
+
+- `qsf()` to build a QSF
+- `qsf_write()` for saving the QSMs in `.obj`, `.ply` `.csv` or `.qsm` for analyzing or for rendering in 3D software.
+- `qsf_treemap()` for saving forest in GIS vector files
+- `qsf_segment_semantic()` for more accurate semantic segmentation
+- `qsf_merchantable()` (see @sec-opforestry)
+- `plot()` for 3D rendering
+
+### Full Code
+
+```r
+library(lidR)
+library(arbor)
+
+params <- arbor_parameters_default
+params$global$cut_above_ground = 0.25
+filter <- "-keep_random_fraction 0.25"
+buffer <- 5
+
+las <- readTLS(file, select = "xyz", filter = filter)
+
+las <- hybrid_homogeneization(las)
+las <- segment_ground(las)
+las <- wood_likelihood(las, params)
+las <- segment_semantic(las, params)
+see <- find_seeds(las, params)
+las <- segment_instance(las, see, params)
+las <- flag_small_trees(las, max_height = 2)
+las <- flag_buffer(las, see, -buffer)
+qsf <- qsf(las)
+plot(qsf)
+```

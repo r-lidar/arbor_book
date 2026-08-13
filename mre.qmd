@@ -1,0 +1,147 @@
+# Appendix A - Examples & Data {.unnumbered}
+
+## Plot PRF 193
+
+Point cloud from [Petawawa Research Forest](https://friendsoftheprf.com/). The dataset was **already decimated** to reduce upload and download size, so there is no need to read a random fraction. It covers a 900 m² plot and was manually cleaned on edges, eliminating the need for buffer removal since no buffer was included in the original data. This manual cleaning prevents edge effects in a dataset without a buffer.
+
+Dataset kindly provided through an [Ontario Forestry Futures Trust-Knowledge Transfer and Tool Development (KTTD)](https://www.forestryfutures.ca/forest-resource-inventory) funded project with Murray Woods and Margaret Penner.
+
+<style>
+.download-btn {
+  display: inline-block;
+  padding: 12px 22px;
+  background-color: #2C7BE5;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.download-btn:hover {
+  background-color: #1F5FBF;
+}
+</style>
+
+<a href="https://drive.google.com/file/d/1ZJbDvHSoojslK7np67leTL_o5r2wLAId/view?usp=sharing" download class="download-btn">
+  ⬇ Download
+</a>
+
+```r
+library(arbor)
+library(lidR)
+
+file <- "PRF193.laz"
+
+# Dataset already decimated
+filter <- "" 
+
+par <- arbor_parameters_default
+las <- readTLS(file, select = "xyz", filter = filter)
+
+t0  <- Sys.time()
+las <- hybrid_homogeneization(las)
+las <- segment_ground(las, par)
+las <- wood_likelihood(las, par)
+las <- segment_semantic(las, par)
+see <- find_seeds(las, par)
+las <- segment_instance(las, see, par)
+las <- colorize_trees(las)
+
+qsf <- qsf(las, 2, params = par)
+tf  <- Sys.time()
+dt  <- difftime(tf, t0)
+print(dt)
+
+dtm <- rasterize_terrain(las, 0.2)
+
+x <- plot_instance(las) |> add_dtm3d(dtm)
+plot(qsf, add = x, pal = "chocolate4")
+```
+
+## Oak Plantation
+
+This is a 35 × 35 m clip from a 4 ha project conducted to isolate and measure 15,000 trees in a oak plantations. Data kindly shared by the Direction de la Recherche Forestière, Québec. The dataset is already decimated by 50% to reduce upload and download size (190 MB). To reach a 20% reduction, we recommend using a random fraction of 0.4 (0.4 × 0.5 = 20%). Computation time: 1 min 30 s. Tree crowns are relatively narrow, so we use a 5 m buffer to retain as much data as possible for the example. Using a 10 m buffer is generally safer.
+
+<a href="https://drive.google.com/file/d/1Z-6bkqZArscgZL67qdtIEGVHcdoHu5ho/view?usp=drive_link" download class="download-btn">
+  ⬇ Download
+</a>
+
+
+
+```r
+library(arbor)
+library(lidR)
+
+file <- "StA.laz"
+
+# Dataset already decimated at 50% use 0.4 to reach 20%
+filter <- "-keep_random_fraction 0.4" 
+
+par <- arbor_parameters_default
+las <- readTLS(file, select = "xyz", filter = filter)
+
+t0  <- Sys.time()
+las <- hybrid_homogeneization(las)
+las <- segment_ground(las, par)
+las <- wood_likelihood(las, par)
+las <- segment_semantic(las, par)
+see <- find_seeds(las, par)
+las <- segment_instance(las, see, par)
+las <- colorize_trees(las)
+las <- flag_buffer(las, see, -5)
+
+qsf <- qsf(las, 2, params = par)
+tf  <- Sys.time()
+dt  <- difftime(tf, t0)
+print(dt)
+
+dtm <- rasterize_terrain(las, 0.2)
+
+view = filter_poi(las, UserData == ARBORTREE)
+x <- plot_semantic(view) |> add_dtm3d(dtm)
+x <- plot_instance(view) |> add_dtm3d(dtm)
+plot(qsf, add = x, pal = "chocolate4")
+```
+
+
+## Individual Tree Bank
+
+A collection of 13 individual trees. These trees come either from our internal tests or from public datasets. For trees segmented with Arbor, `qsm()` can be applied directly because Height Above Ground (HAG) and semantic segmentation are already available. For publicly sourced trees without semantic classification or HAG data, a few additional preprocessing steps are required before computing a QSM (see the FAQ section).
+
+<a href="https://drive.google.com/file/d/1uCXdTT4RdPVMDKHK4WV-NX9Mwb-6iBSF/view?usp=drive_link" download class="download-btn">
+  ⬇ Download
+</a>
+
+::: {.callout-warning}
+Here, we do not use `filter = "-keep_random_fraction 0.25"` because the point clouds either come from Arbor outputs and are therefore already decimated, or they are already voxelized TLS data. In the general case, however, do not load all points.
+:::
+
+
+```r
+files <- list.files(wd, pattern = ".laz", full.names = TRUE)
+
+# Select a tree (13 trees)
+# (12 and 13 are cool)
+i <- 1
+
+tree <- readLAS(files[i], select = "xyz0")
+
+# If hag not an attribute it is not a point cloud processed by Arbor
+# it is from public dataset
+if (!"hag" %in% names(tree)) {
+  message("Tree from public dataset")
+  tree <- hybrid_homogeneization(tree)
+  tree <- add_single_tree_ground(tree)
+  tree <- segment_ground(tree)
+  tree <- wood_likelihood(tree)
+  tree <- segment_semantic(tree)
+} else {
+  message("Tree from Arbor segmentation")
+}
+
+q <- qsm(tree)
+
+x <- plot_semantic(tree)
+plot(q, add = x, skeleton = FALSE)
+```

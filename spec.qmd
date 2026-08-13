@@ -1,0 +1,270 @@
+# Appendix B - QSM Format Specifications  {.unnumbered}
+
+## Rationale {.unnumbered}
+
+There is currently no standard format for storing and sharing QSM files. Different software uses different formats: early tools such as  [Computree](https://computree.onf.fr/?page_id=497) and [SimpleForest](https://gitlab.com/SimpleForest/computree) stored QSMs as CSV files, while [TreeQSM](https://github.com/InverseTampere/TreeQSM) used MATLAB files. [AdTree](https://github.com/tudelft3d/AdTree) exports 3D meshes that do not record architectural information. [SmartQSM](https://github.com/project-lightlin/SmartQSM) exports a mixture of Matlab, DXF and PLY files.
+
+Later, tools such as [aRchi](https://github.com/umr-amap/aRchi), [rTwig](https://github.com/aidanmorales/rTwig), [ITSme](https://github.com/lmterryn/ITSMe) introduced converters between TreeQSM and Computree-like CSV formats, but each implementation includes small variations. Even Computree or SimpleForest do not follow a strict consistent scheme across versions.
+
+Should branch order start at 0 or 1? There is no standard. Are diameters recorded in centimeters or meters? There is no standard. Should we record diameters or radii? There is no standard. Some software/formats support geographical coordinates, some support only local coordinates. None support Coordinate Reference System. As a result, building a cross-software QSM reader is unnecessarily complex. Arbor also introduced its own CSV format derived from SimpleForest, with additional naming variations. We plead guilty of format fragmentation.
+
+To address this fragmentation, we propose the first binary QSM exchange format with clear, consistent, extensible and open specifications. 
+
+We also provide a simple, minimal and standalone library to read and write `.qsm` files with an MIT license. We hope this can help standardize QSM exchange between software.
+
+<style>
+.download-btn {
+  display: inline-block;
+  padding: 12px 22px;
+  background-color: #2C7BE5;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.download-btn:hover {
+  background-color: #1F5FBF;
+}
+</style>
+
+<a href="https://github.com/r-lidar/arbor/tree/main/src/vendor/libqsm" class="download-btn">
+  ⬇ libqsm v1.0 
+</a>
+
+## Overview
+
+QSM is the native serialization format for a single Quantitative Structure Model. It stores one tree as a rooted directed graph (formally an arborescence) whose unique root represents the base of the stem, whose nodes are 3-D junction points, and whose edges are cylinders. The graph is acyclic and every node is reachable from the root by exactly one directed path. The format also carries all associated scalar attributes and an arbitrary set of user-defined metadata.
+
+The format is split into two sections:
+
+| Section | Encoding | Purpose |
+|---------|----------|---------| 
+| **Header** | ASCII text | Human-readable metadata, field descriptions, message log |
+| **Data** | Raw binary | Compact node and edge records |
+
+The header is self-describing and extensible; the binary block begins immediately after the sentinel line `DATA binary`.
+
+## Header
+
+### General rules
+
+* Every header line is terminated by `\n` (Unix LF).
+* Lines starting with `#` are comments and are ignored on read.
+* All other lines have the form `KEY <value>\n` where `KEY` is a single token of printable ASCII (no whitespace) and `<value>` is everything after the first space up to (but not including) the newline.
+* Keys are case-sensitive.
+* An implementation **MUST** write the mandatory keys listed in @sec-mandatorykey, but **MAY** insert additional custom keys anywhere before the `DATA` sentinel.
+* An implementation **MUST** silently ignore any key it does not recognize. This rule makes the format forward-compatible: future versions may add new keys without breaking older readers.
+* `MESSAGE`, `NODE_EXTRABYTES` and `EDGE_EXTRABYTES` are **repeatable** keys; all others are expected to appear at most once.
+* The header is terminated by the sentinel line `DATA binary\n`. Nothing may appear on the same line after `binary`.
+
+### Mandatory keys {#sec-mandatorykey}
+
+| Key | Value type | Description |
+|-----|------------|-------------|
+| `SIGNATURE` | `string` | File signature |
+| `VERSION` | `string` | File version |
+| `FORMAT` | `uint8_t` | File format |
+| `NODES` | `uint32` | Number of node records in the binary block |
+| `EDGES` | `uint32` | Number of edge records in the binary block |
+| `X_OFFSET` | `double` | Geographic X (easting) of the graph origin |
+| `Y_OFFSET` | `double` | Geographic Y (northing) of the graph origin |
+| `Z_OFFSET` | `double` | Geographic Z (elevation) of the graph origin |
+| `XMIN` | `double` | Global bounding-box minimum X |
+| `YMIN` | `double` | Global bounding-box minimum Y |
+| `ZMIN` | `double` | Global bounding-box minimum Z |
+| `XMAX` | `double` | Global bounding-box maximum X |
+| `YMAX` | `double` | Global bounding-box maximum Y |
+| `ZMAX` | `double` | Global bounding-box maximum Z |
+| `DATA` | `binary` | Sentinel; terminates the header |
+
+**SIGNATURE** —  The file signature must contain the four characters "QSMF", and it is required by the QSM specification. These four characters can be checked by user software as a quick look initial determination of file type.
+
+**VERSION** — Currently must be `1.0`. The version number consists of a major and minor field. The major and minor fields combine to form the number that indicates the format number of the current specification itself.
+
+**FORMAT** — The format record indicates the type of data records contains in the file. QSM 1.0 defines types 0 to 2. These types are defined later in this specification.
+
+**X_OFFSET**, **Y_OFFSET**, **Z_OFFSET** —  Define the geographic position of the graph origin (QSM root). Node coordinates in the binary block are stored as single-precision floats relative to this origin (see @sec-noderecords). The origin **MUST** be set to the position of the root node so that we can know the geographic position of the tree by probing the header only. Writers that do not need geographic referencing may set all three offsets to `0.0`. In that case the root of the QSM must be at (0,0,0). The specification states nothing about the recorded accuracy of these keys but sub-millimeter precision is unlikely to be useful.
+
+**XMIN**, **YMIN**, **ZMIN**, **XMAX**, **YMAX**, **ZMAX** — The axis-aligned bounding box of all node positions expressed in global coordinates (i.e. after adding the offsets, same CRS as `X_OFFSET`). A reader may use these six values to quickly assess the spatial extent of the tree without reading the binary block at all, which is useful when cataloguing large collections of `.qsm` files. The writer **MUST** compute them from the actual node data; they are not user-supplied hints. Writers that set all offsets to `0.0` must still populate these keys from the node coordinates.
+
+### Optional keys
+
+| Key | Value type | Description |
+|-----|------------|-------------|
+| `CREATED` | ISO-8601 string | UTC timestamp of file creation |
+| `SOFTWARE` | string | Name and version of writing software |
+| `CRS` | string | WKT string Coordinate Reference System |
+| `TREEID` | `uint32_t` | A numeric ID |
+| `TREENAME` | string | A name |
+| `MESSAGE` | string | One log/diagnostic message (repeatable) |
+| `UUID` | string | UUID RFC 4122 |
+| `NODE_EXTRABYTES` | string | One extra node field declaration (repeatable) |
+| `EDGE_EXTRABYTES` | string | One extra edge field declaration (repeatable) |
+
+**CREATED** — a standardized timestamp indicating when the file was generated. It must conform to the ISO-8601 standard and express the time in Coordinated Universal Time (UTC) to ensure cross-platform consistency.
+
+**SOFTWARE** — a free-form text string identifying the specific software application and version number that generated the file. This is primarily used for debugging, backward compatibility checks, and provenance tracking.
+
+**CRS** — specifies the Coordinate Reference System used for any spatial data within the file. The value must be a valid Well-Known Text (WKT) string defining a projected coordinate system. Geographic Coordinate Systems are not allowed, as the CRS units must match the linear coordinates of the nodes.
+
+**TREEID** — a 32-bit signed integer used to identify a specific tree structure within the file. This is particularly useful for matching features back to an ID in the original point cloud data.
+
+**TREENAME** — a free-form, human-readable text string assigned as a label or name for the tree structure, complementing the numerical `TREEID`.
+
+**MESSAGE** — there is no limit on the number of `MESSAGE` lines or on their length; the only constraint is that the text of a single message must not contain a newline character (embed `\n` as the two-character escape `\\n` if needed, and unescape on read).
+
+**UUID** — a Universally Unique Identifier string used to globally distinguish this specific file. Since cryptographic-level security is not required, any RFC 4122 compliant sequence is accepted, regardless of the UUID version used.
+
+**NODE_EXTRABYTES**, **EDGE_EXTRABYTES** — declare named, typed fields appended after the format-mandated bytes of each node or edge record. Each line declares exactly one field; the order of declaration is the order of storage in the binary block. The value of each key has the form `<type> <name>`, where `<type>` is one of the tokens: `I8`, `U8`, `I16`, `U16`, `I32`, `U32`, `I64`, `U64`, `F32`,`F64` and `<name>` is a non-empty ASCII string containing no whitespace. More details in @sec-extrabytes. 
+
+### Example header
+
+```txt
+# QSM Binary Format - https://github.com/r-lidar/arbor/spec.md
+SIGNATURE QSMF
+VERSION 1.0
+FORMAT 2
+SOFTWARE Arbor 1.0.0
+CREATED 2026-05-13T09:11:05Z
+NODES 4821
+EDGES 4820
+X_OFFSET 448231.472
+Y_OFFSET 5412087.231
+Z_OFFSET 312.548
+XMIN 448200.134
+YMIN 5412050.302
+ZMIN 310.201
+XMAX 448265.817
+YMAX 5412120.944
+ZMAX 345.087
+NODE_EXTRABYTES U8 wood_leaf
+EDGE_EXTRABYTES F32 taper_rate
+EDGE_EXTRABYTES U8  defect_code
+MESSAGE Tree too small for being measured. Reconstruction based on pure allometry.
+DATA binary
+```
+
+In this example: node records are `12 + 4 = 16` bytes each; edge records are `26 + 4 + 1 = 31` bytes each. Values `12` and `26` come from format `3`. See section @sec-binary.
+
+## Binary data block {#sec-binary}
+
+The binary block starts on the byte **immediately following** the newline of the `DATA binary` line and is laid out as:
+
+```
+[ node_record × NODES ][ edge_record × EDGES ]
+```
+
+There is no padding between records or between the two sections.
+
+### Node record  {#sec-noderecords}
+
+| Offset | Size | C type | Field | Note |
+|--------|------|--------|-------|-------|
+| 0 | 4 | `float` | `x` | offset-relative easting |
+| 4 | 4 | `float` | `y` | offset-relative northing |
+| 8 | 4 | `float` | `z` | offset-relative elevation |
+
+The geographic position of a node is recovered as:
+
+```cpp
+x_geo = (double)x + X_OFFSET
+y_geo = (double)y + Y_OFFSET
+z_geo = (double)z + Z_OFFSET
+```
+
+Minimum: **12 bytes**. Any `NODE_EXTRABYTES` fields follow immediately after offset 8, in declaration order.
+
+### Edge record {#sec-edgerecords}
+
+#### **Format 0**
+
+Format 0 is very minimal to fit with software that does not compute architectural information.
+
+| Offset | Size | C type | Field | Notes |
+|--------|------|--------|-------|-------|
+| 0 | 4 | `uint32_t` | `source_id` | Source node index |
+| 4 | 4 | `uint32_t` | `target_id` | Target node index |
+| 8 | 4 | `float` | `radius` | Cylinder radius |
+| 12 | 1 | `uint8_t` | `quality_level` | Max value 255 |
+
+**Radius** — the radius of the edges in the same units as the nodes (meters preferred). Radius is **NOT** recorded in centimeters.
+
+**Quality level** — records the quality of the fit (i.e., confidence in the radius measurement). `0` stands for `NA`. The specification does not define the interpretation of the other values, except that higher numbers indicate greater confidence in the radius measurement.
+
+Minimum: **13 bytes**.
+
+#### **Format 1**
+
+Format 1 adds minimal architectural information attributes per edge, expected to be computed by any QSM software.
+
+| Offset | Size | C type | Field | Notes |
+|--------|------|--------|-------|-------|
+| 13 | 4 | `uint32_t` | `axis_id` | |
+| 17 | 1 | `uint8_t`  | `branch_order` | Max value 255 |
+
+**Axis ID** — there is no strict definition of what an "axis ID" is. The stem of the tree typically has its own ID (`1`) as the main axis, while branches have incrementally assigned IDs. IDs start at `1`. `0` stands for `NA`.
+
+**Branch order** — records the branching order. The main stem has an order of `1`. Branches connected directly to the main stem have an order of `2`, and so on. `0` stands for `NA`.
+
+Minimum: **18 bytes**.
+
+Any `EDGE_EXTRABYTES` fields follow immediately after the last mandatory field of the active format, in declaration order.
+
+#### **Format 2**
+
+Format 2 adds useful architectural information attributes per edge.
+
+| Offset | Size | C type | Field | Notes |
+|--------|------|--------|-------|-------|
+| 18 | 4 | `float` | `subtree_length` | |
+| 22 | 4 | `float` | `distance_to_root` | |
+
+
+**Subtree length** — for a given axis, this is the remaining distance to the end of the axis. `-1` stands for `NA`.
+
+Minimum: **26 bytes**.
+
+Any `EDGE_EXTRABYTES` fields follow immediately after the last mandatory field of the active format, in declaration order.
+
+#### **Format 3**
+
+Format 3 is **only a draft** (no current support). It adds valuable information about defects for each edge. As there is currently no software capable of detecting such features, the format is only a draft for future use with nothing definitively dedicated.
+
+| Offset | Size | C type | Field | Notes |
+|--------|------|--------|-------|-------|
+| 26 | 2 | `uint16_t` | `defect_code` | |
+
+**Defect** — records a defect code. The code lookup table must be discussed with practitioners.
+
+Minimum: **28 bytes**.
+
+## Extrabytes {#sec-extrabytes}
+
+The header can declare typed fields appended after the format-mandated bytes of each node or edge record. The value of each key has the form `<type>` `<name>`, where `<type>` encodes kind and bit-width: `I` for signed integer, `U` for unsigned integer, `F` for IEEE 754 floating-point, followed by the width in bits. Valid tokens are `I8`, `U8`, `I16`, `U16`, `I32`, `U32`, `F32`, `F64`.
+
+The **total record size** for a given record type is therefore derived as:
+
+```
+node_record_size = format_minimum_node_size + sum(size_of(type) for each NODE_EXTRABYTES line)
+edge_record_size = format_minimum_edge_size + sum(size_of(type) for each EDGE_EXTRABYTES line)
+```
+
+The `format_minimum_node_size` is given in @sec-noderecords and `format_minimum_edge_size` in @sec-edgerecords
+
+A reader that encounters an unrecognised `NODE_EXTRABYTES` or `EDGE_EXTRABYTES` type token **MUST** abort with a descriptive error; silently skipping a field of unknown size would misalign all subsequent records. 
+
+A reader that does not use an extra field **MUST** still read and discard it; it **MUST NOT** skip the entire record.
+
+This mechanism provides open-ended extensibility: any implementation may add its own fields while remaining readable by implementations that do not recognise those extensions.
+
+## Versioning and compatibility
+
+Future versions that add mandatory fields to the node or edge records will increment the minor version and raise the respective minimum size. Fields will only be removed on a major version bump.
+
+## Implementation notes {#sec-impnotes}
+
+**Endianness**: all multi-byte values are written in **little-endian** byte order. On big-endian platforms the implementation must byte-swap each field individually.
+
+**IEEE 754**: `float` and `double` fields follow IEEE 754 single and double precision respectively.

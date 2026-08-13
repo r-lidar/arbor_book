@@ -1,0 +1,54 @@
+# Arbor Studio
+
+Arbor Studio is a GUI interface for using arbor with windows and buttons, rather than relying on the pipeline presented in this book. Beyond simply running the pipeline, Arbor Studio aims to allow users to perform corrections interactively with a mouse in a 3D interface to fix certain errors.
+
+::: {.callout-note}
+The version of Arbor Studio included in the `arbor` R package is very limited. Mouse interaction with `rgl` is constrained, and interaction within R itself is limited (after all, it is a programming language, not an interactive software environment). At r-lidar, we plan to develop a dedicated GUI application named **ArborStudio** for Linux and Windows, fully specialized in LiDAR data processing with robust correction tools. While waiting for such software, which could take years to develop, users can access **Arbor “Proto” Studio**, a limited version embedded within R.
+:::
+
+## Arbor Studio Pipeline
+
+::: {.callout-caution}
+# Work in progress  
+To be designed.
+:::
+
+## Arbor Studio Editor
+
+This is likely the most sought-after tool. The editor allows users to perform manual corrections.
+
+### Arbor Studio Seed Editor
+
+Editing seeds before running instance segmentation can be very useful in complex environments. Our seed detection algorithm is very performant, but it can sometimes make mistakes, especially in highly complex environments with extremely large trees. Tropical rainforests contain many such challenging cases. Some trees even appear to "float" on their roots. These situations are not well handled by Arbor. However, spending just one minute in the Seed Editor can fix most issues.
+
+The Seed Editor allows you to:
+
+- **Reassign seed IDs**: click (middle mouse button) on a reference seed (e.g., ID `n`), then click (middle mouse button) on other seeds whose IDs should be reassigned to the reference seed (e.g., IDs `m` and `k`). Click again any seed with the reference ID `n` to validate. All seeds with IDs `m` and `k` will be reassigned to ID `n`.
+- **Add new seeds**: each new seed is assigned a new ID. New seeds can later be grouped using the reassignment tool.
+
+Use the following function after `find_seeds()`:
+
+```r
+seeds <- arbor_studio_seeds(las, seeds)
+```
+
+{{<video figures/chap_studio/seed_studio.mp4>}}
+
+
+### Arbor Studio Segmentation Editor
+
+Once segmentation is performed (semantic and instance), the results are usually good enough for volume estimation. However, users may want more refined results, and sometimes Arbor does make mistakes. Interactive instance editing allows users to manually correct these issues.
+
+The Instance Editor allows you to:
+
+- **Extract the context**: In a dense point cloud, it is difficult to accurately select points. This tool allows you to select a tree (middle mouse button) and extract its local context, reducing the complexity of the scene.
+- **Select rectangle**: All points within the selected rectangle are reassigned to the current tree.
+- **Reassign**: Reassign points with incorrect IDs to the current tree.
+
+Use the following function after `segment_instance()`:
+
+```r
+las <- arbor_studio_instance(las)
+```
+
+{{<video figures/chap_studio/instance_studio.mp4>}}

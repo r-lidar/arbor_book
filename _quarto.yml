@@ -1,0 +1,43 @@
+project:
+  type: book
+
+book:
+  title: "Arbor: The Complete R Tutorial Book"
+  subtitle: "From Semantic Segmentation to Quantitative Structure Modelling"
+  author:
+    - name: "Jean-Romain Roussel"
+      affiliation: "r-lidar"
+  date: today
+  description: "A comprehensive guide to LiDAR data processing, tree segmentation, and structural analysis in R."
+  chapters:
+    - index.qmd
+    - arbor.qmd
+    - preparation.qmd
+    - decimation.qmd
+    - ground.qmd
+    - semantic.qmd
+    - instance.qmd
+    - qsm.qmd
+    - qsf.qmd
+    - forestry.qmd
+    - results.qmd
+    - faq.qmd
+    - mre.qmd
+    - spec.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    css: style.css
+    self-contained: false
+    include-in-header:
+      text: |
+        <meta name="referrer" content="strict-origin-when-cross-origin">
+  pdf:
+    documentclass: scrreprt
+
+lightbox: true
+
+
