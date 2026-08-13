@@ -1,9 +1,9 @@
 name: Render and Publish Quarto Book
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 permissions:
   contents: write
