@@ -5,10 +5,12 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+
 permissions:
   contents: write
   pages: write
   id-token: write
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -27,7 +29,10 @@ jobs:
         with:
           extra-repositories: https://r-lidar.r-universe.dev
           packages: |
-            any::arbor
+            any::deps::remotes
+            r-lidar/arbor
+        env:
+          GITHUB_PAT: ${{ secrets.PAT_GITHUB }}
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
