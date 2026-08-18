@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A comprehensive guide to LiDAR data processing, tree segmentation, and structural analysis in R.">
+
+<title>2&nbsp; Data Preparation &amp; Quality – Arbor: The Complete R Tutorial Book</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./decimation.html" rel="next">
+<link href="./arbor.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./preparation.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Preparation &amp; Quality</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Arbor: The Complete R Tutorial Book</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./arbor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is Arbor?</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preparation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Preparation &amp; Quality</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./decimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Decimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ground.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ground Segmentation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./semantic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Semantic Segmentation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./instance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Instance Segmentation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./qsm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quantitative Structure Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./qsf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantitative Structure Forest</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./forestry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Operational Forestry-Oriented Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./results.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Benchmarks - Results</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./faq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Frequently Asked Questions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix A - Examples &amp; Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix B - QSM Format Specifications</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-pcselection" id="toc-sec-pcselection" class="nav-link active" data-scroll-target="#sec-pcselection"><span class="header-section-number">2.1</span> Point Cloud Selection</a>
+  <ul class="collapse">
+  <li><a href="#three-areas-of-interest" id="toc-three-areas-of-interest" class="nav-link" data-scroll-target="#three-areas-of-interest"><span class="header-section-number">2.1.1</span> Three Areas of Interest</a></li>
+  <li><a href="#clipping-the-point-cloud" id="toc-clipping-the-point-cloud" class="nav-link" data-scroll-target="#clipping-the-point-cloud"><span class="header-section-number">2.1.2</span> Clipping the Point Cloud</a></li>
+  <li><a href="#data-processing-assumptions" id="toc-data-processing-assumptions" class="nav-link" data-scroll-target="#data-processing-assumptions"><span class="header-section-number">2.1.3</span> Data Processing Assumptions</a></li>
+  </ul></li>
+  <li><a href="#sec-dataquality" id="toc-sec-dataquality" class="nav-link" data-scroll-target="#sec-dataquality"><span class="header-section-number">2.2</span> Point Cloud Quality</a>
+  <ul class="collapse">
+  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">2.2.1</span> Coverage</a></li>
+  <li><a href="#noise" id="toc-noise" class="nav-link" data-scroll-target="#noise"><span class="header-section-number">2.2.2</span> Noise</a></li>
+  <li><a href="#occlusion" id="toc-occlusion" class="nav-link" data-scroll-target="#occlusion"><span class="header-section-number">2.2.3</span> Occlusion</a></li>
+  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy"><span class="header-section-number">2.2.4</span> Accuracy</a></li>
+  <li><a href="#sec-examples" id="toc-sec-examples" class="nav-link" data-scroll-target="#sec-examples"><span class="header-section-number">2.2.5</span> Examples</a></li>
+  </ul></li>
+  <li><a href="#first-lines-of-code" id="toc-first-lines-of-code" class="nav-link" data-scroll-target="#first-lines-of-code"><span class="header-section-number">2.3</span> First Lines of Code</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Preparation &amp; Quality</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Production-grade software requires production-grade data. This chapter discusses what constitutes a quality dataset.</p>
+<section id="sec-pcselection" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-pcselection"><span class="header-section-number">2.1</span> Point Cloud Selection</h2>
+<section id="three-areas-of-interest" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="three-areas-of-interest"><span class="header-section-number">2.1.1</span> Three Areas of Interest</h3>
+<p>A typical Mobile Laser Scanning (MLS) point cloud is generally composed of three distinct zones: the <strong>Payload</strong>, the <strong>Buffer</strong>, and the <strong>Low quality area</strong>. Understanding these zones is critical for efficient processing.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_prep/datazone.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Raw MLS point cloud seen from below (we are seeing the ground) after a sampling campain of 1/4 of ha (50 x 50 meters)"><img src="figures/chap_prep/datazone.png" class="img-fluid figure-img" alt="Raw MLS point cloud seen from below (we are seeing the ground) after a sampling campain of 1/4 of ha (50 x 50 meters)"></a></p>
+<figcaption>Raw MLS point cloud seen from below (we are seeing the ground) after a sampling campain of 1/4 of ha (50 x 50 meters)</figcaption>
+</figure>
+</div>
+<section id="the-payload" class="level4" data-number="2.1.1.1">
+<h4 data-number="2.1.1.1" class="anchored" data-anchor-id="the-payload"><span class="header-section-number">2.1.1.1</span> The Payload</h4>
+<p>The payload represents the area intentionally sampled in the field. This is the highest quality portion of the data, typically covering 400 m² or 0.25 ha (the two most common sampling sizes). In this zone, trees are fully captured and provide the detail necessary for accurate analysis.</p>
+</section>
+<section id="the-buffer" class="level4" data-number="2.1.1.2">
+<h4 data-number="2.1.1.2" class="anchored" data-anchor-id="the-buffer"><span class="header-section-number">2.1.1.2</span> The Buffer</h4>
+<p>The buffer is the area immediately surrounding the payload where data quality remains “good enough” for contextual use. While we may still find dense ground points and visible tree structures, trees in this zone are often partially captured because they are sampled from one side only with more occlusion.</p>
+<ul>
+<li><strong>Purpose:</strong> This zone acts as a safety margin to ensure clean results during processing of the payload area.</li>
+<li><strong>Extent:</strong> It typically extends 5 to 10 meters beyond the payload boundary.</li>
+</ul>
+</section>
+<section id="the-low-quality-area" class="level4" data-number="2.1.1.3">
+<h4 data-number="2.1.1.3" class="anchored" data-anchor-id="the-low-quality-area"><span class="header-section-number">2.1.1.3</span> The Low Quality Area</h4>
+<p>The low quality area consists of all remaining data, often extending 50 to 100 meters beyond the buffer. These points should be removed prior to processing for two main reasons:</p>
+<ul>
+<li><strong>Performance:</strong> The sheer volume of points over such a large area consumes significant RAM and increases computation time.</li>
+<li><strong>Geometry:</strong> These points often form irregular, random shapes that interfere with clean boundary definitions and buffer removal. From the contour of the low quality area it is impossible to retrieve the payload area automatically.</li>
+</ul>
+</section>
+</section>
+<section id="clipping-the-point-cloud" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="clipping-the-point-cloud"><span class="header-section-number">2.1.2</span> Clipping the Point Cloud</h3>
+<p>The first step before using Arbor is to clip the point cloud to isolate only the payload and the buffer.</p>
+<ul>
+<li><strong>Manual Clipping:</strong> For individual files or visual inspection, <a href="https://www.cloudcompare.org/">CloudCompare</a> is our preferred tool for manual extraction.</li>
+<li><strong>Automated Clipping:</strong> If the point cloud is already georeferenced or centered at (0,0), the clipping process can be automated using the <code>lidR</code> package to extract a precise square or circular area. More complex polygon shapes are also supported.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lidR)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ctg <span class="ot">&lt;-</span> <span class="fu">readTLSLAScatalog</span>(<span class="st">"myfile.laz"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">clip_circle</span>(ctg, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">11.28</span><span class="sc">+</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="data-processing-assumptions" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="data-processing-assumptions"><span class="header-section-number">2.1.3</span> Data Processing Assumptions</h3>
+<p>In the following chapters, we operate under the consistent assumption that all point clouds have been properly preprocessed. Specifically, the data has been clipped to retain only the payload and buffer, while low-quality areas have been entirely removed.</p>
+<p>By focusing strictly on these two zones, we ensure that Arbor’s algorithms operate with optimal computational efficiency and that the structural analysis remains centered on high-fidelity data.</p>
+</section>
+</section>
+<section id="sec-dataquality" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-dataquality"><span class="header-section-number">2.2</span> Point Cloud Quality</h2>
+<p>Once a point cloud has been acquired, there is no turning back: the quality is either sufficient or it is not. Arbor operates under the following assumptions regarding data quality.</p>
+<section id="coverage" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="coverage"><span class="header-section-number">2.2.1</span> Coverage</h3>
+<p>Trees in the payload area must be sampled at 360 degrees. To achieve this, sampling must also be performed in the exterior area surrounding the payload, as well as by following a valid walking pattern inside the plot. A good coverage is not hard to achieve with MLS. <strong>However it is rarely achieved with TLS</strong>.</p>
+</section>
+<section id="noise" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="noise"><span class="header-section-number">2.2.2</span> Noise</h3>
+<p>The level of noise must be acceptable. While this is difficult to quantify precisely, the core requirement is that the data is not overwhelmed by artifacts. Some sensors produce scattered noise points resembling a blizzard; Arbor is not designed to process datasets of that nature. Standard operational noise is already challenging enough. See <a href="#sec-examples" class="quarto-xref"><span>Section 2.2.5</span></a></p>
+</section>
+<section id="occlusion" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="occlusion"><span class="header-section-number">2.2.3</span> Occlusion</h3>
+<p>Trees are assumed to be sampled up to their tops. Naturally, higher sections of the tree contain fewer points, more occlusion, and lower accuracy; this is an inherent trade-off when using laser scanners in forest environments. However, Arbor is designed to measure trees, not invent them. See <a href="#sec-examples" class="quarto-xref"><span>Section 2.2.5</span></a></p>
+<p>While reconstructing missing parts of a tree is possible to some extent, Arbor is not intended to fabricate geometry. If the physical structure of a tree is inaccessible because of extreme occlusion, Arbor may still perform well for instance segmentation, but it will produce poor results for Quantitative Structure Models (QSMs).</p>
+</section>
+<section id="accuracy" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">2.2.4</span> Accuracy</h3>
+<p>Arbor assumes the use of accurate sensors. Not all sensors are created equal.</p>
+<p>The Howevermap ST-X has an accuracy of 2 cm, which is currently among the best available on the market as of 2026, though it is also very expensive. Arbor performs exceptionally well with ST-X point clouds.</p>
+<p>The Faro Orbis has an accuracy of 4 cm. Although the degradation in quality is noticeable, Arbor still performs well at this level of accuracy.</p>
+<p>Based on our observations, the GeoSLAM system has an accuracy ranging from 4 to 6 cm and is more noisy. An accuracy of 6 cm starts to be problematic. At this level, trunks and foliage are no longer statistically or geometrically distinct; everything becomes a sparse blob of points. Arbor can still produce usable results in some cases, but this falls below production-grade quality requirements.</p>
+<p>The LiGrip is far below the required standard.</p>
+<p>The easiest way to assess accuracy is to slice through a few trunks (or a wall), measure the thickness, and examine how smudged the edges are.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_prep/accuracy.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Four slices of ~30 cm trees sampled with sensors of varying quality. Once accuracy raises above 4 cm, Arbor begins to encounter significant difficulties. We consider 4 cm accuracy or better to be production-grade data. Beyond this threshold, wood-versus-foliage segmentation becomes more and more difficult difficult, and without reliable wood/foliage separation, Arbor cannot perform effectively (see next chapters)."><img src="figures/chap_prep/accuracy.png" class="img-fluid figure-img" width="400" alt="Four slices of ~30 cm trees sampled with sensors of varying quality. Once accuracy raises above 4 cm, Arbor begins to encounter significant difficulties. We consider 4 cm accuracy or better to be production-grade data. Beyond this threshold, wood-versus-foliage segmentation becomes more and more difficult difficult, and without reliable wood/foliage separation, Arbor cannot perform effectively (see next chapters)."></a></p>
+<figcaption>Four slices of ~30 cm trees sampled with sensors of varying quality. Once accuracy raises above 4 cm, Arbor begins to encounter significant difficulties. We consider 4 cm accuracy or better to be production-grade data. Beyond this threshold, wood-versus-foliage segmentation becomes more and more difficult difficult, and without reliable wood/foliage separation, Arbor cannot perform effectively (see next chapters).</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-examples" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="sec-examples"><span class="header-section-number">2.2.5</span> Examples</h3>
+<p>Below are five commented screenshots of good and bad quality datasets:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_prep/demo1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="A typical great MLS dataset in a tropical rainforest. No noise; the trees are sampled to the top."><img src="figures/chap_prep/demo1.png" class="img-fluid figure-img" alt="A typical great MLS dataset in a tropical rainforest. No noise; the trees are sampled to the top."></a></p>
+<figcaption>A typical great MLS dataset in a tropical rainforest. No noise; the trees are sampled to the top.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_prep/demo2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="A MLS dataset with too much occlusion. A solid half of the trees is missing. Arbor tracks and measures but does not “invent” geometries. If it not sampled it is not measured."><img src="figures/chap_prep/demo2.png" class="img-fluid figure-img" alt="A MLS dataset with too much occlusion. A solid half of the trees is missing. Arbor tracks and measures but does not “invent” geometries. If it not sampled it is not measured."></a></p>
+<figcaption>A MLS dataset with too much occlusion. A solid half of the trees is missing. Arbor tracks and measures but does not “invent” geometries. If it not sampled it is not measured.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_prep/demo3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="A TLS dataset with way too much noise. The sensor is scattering rays and irrelevant points. There is also a single scan at the plot center meaning that we can see at best only half of the trunks. This is far beyond arbor capacities."><img src="figures/chap_prep/demo3.png" class="img-fluid figure-img" alt="A TLS dataset with way too much noise. The sensor is scattering rays and irrelevant points. There is also a single scan at the plot center meaning that we can see at best only half of the trunks. This is far beyond arbor capacities."></a></p>
+<figcaption>A TLS dataset with way too much noise. The sensor is scattering rays and irrelevant points. There is also a single scan at the plot center meaning that we can see <strong>at best</strong> only half of the trunks. This is far beyond arbor capacities.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_prep/demo4.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="A typical great MLS dataset in an oak plantation. No noise; the trees are sampled to the top."><img src="figures/chap_prep/demo4.png" class="img-fluid figure-img" alt="A typical great MLS dataset in an oak plantation. No noise; the trees are sampled to the top."></a></p>
+<figcaption>A typical great MLS dataset in an oak plantation. No noise; the trees are sampled to the top.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_prep/demo5.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="A very noisy MLS dataset. Noise seems to follow a pattern. It looks like that the SLAM misaligned some data leading to some duplicated “ghost” trees. Hard to guess what actually happened but this point cloud is of poor quality."><img src="figures/chap_prep/demo5.png" class="img-fluid figure-img" alt="A very noisy MLS dataset. Noise seems to follow a pattern. It looks like that the SLAM misaligned some data leading to some duplicated “ghost” trees. Hard to guess what actually happened but this point cloud is of poor quality."></a></p>
+<figcaption>A very noisy MLS dataset. Noise seems to follow a pattern. It looks like that the SLAM misaligned some data leading to some duplicated “ghost” trees. Hard to guess what actually happened but this point cloud is of poor quality.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="first-lines-of-code" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="first-lines-of-code"><span class="header-section-number">2.3</span> First Lines of Code</h2>
+<p>These three lines of code load the <code>lidR</code> and <code>arbor</code> packages. The final line assigns the <code>params</code> variable with the default <code>Arbor</code> parameters, which we will keep as default throughout this book.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lidR)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arbor)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> arbor_parameters_default</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./arbor.html" class="pagination-link" aria-label="What is Arbor?">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is Arbor?</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./decimation.html" class="pagination-link" aria-label="Data Decimation">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Decimation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","loop":false,"selector":".lightbox","descPosition":"bottom"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>
