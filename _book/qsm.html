@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.56">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A comprehensive guide to LiDAR data processing, tree segmentation, and structural analysis in R.">
+
+<title>7&nbsp; Quantitative Structure Model – Arbor: The Complete R Tutorial Book</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./qsf.html" rel="next">
+<link href="./instance.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./qsm.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quantitative Structure Model</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Arbor: The Complete R Tutorial Book</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./arbor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">What is Arbor?</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Preparation &amp; Quality</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./decimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Decimation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ground.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ground Segmentation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./semantic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Semantic Segmentation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./instance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Instance Segmentation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./qsm.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quantitative Structure Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./qsf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantitative Structure Forest</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./forestry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Operational Forestry-Oriented Tools</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./results.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Benchmarks - Results</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./faq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Frequently Asked Questions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix A - Examples &amp; Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spec.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix B - QSM Format Specifications</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ransac-orbicular-fitting" id="toc-ransac-orbicular-fitting" class="nav-link active" data-scroll-target="#ransac-orbicular-fitting"><span class="header-section-number">7.1</span> RANSAC Orbicular Fitting</a></li>
+  <li><a href="#skeleton" id="toc-skeleton" class="nav-link" data-scroll-target="#skeleton"><span class="header-section-number">7.2</span> Skeleton</a></li>
+  <li><a href="#preshot-qsm" id="toc-preshot-qsm" class="nav-link" data-scroll-target="#preshot-qsm"><span class="header-section-number">7.3</span> Preshot QSM</a></li>
+  <li><a href="#diameters" id="toc-diameters" class="nav-link" data-scroll-target="#diameters"><span class="header-section-number">7.4</span> Diameters</a></li>
+  <li><a href="#sec-prologation" id="toc-sec-prologation" class="nav-link" data-scroll-target="#sec-prologation"><span class="header-section-number">7.5</span> Extension to the Ground</a></li>
+  <li><a href="#sec-tinytree" id="toc-sec-tinytree" class="nav-link" data-scroll-target="#sec-tinytree"><span class="header-section-number">7.6</span> Non-measurable Trees</a></li>
+  <li><a href="#sec-edgecases" id="toc-sec-edgecases" class="nav-link" data-scroll-target="#sec-edgecases"><span class="header-section-number">7.7</span> Non-measurable Trees - edge cases</a></li>
+  <li><a href="#sec-broketree" id="toc-sec-broketree" class="nav-link" data-scroll-target="#sec-broketree"><span class="header-section-number">7.8</span> Broken Trees</a></li>
+  <li><a href="#fitting-quality-assessment" id="toc-fitting-quality-assessment" class="nav-link" data-scroll-target="#fitting-quality-assessment"><span class="header-section-number">7.9</span> Fitting Quality Assessment</a></li>
+  <li><a href="#sec-warnings" id="toc-sec-warnings" class="nav-link" data-scroll-target="#sec-warnings"><span class="header-section-number">7.10</span> Message</a></li>
+  <li><a href="#other-details" id="toc-other-details" class="nav-link" data-scroll-target="#other-details"><span class="header-section-number">7.11</span> Other Details</a></li>
+  <li><a href="#final-note" id="toc-final-note" class="nav-link" data-scroll-target="#final-note"><span class="header-section-number">7.12</span> Final Note</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"><span class="header-section-number">7.13</span> Code</a>
+  <ul class="collapse">
+  <li><a href="#minimal-snippet" id="toc-minimal-snippet" class="nav-link" data-scroll-target="#minimal-snippet"><span class="header-section-number">7.13.1</span> Minimal snippet</a></li>
+  <li><a href="#function-list" id="toc-function-list" class="nav-link" data-scroll-target="#function-list"><span class="header-section-number">7.13.2</span> Function list</a></li>
+  <li><a href="#full-code" id="toc-full-code" class="nav-link" data-scroll-target="#full-code"><span class="header-section-number">7.13.3</span> Full Code</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quantitative Structure Model</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Arbor’s QSM engine was designed with one objective in mind: processing large-scale forest datasets automatically and reliably.</p>
+<p>Unlike traditional workflows, where a handful of trees are manually extracted, cleaned, and reconstructed one by one, Arbor operates at a completely different scale. Its goal is to generate tens of thousands of QSMs at a pace of roughly 10 3D models per second, with no human intervention, even when segmentation is imperfect and many detected trees are small, leaf-on, or otherwise difficult to measure.</p>
+<p>This chapter presents the principles, algorithms, and design choices behind Arbor’s QSM engine. Understanding these internals helps explain both the strengths of the approach and the data requirements needed to achieve reliable measurements at scale.</p>
+<div class="gallery">
+<p>
+<a class="lightbox" href="figures/chap_qsm//qsm_new_001 .png" data-gallery="semantic"><img class="thumb" src="figures/chap_qsm//qsm_new_001 .png"></a>
+</p>
+<p>
+<a class="lightbox" href="figures/chap_qsm//qsm_new_002 .png" data-gallery="semantic"><img class="thumb" src="figures/chap_qsm//qsm_new_002 .png"></a>
+</p>
+<p>
+<a class="lightbox" href="figures/chap_qsm//qsm_new_003 .png" data-gallery="semantic"><img class="thumb" src="figures/chap_qsm//qsm_new_003 .png"></a>
+</p>
+<p>
+<a class="lightbox" href="figures/chap_qsm//qsm_new_004 .png" data-gallery="semantic"><img class="thumb" src="figures/chap_qsm//qsm_new_004 .png"></a>
+</p>
+<p>
+<a class="lightbox" href="figures/chap_qsm//qsm_new_005 .png" data-gallery="semantic"><img class="thumb" src="figures/chap_qsm//qsm_new_005 .png"></a>
+</p>
+<p>
+<a class="lightbox" href="figures/chap_qsm//qsm_new_006 .png" data-gallery="semantic"><img class="thumb" src="figures/chap_qsm//qsm_new_006 .png"></a>
+</p>
+<p>
+<a class="lightbox" href="figures/chap_qsm//qsm_new_007 .png" data-gallery="semantic"><img class="thumb" src="figures/chap_qsm//qsm_new_007 .png"></a>
+</p>
+</div>
+<!--
+## TreeQSM and AdTree
+
+### TreeQSM
+
+[TreeQSM](https://github.com/InverseTampere/TreeQSM) remains the most accurate and reliable QSM tools available praised by the community. It works particularly well because TreeQSM was designed for (1) point clouds acquired with Terrestrial Laser Scanners (`TLS`), which are much more accurate than Mobile Laser Scanners (`MLS`) and (2) it was designed to work on individual trees that were segmented manually, and therefore are assumed to be perfectly segmented, either leaf-off or with manually performed wood/foliage segmentation.
+
+However, these 2 points do not scale in production. In a production-ready context, we work with MLS and automatic segmentation, which may contain segmentation errors and more noise and more residual foliage and more issue overall. We need tools that are more robust.
+
+[With MLS sampling, the level of detail we can achieve on small objects is physically limited. Each white line is the same size, showing that objects that are too small end up being approximately the same size, even in a perfectly segmented tree.](figures/chap_qsm/measure.png){width=500px}
+
+Moreover, TreeQSM is extremely slow. Processing a single tree can easily take over five minutes. This does not scale: five minutes per tree times 20,000 trees equals roughly a solid month of computation. Processing 20,000 trees is not uncommon in production and we did it in some projects.
+
+So, while TreeQSM was a game-changer when released in 2015 and is still top most accurate tool:
+
+- It is very slow
+- It is not designed to handle high levels of noise
+- It is not designed to handle misclassifications and incorrect segmentations
+
+It does not scale to production environments.
+
+### AdTree {#sec-adtree}
+
+The advantage of [AdTree](https://www.mdpi.com/2072-4292/11/18/2074) lies in its ability to compute visually convincing QSMs in less than five seconds, an impressive speed that makes it highly scalable in production.  
+
+However, literature has repeatedly shown that AdTree is not accurate. Studying the source code of AdTree helps us understand its strengths and weaknesses.
+
+The strategy of AdTree is to **NOT** measure the tree. This may sound bold, but it is essentially what AdTree does if you read the source code.
+
+::: {.callout-important}
+The academic paper describing AdTree presents a slightly different approach. However, the paper does not match the source code or the output produced by AdTree. The explanation below reflects the actual implementation more accurately.
+:::
+
+AdTree builds a skeleton of the tree and measures **only the root diameter**. It then reconstructs the tree using simple rules: the end of a branch always has a 0 cm diameter and the stem taper is linear.
+
+It starts with the main axis, measuring its root diameter:
+
+![](figures/chap_qsm/adtree1.png){width=200px}
+
+The tree is essentially a cone that starts with the measured root diameter and tapers to 0 at the tip. In this book we call it **conic allometric model**.
+
+![](figures/chap_qsm/adtree2.png){width=200px}
+
+Stem taper specialists may disagree, but as a first approximation, this makes sense. The same rule is applied to each branch based on its length. For example, a branch that is half the length of the main trunk inherit the trunk diameter at half its length.
+
+![](figures/chap_qsm/adtree3.png){width=200px}
+
+This is applied globally to reconstruct the full tree:
+
+![](figures/chap_qsm/adtree4.png){width=200px}
+![](figures/chap_qsm/adtree5.png){width=200px}
+
+This approach is clever: it produces **very realistic trees** with **a single measurement** (plus skeleton computation). Using more realistic tree proportions, the method generates plausible trees very quickly. Below using a real skeleton:
+
+![](figures/chap_qsm/puremodel.png){width=200px}
+
+The idea is sound, but the implementation is highly sensitive to minor variability near the root. Trees that are not perfectly straight, noise, minor misclassifications, or non-circular trunks, all can very easily lead to incorrect measurements. AdTree can very easily get its unique measurement wrong! And when we have a single measurement to build an entire tree we can't afford an error.
+
+A second and third sources of inaccuracy come from its simple reconstruction rules (conic allometric model). While it generally produce realistic trees, it overestimates branch diameters if branches deviate from the *all-equal branch* assumption which is actually often the case in real trees. In fact conic allometric model does not correspond to realistic assumption in grown trees.
+
+## Arbor QSM
+
+What if we could build a hybrid approach? Measure what can be measured robustly, and reconstruct what cannot be measured using simple rules. This is the approach used by Arbor.-->
+<section id="ransac-orbicular-fitting" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="ransac-orbicular-fitting"><span class="header-section-number">7.1</span> RANSAC Orbicular Fitting</h2>
+<p>Trees do not have the decency to be perfectly circular, that would be too simple. Circle fitting can underperform because trees deviate from perfect shapes. To better measure tree sizes, we designed an Orbicular Fitting (OF) method. The word <em>orbicular</em> refers to biological shapes that are circular-ish, which is precisely the shape of trunks and branches.</p>
+<p>For a given cross section of a trunk or branch, we attempt at least three fitting methods and retain the best result:</p>
+<ul>
+<li><strong>RANSAC circle fitting.</strong> Circle fitting MUST be RANSAC-based. Least-squares fitting is unreliable under noisy conditions.</li>
+<li><strong>RANSAC ellipse fitting.</strong> Ellipse fitting MUST also be RANSAC-based.</li>
+<li><strong>Complex closed polygon fitting</strong> based on Fourier Harmonic Decomposition (FHD).</li>
+</ul>
+<p>Ultimately, our QSMs are cylinder-based, so all fitted shapes are converted into area-equivalent circles. This is demonstrated in the figure below, where OF is applied to various shapes and identifies the best fit. The fitted shape is shown in red; the area-equivalent circle used to build the QSM is shown in purple. Using area-equivalent circles ensures that volumes are preserved while simplifying the shapes.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="qsm_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Various cross sections. The fitted shape is shown in red; the area-equivalent circle used to build the QSM is shown in purple."><img src="qsm_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672" alt="Various cross sections. The fitted shape is shown in red; the area-equivalent circle used to build the QSM is shown in purple."></a></p>
+<figcaption>Various cross sections. The fitted shape is shown in red; the area-equivalent circle used to build the QSM is shown in purple.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The reader may wonder: if any shape can be fitted with FHD, then circles and ellipses are merely special cases of FHD and therefore redundant.</p>
+<p>This is technically true, and some studies have relied exclusively on FHD. However, Arbor is a production tool that must be robust to real-world data, not just benchmark data. FHD is really weak when data is incomplete (trees not fully sampled, classification errors). It is also sensitive to noise, and underperforms in general unless the input data is <strong>really</strong> clean. RANSAC circle fitting, on the other hand, is extraordinarily robust when well-designed, though less accurate when shapes deviate significantly from circular.</p>
+<p>OF finds the most robust fit available. When a clean, arbitrary shape can be reliably fitted, OF retains it, but it falls back to a more robust alternative when necessary, as illustrated below where an ellipse was selected as the best fit.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="qsm_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="qsm_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="288"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="skeleton" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="skeleton"><span class="header-section-number">7.2</span> Skeleton</h2>
+<p>For the skeleton reconstruction, Arbor draws inspiration from the <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2435.13678">aRchi R package</a> (Martin-Ducup et al., 2020). We reimplemented the core idea in C++ for scalability and introduced several improvements to enhance branch-tracking capabilities.</p>
+<p>Like <code>aRchi</code>, the point cloud is first clustered into layers. Unlike <code>aRchi</code>, which uses horizontal layers, we instead create layers based on the geodesic distance to the ground. Compared with horizontal layering, this approach naturally aligns with branch orientation, significantly improving the second processing step.</p>
+<p>As in the original <code>aRchi</code> method, each layer is then analyzed and subdivided into clusters using <code>dbscan</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/clustring.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Point cloud colorized by (a) solid brown (b) geodesic distance to the ground, illustrating the shortest-path metric used for layering; (c) initial clustering into layers based on geodesic distance to the ground; and (d) final clustering obtained by subdividing each layer into individual disconnected clusters."><img src="figures/chap_qsm/clustring.png" class="img-fluid figure-img" alt="Point cloud colorized by (a) solid brown (b) geodesic distance to the ground, illustrating the shortest-path metric used for layering; (c) initial clustering into layers based on geodesic distance to the ground; and (d) final clustering obtained by subdividing each layer into individual disconnected clusters."></a></p>
+<figcaption>Point cloud colorized by (a) solid brown (b) geodesic distance to the ground, illustrating the shortest-path metric used for layering; (c) initial clustering into layers based on geodesic distance to the ground; and (d) final clustering obtained by subdividing each layer into individual disconnected clusters.</figcaption>
+</figure>
+</div>
+<p>For each cluster, the centroid is estimated using either Orbicular Fitting or the barycenter, depending on whether a reliable Orbicular Fitting solution can be obtained. This yields all the nodes of the QSM skeleton.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/nodes.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Cluster centroids reconstructed from layered point-cloud segments. Centroids are estimated using Orbicular Fitting whenever possible and fall back to the barycenter when fitting is unreliable."><img src="figures/chap_qsm/nodes.png" class="img-fluid figure-img" width="400" alt="Cluster centroids reconstructed from layered point-cloud segments. Centroids are estimated using Orbicular Fitting whenever possible and fall back to the barycenter when fitting is unreliable."></a></p>
+<figcaption>Cluster centroids reconstructed from layered point-cloud segments. Centroids are estimated using Orbicular Fitting whenever possible and fall back to the barycenter when fitting is unreliable.</figcaption>
+</figure>
+</div>
+<p>Finally, nodes are connected using a greedy chain-growing strategy, which is the original <code>aRchi</code> connection method and is arguably more robust than classical state-of-the-art graph-based approaches such as Minimun Spanning Tree (MST) or PST, often found in the literature. This is not to say that MST or PST are poor methods; rather, globally optimal solutions do not scale robustly to real data because they are highly sensitive to gaps and other imperfections commonly found in point clouds. In contrast, the <code>aRchi</code> method is a locally optimal solution that reconstructs trees based on growth logic, making it inherently more suitable for tree structures. We did not modify the method itself; we simply reimplemented it efficiently.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/skel.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Reconstructed tree skeleton colored by branch order. The topology is obtained by greedily connecting nodes according to the original aRchi growth-based strategy."><img src="figures/chap_qsm/skel.png" class="img-fluid figure-img" width="400" alt="Reconstructed tree skeleton colored by branch order. The topology is obtained by greedily connecting nodes according to the original aRchi growth-based strategy."></a></p>
+<figcaption>Reconstructed tree skeleton colored by branch order. The topology is obtained by greedily connecting nodes according to the original <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2435.13678">aRchi</a> growth-based strategy.</figcaption>
+</figure>
+</div>
+</section>
+<section id="preshot-qsm" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="preshot-qsm"><span class="header-section-number">7.3</span> Preshot QSM</h2>
+<p>The QSM algorithm first computes a <em>preshot</em> QSM. This preshot QSM is generated virtually instantaneously without taking any measurements. Using the height of the tree, the routine estimates a plausible DBH from allometric relationships and linear stem tapper decrease to the tip.</p>
+<p>The goal of the preshot QSM is <strong>not</strong> to be accurate. Virtually any reasonable allometric relationship between height and DBH could work. The objective is simply to obtain a plausible tree model without performing any expensive computations. By default, Arbor uses the equation from <a href="https://doi.org/10.1038/s41597-025-06421-7">Griese N. et al.&nbsp;(2025)</a> to estimate DBH from tree height.</p>
+<p>For the example shown below, this relationship substantially underestimates the true size of the tree.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/Griese_w_tree.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Relationship between DBH and tree height from Griese et al.&nbsp;(2025). Blue annotations highlight our example tree used in this book"><img src="figures/chap_qsm/Griese_w_tree.png" class="img-fluid figure-img" width="400" alt="Relationship between DBH and tree height from Griese et al.&nbsp;(2025). Blue annotations highlight our example tree used in this book"></a></p>
+<figcaption>Relationship between DBH and tree height from Griese et al.&nbsp;(2025). Blue annotations highlight our example tree used in this book</figcaption>
+</figure>
+</div>
+<p>However, this is not an issue. The preshot QSM is used only as a computational optimization tool. Despite being volumetrically inaccurate, it contains valuable information that can dramatically reduce processing time.</p>
+<p>Among other things, it provides an estimate of the large proportion of nodes that are too small to be measured reliably. There is no need to spend computational resources attempting to measure structures that are, in practice, below the measurable limit of the sensor. In this example, the preshot QSM predicts that 26,000 out of 29,000 nodes (90%) are likely smaller than 2 cm in diameter. As a result, more than 90% of the measurement effort can be skipped. Even if the allometric prediction is inaccurate and the actual cross-sections are somewhat larger, the impact on the optimization strategy remains gigantic. We can roughly bypass 90% to 95% of the CPU effort initially required.</p>
+<p>The preshot QSM also indicates whether complex buttress detection should be activated, or whether computation time can be saved by desactivating it. Restricting Orbicular Fitting to simpler geometric shapes reduces computation time.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/preshot_annoted.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Example of a highly inaccurate preshot QSM. Although volumetrically incorrect, it provides valuable prior information used to prune unnecessary computations and guide subsequent fitting strategies."><img src="figures/chap_qsm/preshot_annoted.png" class="img-fluid figure-img" width="400" alt="Example of a highly inaccurate preshot QSM. Although volumetrically incorrect, it provides valuable prior information used to prune unnecessary computations and guide subsequent fitting strategies."></a></p>
+<figcaption>Example of a highly inaccurate preshot QSM. Although volumetrically incorrect, it provides valuable prior information used to prune unnecessary computations and guide subsequent fitting strategies.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We are aware that many readers may be reluctant to use allometry, especially curves that may not fit their country or specific local context. It is true that generic equations are not representative of local conditions.</p>
+<p>For this reason, we want to emphasize once again that this is only a <strong>preliminary QSM</strong>, which is <strong>not used in the computation of the final QSM</strong>. It is only used as a computational trick to optimize processing. And we carefully chose a tree to illustrate the book that if completely off prediction to demonstrate that the allometry has little importance.</p>
+</div>
+</div>
+</section>
+<section id="diameters" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="diameters"><span class="header-section-number">7.4</span> Diameters</h2>
+<p>Using the Orbicular Fitting approach and the skeleton’s cylinder orientations, we measure diameters <strong>wherever possible</strong>. Cylinders with poor fitting, insufficient points, or diameters too small to measure reliably are skipped or discarded. In the example used in this book, 257 valid measurements (v0.14.0) were retained along the main axis and major branches. Other measurements were considered too weak to be retained.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/measured.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="The algorithm measured 257 cylinders where robust measurements are possible. Other cylinders are left unknown due to weak RANSAC fitting or unmeasurable allometric predictions. The total measured volume is 3.55 m³."><img src="figures/chap_qsm/measured.png" class="img-fluid figure-img" width="400" alt="The algorithm measured 257 cylinders where robust measurements are possible. Other cylinders are left unknown due to weak RANSAC fitting or unmeasurable allometric predictions. The total measured volume is 3.55 m³."></a></p>
+<figcaption>The algorithm measured 257 cylinders where robust measurements are possible. Other cylinders are left unknown due to weak RANSAC fitting or unmeasurable allometric predictions. The total measured volume is 3.55 m³.</figcaption>
+</figure>
+</div>
+<p>The gaps are then interpolated. These interpolated gaps provide highly reliable estimates.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/poly.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Gaps are filled by interpolating between the valid measurements. The total volume at this stage is 3.82 m³."><img src="figures/chap_qsm/poly.png" class="img-fluid figure-img" width="400" alt="Gaps are filled by interpolating between the valid measurements. The total volume at this stage is 3.82 m³."></a></p>
+<figcaption>Gaps are filled by interpolating between the valid measurements. The total volume at this stage is 3.82 m³.</figcaption>
+</figure>
+</div>
+<p>Branches that cannot be measured are reconstructed hierarchically using a pipe model. This ensures that unmeasurable sections, which are entirely speculative, are grounded in biological theory.</p>
+<p>While there is much to be said about pipe models and their biological validity, in practice, the pipe model helps to reconstruct a small volumetric fraction of the tree in a highly realistic way and based on strong upstream measurement. Pipe model is virtually instantaneous to compute.</p>
+<p>This approach avoids attempting to measure what cannot be reliably captured, thereby saving time and increasing robustness by eliminating erroneous data points. The reconstructed sections rely on multiple reliable anchor measurements, making the entire process both robust and accurate.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/final.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Final QSM: 4.91 m³"><img src="figures/chap_qsm/final.png" class="img-fluid figure-img" width="400" alt="Final QSM: 4.91 m³"></a></p>
+<figcaption>Final QSM: 4.91 m³</figcaption>
+</figure>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Nodes (%)</th>
+<th style="text-align: left;">Volume (m³) (%)</th>
+<th style="text-align: left;">Cumulative (m³) (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Measured</strong></td>
+<td style="text-align: left;">257 (0.8%)</td>
+<td style="text-align: left;">3.55 (72%)</td>
+<td style="text-align: left;">3.55 (72%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Interpolated</strong></td>
+<td style="text-align: left;">102 (0.3%)</td>
+<td style="text-align: left;">0.25 (6%)</td>
+<td style="text-align: left;">3.82 (78%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Pipe Model</strong></td>
+<td style="text-align: left;">28,661 (98%)</td>
+<td style="text-align: left;">1.09 (22%)</td>
+<td style="text-align: left;">4.91 (100%)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sec-prologation" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="sec-prologation"><span class="header-section-number">7.5</span> Extension to the Ground</h2>
+<p>The QSM initially misses 15 to 50 cm because the point cloud was cut above the ground during data preparation (<a href="ground.html#sec-lowpoints" class="quarto-xref"><span>Section 4.2</span></a>). Arbor uses the recorded Height Above Ground (HAG) from the point cloud and the skeleton orientation to extend the QSM realistically to the ground, even for bent or non-straight trees.</p>
+</section>
+<section id="sec-tinytree" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="sec-tinytree"><span class="header-section-number">7.6</span> Non-measurable Trees</h2>
+<p>Arbor segments and builds QSMs for saplings and small trees whose sizes fall below the measurable limits of point clouds. Typically, a 4 m tree is expected to have a diameter of approximately 3 cm. It may be slightly smaller or slightly larger, but in all cases, accurate measurement with MLS is physically infeasible. Worse, it is dangerous.</p>
+<p>With thousands of tiny, highly intricate saplings covered in foliage, attempting manual measurements would inevitably lead to false measurements and poor 3D reconstructions in many cases.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this sense, Arbor differs from other QSM software such as AdTree, TreeQSM or Computree. Other software expects a single input tree that has already been verified by the user as a valid and well-segmented tree. They produce few errors because no user in the world feeds them with noisy, intricate, 3 meters saplings.</p>
+<p>Arbor, on the other hand, batch-processes hectares of forest and is automatically fed with all saplings, segmentation errors, and noise, at a pace of 10 QSMs per second for thousands of QSMs, with no guarantee that the input is perfectly segmented. Arbor must therefore remain robust in all cases.</p>
+</div>
+</div>
+<p>In such cases, we rely on allometry. By default, Arbor uses the equation from <a href="https://doi.org/10.1038/s41597-025-06421-7">Griese N. et al.&nbsp;(2025)</a> to estimate DBH from tree height. If the predicted DBH falls below a given threshold, the standard QSM algorithm is not applied. Instead, an <em>had oc</em> QSMs is built from the theoric DBH and the skeleton.</p>
+<p>The default threshold is 6 cm, which ensures that saplings and other non-measurable trees are modeled realistically. Forcing a direct measurement would lead to significantly worse results. Although the relationship between height and diameter is species- and biome-specific, inter-species variation within this size range is assumed to be limited.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/griese_annoted.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Image from Griese N. et al.&nbsp;(2025) with annotations for the book. Scatter plot showing the relationship between DBH and tree height. Blue annotations were added to highlight the range of trees not actually measured by Arbor."><img src="figures/chap_qsm/griese_annoted.png" class="img-fluid figure-img" width="400" alt="Image from Griese N. et al.&nbsp;(2025) with annotations for the book. Scatter plot showing the relationship between DBH and tree height. Blue annotations were added to highlight the range of trees not actually measured by Arbor."></a></p>
+<figcaption>Image from <a href="https://doi.org/10.1038/s41597-025-06421-7">Griese N. et al.&nbsp;(2025)</a> with annotations for the book. Scatter plot showing the relationship between DBH and tree height. Blue annotations were added to highlight the range of trees not actually measured by Arbor.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The allometry is <strong>NOT</strong> used to build standard QSMs. It is used only to discriminate between trees that can be measured and those that cannot, in order to build a plausible 3D model in these specific cases.</p>
+<p>The accuracy of the allometric model is therefore not critical. Trees that are measurable will still be reconstructed properly even with an inadequate allometric model. Purely allometric QSMs are flagged and generate a warning so users can easily identify them.</p>
+</div>
+</div>
+</section>
+<section id="sec-edgecases" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="sec-edgecases"><span class="header-section-number">7.7</span> Non-measurable Trees - edge cases</h2>
+<p>In some very specific cases, however, this approach reaches its limits. For example, we modeled a cacao plantation in Cameroon where trees are heavily managed and differ substantially from the Griese et al.&nbsp;model. Typically, a 5 m tree may have a diameter of 12 cm, whereas the Griese et al.&nbsp;model predicts approximately 4.5 cm, an underestimation by a factor of about 2.5 tp 3 and all tree are around 5 meters height. As a consequence, most trees are incorrectly flagged as non-measurable and are therefore not measured using the standard QSM pipeline.</p>
+<p>Overall the approach described in previous section may fall short in non-forested areas such as plantations of fruit trees, urban areas, heavily managed trees where small trees can become particularly big compared to typical forest trees of the same height that compete differently for ressources.</p>
+<p>In such cases, parameter tuning becomes mandatory. Users can select an alternative allometric model, lower the minimum detectable DBH or scale one existing model. For the cacao plantation we scaled Griese’s model by a factor of 2.5. Again, the accuracy of the model is <strong>NOT</strong> critical. We simply scaled the Griese et al.&nbsp;model to ensure that measurable trees are no longer excluded.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>qsm<span class="sc">$</span>allometry_name <span class="ot">=</span> <span class="st">"Griese2025"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>qsm<span class="sc">$</span>allometry_scale <span class="ot">=</span> <span class="fl">2.5</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>qsm<span class="sc">$</span>min_measurable_dbh <span class="ot">=</span> <span class="fl">0.04</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">available_allometries</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="sec-broketree" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="sec-broketree"><span class="header-section-number">7.8</span> Broken Trees</h2>
+<p>Broken trees do not follow the typical rules. They are often small in height but can still have a large diameter, and they do not terminate with a near-zero radius. Under the previous rules (<a href="#sec-tinytree" class="quarto-xref"><span>Section 7.6</span></a>), a broken tree may be classified as small in height, leading to a predicted DBH below the measurement threshold. As a result, the tree is not measured, allometry is applied, and the tree is consequently severely under-sized.</p>
+<p>In practice, the internal routine includes safeguards. Without going into implementation details, the general idea is to detect enough valid and sufficiently large measurements to bypass the regular algorithm and instead use an alternative approach that is less sensitive to missing tips.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Broken tree detection is experimental because of the lack of a large dataset of broken trees for validation. It can be disabled with <code>params$qsm$broken_detection_enabled = FALSE</code>.</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/broken.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="A broken tree and its QSM"><img src="figures/chap_qsm/broken.png" class="img-fluid figure-img" width="300" alt="A broken tree and its QSM"></a></p>
+<figcaption>A broken tree and its QSM</figcaption>
+</figure>
+</div>
+<!--
+### Safeguards {#sec-safeguards}
+
+In some rare edge cases, which nonetheless occur when computing tens of thousands of QSMs — as Arbor is designed to do — some trees may be very poorly measured. This happens because Arbor is capable of fully unsupervised processing, including the ability to handle non-measurable trees. Real-world data contain virtually infinite pitfalls, and some of them will inevitably arise on one tree or another.
+
+As a production tool, Arbor includes safeguards. We prefer a realistic and plausible tree that is not directly measured (100% inferred) over a completely incorrect reconstruction. To achieve this, we again rely on [Griese N. et al. (2025)](https://doi.org/10.1038/s41597-025-06421-7). If a measured tree is more than three times larger than expected (which is far beyond the $2\sigma$ threshold used by the authors to trim outliers and thus allows large inter- and intra- specicies variation) the measurement is discarded and conic allometry is used instead.
+
+This is illustrated in an extreme case in the figure below. In this 10 m; 8 cm tree, everything that could go wrong did go wrong. The semantic segmentation is poor, the skeleton reconstruction is unreliable, and although the diameter measurements are not too bad (not visible in the figure), they fall into an unfortunate configuration. The small number of valid measurements, combined with improbable outliers, leads to a completely irrelevant polynomial fit.
+
+Arbor detects such cases and replaces them with a conic allometry. The resulting tree is still imperfect, but at least it is volumetrically consistent with a real tree.
+
+![Example of an extreme failure case handled by Arbor’s safeguards. This 10 m tree illustrates a worst-case scenario where semantic segmentation and skeleton reconstruction are poor, and a limited number of valid diameter measurements—combined with outliers—lead to an unrealistic polynomial fit. Because the measured dimensions exceed plausible limits, Arbor discards the measurements and replaces them with a conic allometry. Although the resulting reconstruction remains imperfect, it is volumetrically consistent with a real tree.](figures/chap_qsm/gards.png){width=500px}
+
+
+::: {.callout-note}
+This type of problem occurs rarely and only in young trees, small and branchy enough to provide too few reliably measurable diameters.
+:::
+-->
+</section>
+<section id="fitting-quality-assessment" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="fitting-quality-assessment"><span class="header-section-number">7.9</span> Fitting Quality Assessment</h2>
+<p>The QSM records a <code>quality</code> attribute (accessible via <code>qsm$quality</code>) that indicates the quality of radius fitting. The codes are defined as follows. The associated colors are arbitrary and correspond only to the figure below; the default color scheme may change in future versions.</p>
+<ul>
+<li><strong>0 – Unknown</strong>: Undefined state. This is a bug, it should never occur.</li>
+<li><strong>1 – Prolongation</strong>: (blue) The segment belongs to the prolongation region (see <a href="#sec-prologation" class="quarto-xref"><span>Section 7.5</span></a>). No points are available in this region, therefore no measurements can be performed.</li>
+<li><strong>2 – Reconstruction</strong>: (green) No measurements are available. Radii are reconstructed purely from architectural assumptions based on pipe model. Equivalent to poor quality.</li>
+<li><strong>3 – Interpolation</strong>: (yellow) No direct measurements are available, but we are between valid measurements. Interpolation provides serious plausible radius estimates. Equivalent to medium quality.</li>
+<li><strong>4 – Good Orbicular Fitting</strong>: (orange) A valid measurement is available, but it does not meet the criteria for top-quality fitting. This typically occurs when either full 360° coverage is missing or the inlier-to-outlier ratio is insufficient. Equivalent to good quality.</li>
+<li><strong>5 – Excellent Orbicular Fitting</strong>: (red) Full high-quality orbicular fitting. Few outliers. Equivalent to excellent quality.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qsm, <span class="at">color =</span> <span class="st">"quality"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsm/quality0.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Radius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement."><img src="figures/chap_qsm/quality0.png" class="img-fluid figure-img" width="500" alt="Radius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement."></a></p>
+<figcaption>Radius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement.</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-warnings" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="sec-warnings"><span class="header-section-number">7.10</span> Message</h2>
+<p>In version 0.14.0, the function <code>qsm()</code> can throw four warnings:</p>
+<ul>
+<li>For non-measurable trees because they are too small and therefore not reliably measurable (<a href="#sec-tinytree" class="quarto-xref"><span>Section 7.6</span></a>).</li>
+<li>For insufficient measurements.</li>
+<li>For measured root diameters more than 3 times greater than the expected DBH based on allometry assumption. We are so far from expectation that a manual check may be required.</li>
+<li>For broken tree detection.</li>
+</ul>
+<p>It is possible to retrieve the warning emitted by a QSM with <code>qsm_message()</code>. This section written in June 2026 may become out of sync when the reader is reading these pages but <code>qsm_message()</code> will remain a valid command.</p>
+</section>
+<section id="other-details" class="level2" data-number="7.11">
+<h2 data-number="7.11" class="anchored" data-anchor-id="other-details"><span class="header-section-number">7.11</span> Other Details</h2>
+<p>We have not gone into depth about how the architecture is recomputed, how the quality of the RANSAC Orbicular Fitting is assessed, how errors near the base of the tree are handled for robustness, or how unnecessary computations are skipped. Throughout this book, many such details are intentionally omitted. Otherwise, the book would be endless, and the effort required to explain and illustrate every single step would be colossal. Our goal here is to present the overarching concepts to provide a clear overall understanding.</p>
+<p>One interesting feature is the ability to handle problematic situations at the base of trees. Semantic segmentation is not perfect, and even when it is perfect, the forest does not have the courtesy to conform to our reconstruction rules. In the example below, a tree has fallen between a forked tree. The wood classification is correct, the irregular structure at the bottom is indeed wood, and it is technically connected to the tree of interest. From a segmentation standpoint, this is valid. However, such a structure would break the QSM reconstruction.</p>
+<p>As shown in the image, our QSMs remain robust in these situations and are extended to the ground without following the fallen trunk.</p>
+<p><a href="figures/chap_qsm/robustness.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="figures/chap_qsm/robustness.png" class="img-fluid" width="300"></a></p>
+</section>
+<section id="final-note" class="level2" data-number="7.12">
+<h2 data-number="7.12" class="anchored" data-anchor-id="final-note"><span class="header-section-number">7.12</span> Final Note</h2>
+<p>Arbor’s QSMs are designed to be fast and robust. We are no longer dealing with single trees manually extracted and carefully inspected before generating one QSM at a time. Instead, Arbor is built to process tens of thousands of QSMs automatically, in contexts where semantic and instance segmentation are imperfect, and where 90% of instances may be leaf-on, non-measurable saplings.</p>
+<p>To achieve this, Arbor’s QSM module is intentionally strict and highly conservative in what it considers a valid measurement. As a rule of thumb, if a tree is only partially sampled and Arbor fits a valid circle to a half cross-section, the measurement may still be rejected, even if the fit itself is correct (RANSAC is highly robust). For this reason, trees should be sampled over 360 degrees.</p>
+<p>Partially scanned trees, such as those commonly obtained from TLS data, may be technically measurable, but Arbor will generally fail to measure them reliably. A warning should be issued when Arbor detects poor overall measurement quality.</p>
+<p>As stated in previous chapters: production-grade software requires production-grade data.</p>
+</section>
+<section id="code" class="level2" data-number="7.13">
+<h2 data-number="7.13" class="anchored" data-anchor-id="code"><span class="header-section-number">7.13</span> Code</h2>
+<section id="minimal-snippet" class="level3" data-number="7.13.1">
+<h3 data-number="7.13.1" class="anchored" data-anchor-id="minimal-snippet"><span class="header-section-number">7.13.1</span> Minimal snippet</h3>
+<p>If readers have followed the book so far, they should now have a variable <code>las</code> in which every tree has been segmented, each with its own unique ID. The following code sample selects a random tree, computes its QSM, and plots the result. Loop over all trees is done via the <code>qsf()</code> function (<a href="qsf.html" class="quarto-xref"><span>Chapter 8</span></a>).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample a random tree</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>id   <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">unique</span>(las<span class="sc">$</span>treeID), <span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> lidR<span class="sc">::</span><span class="fu">filter_poi</span>(trees, treeID <span class="sc">==</span> id)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>qsm  <span class="ot">&lt;-</span> <span class="fu">qsm</span>(tree)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">plot_semantic</span>(tree)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_qsm</span>(qsm, <span class="at">add =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <code>qsm</code> object is simply a <code>data.frame</code> with an additional class to enable convenient printing and plotting methods. Use <code>as.data.frame(qsm)</code> to manipulate a QSM as a <code>data.frame</code>.</p>
+</div>
+</div>
+</section>
+<section id="function-list" class="level3" data-number="7.13.2">
+<h3 data-number="7.13.2" class="anchored" data-anchor-id="function-list"><span class="header-section-number">7.13.2</span> Function list</h3>
+<ul>
+<li><code>qsm()</code> to build a QSM</li>
+<li><code>qsm_dbh()</code>, <code>qsm_volume()</code> to extract DBH and Volume</li>
+<li><code>qsm_stats()</code> to extract various useful informations from the QSM.</li>
+<li><code>qsm_write()</code> for saving the QSM in <code>.qsm</code>, <code>.obj</code>, <code>.ply</code>, <code>stl</code>, <code>.csv</code> for analyzing or for rendering in 3D software. We recommend <code>.qsm</code> for storing and <code>.obj</code> for rendering in third-party 3D software.</li>
+<li><code>qsm_read()</code> to read <code>.qsm</code> or <code>.csv</code>.</li>
+<li><code>qsm_message()</code> for logs.</li>
+<li><code>qsm_merchandable()</code>, <code>qsm_stem()</code> (see <a href="forestry.html" class="quarto-xref"><span>Chapter 9</span></a>)</li>
+<li><code>plot_qsm()</code> or <code>plot()</code> for 3D rendering</li>
+</ul>
+</section>
+<section id="full-code" class="level3" data-number="7.13.3">
+<h3 data-number="7.13.3" class="anchored" data-anchor-id="full-code"><span class="header-section-number">7.13.3</span> Full Code</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lidR)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arbor)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> arbor_parameters_default</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>global<span class="sc">$</span>cut_above_ground <span class="ot">=</span> <span class="fl">0.25</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> <span class="st">"-keep_random_fraction 0.25"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">readTLS</span>(file, <span class="at">select =</span> <span class="st">"xyz"</span>, <span class="at">filter =</span> filter)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">hybrid_homogeneization</span>(las)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_ground</span>(las)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">wood_likelihood</span>(las, params)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_semantic</span>(las, params)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>see <span class="ot">&lt;-</span> <span class="fu">find_seeds</span>(las, params)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_instance</span>(las, see, params)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_small_trees</span>(las, <span class="at">max_height =</span> <span class="dv">2</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_buffer</span>(las, see, <span class="sc">-</span>buffer)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample a random tree</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>id   <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">unique</span>(las<span class="sc">$</span>treeID), <span class="dv">1</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> lidR<span class="sc">::</span><span class="fu">filter_poi</span>(las, treeID <span class="sc">==</span> id)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>qsm  <span class="ot">&lt;-</span> <span class="fu">qsm</span>(tree, params)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">plot_semantic</span>(tree)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_qsm</span>(qsm, <span class="at">add =</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./instance.html" class="pagination-link" aria-label="Instance Segmentation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Instance Segmentation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./qsf.html" class="pagination-link" aria-label="Quantitative Structure Forest">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantitative Structure Forest</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"openEffect":"zoom","closeEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

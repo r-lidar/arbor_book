@@ -1,0 +1,942 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Arbor: The Complete R Tutorial Book",
+    "section": "",
+    "text": "Preface\nIn less than 10 minutes, on a laptop, Arbor turns 2500 m² of raw forest point cloud into a 3D model of every tree it contains. This book presents Arbor, the open source workflow developed by r-lidar inc for processing mobile laser scanning point clouds, from raw data to QSM (Quantitative Structure Models).\nArbor is a production-grade C++ library for large-scale processing of forest mobile laser scanning data, with an R package API. It introduces a new generation of algorithms for tree segmentation and modeling, enabling the processing of hectares of data within minutes and significantly advancing forest point-cloud analysis.\nIn this book the reader will find an in-depth explanation of the pipeline, how it works, and how to use it in R. By reading this book, the reader will gain insight into the internal workings of the pipeline as well as a step-by-step tutorial on how to use it effectively.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#what-do-we-mean-by-production-grade",
+    "href": "index.html#what-do-we-mean-by-production-grade",
+    "title": "Arbor: The Complete R Tutorial Book",
+    "section": "What do we mean by production-grade?",
+    "text": "What do we mean by production-grade?\nTo be considered production-grade, a pipeline must:\n\nWork under leaf-on conditions.\nBe fast: practitioners should obtain valuable outputs within minutes of computation. Slow workflows do not scale to real large inventories.\nBe parameterless: software with an overwhelming number of parameters is impractical. It should work out of the box without adjustment.\nBe easy to install: a production-grade tool should be straightforward to install for everyone.\n\nTo demonstrate the performance of the pipeline, the following sections present a gallery of outputs produced by Arbor.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#showcase",
+    "href": "index.html#showcase",
+    "title": "Arbor: The Complete R Tutorial Book",
+    "section": "Showcase",
+    "text": "Showcase\n\nPetawawa Research Forest\n75 seconds end-to-end on a laptop. 900 m².\n\n\n\nOntario\n1 minute end-to-end on a laptop. 900 m².\n\n\n\nQuébec - Oak Plantation\n8 minutes end-to-end on a laptop. 3,000 m².\n\n\n\nTropical Rain Forest\n15 minutes end-to-end on a laptop. 5,000 m².\n\n\n\nQSM Showcase\n\n\n\nOther instance segmentation",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#minimum-requirements",
+    "href": "index.html#minimum-requirements",
+    "title": "Arbor: The Complete R Tutorial Book",
+    "section": "Minimum Requirements",
+    "text": "Minimum Requirements\n\nLaptop with at least 32 GB of RAM and 6 cores:\nThis workflow is computationally demanding and requires significant memory. On a laptop with 32 GB of RAM, it is possible to process 5,000–6,000 m² in one batch smoothly. Beyond that, the RAM capacity may be exceeded.\nHigh-quality data:\nThe point cloud must be collected using a state-of-the-art walking pattern to ensure proper SLAM alignment and homogeneous sampling. Trees should be scanned from all sides, not just one. Following established best practices will ensure optimal results.\nReasonably low noise levels:\nMobile laser scanners naturally produce A LOT of noise, and that’s perfectly fine. However, we occasionally encounter datasets where the noise level is stratospheric, to the point of being unusable. While we understand that not everyone can afford top-tier sensors, there is a reasonable limit. The point cloud should look clean and well-defined, which is achievable even without the most expensive equipment (see 2.2 Point Cloud Quality).\nOperating System:\nLinux or Windows. R packages built under MacOS don’t support parallelization with OpenMP. Without parallelization Arbor will be much slower. We do not recommend using Arbor on a Mac.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "Arbor: The Complete R Tutorial Book",
+    "section": "Installation",
+    "text": "Installation\nArbor is an R package and can be installed just like any other R package.\ninstall.packages('arbor', repos = c('https://r-lidar.r-universe.dev', 'https://cloud.r-project.org'))",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#economic-model",
+    "href": "index.html#economic-model",
+    "title": "Arbor: The Complete R Tutorial Book",
+    "section": "Economic Model",
+    "text": "Economic Model\nArbor is free and open source. At r-lidar, we don’t believe in locking users behind black boxes. Everybody should be able to figure out how a software is working under the hood. However, free does not mean it’s free to produce. We still have real-world bills to pay. To keep the lights on while keeping our code open, we’ve built our business around a value-driven model:\n\nConsulting, training, and workshops: Sharing expert knowledge to help users integrate the technology effectively.\nCustom paid development: Building specific features or optimizations tailored to individual client needs.\nDonations to sponsor open source tools: Relying on the community and partners to fund the ongoing maintenance of the projects.\nR&D for Universities & Companies: We partner with academic institutions and private firms on research projects, helping turn theoretical lidar concepts into functional, open-source realities.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#contributors",
+    "href": "index.html#contributors",
+    "title": "Arbor: The Complete R Tutorial Book",
+    "section": "Contributors",
+    "text": "Contributors\nWhile Arbor has been developed independently by r-lidar inc., we would like to thank contributors who placed their trust in our economic model.\n\nSherbrooke University (Richard Fournier) contributed financially to the open source release of Arbor by providing the necessary funding to finalize the Arbor’s R API, this documentation and the practitioner oriented tools.\nNatural Resources Canada (Bastien Vandendaele), who had early access to Arbor prior to its release, performed initial testing, identified bugs, and shared valuable improvement ideas, literature, and expertise regarding MLS, TLS and practitioners needs. He also conducted an independent validation study: Vandendaele et al. 2026 (in prep)\nAMAP-Lab (Olivier Martin; Nicolas Barbier) Contributed financially through IRD funding and One Forest Vision (OFVi) project towards several improvements in Arbor as well as ongoing R&D on tropical rainforest data\nMinistère des Ressources naturelles et des Forêts du Québec contributed financially to improving Arbor’s computational efficiency prior to its public release by requesting a large-scale inventory project (5 ha, 15,000 QSMs). This was made as part of a project funded by the Ministère de l’Environnement, de la Lutte contre les changements climatiques, de la Faune et des Parcs (Plan pour une économie verte 2030, project no. 112959356, led by Julie Godbout).\nOntario Forestry Futures Trust-Knowledge Transfer and Tool Development (KTTD) funded project with Murray Woods and Margaret Penner who shared early validation data to help test Arbor during its early versions.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "arbor.html",
+    "href": "arbor.html",
+    "title": "1  What is Arbor?",
+    "section": "",
+    "text": "1.1 Arbor C++ Library\nArbor is an open-source standalone C++ library designed for processing mobile laser scanning data in forestry applications. To make it accessible and user-friendly, the core library is wrapped in convenient APIs. Arbor currently provides one public API, the R package described in this book, with another API actively under development.\nThe C++ library is licensed under the GNU General Public License v3 (GPL-3). Anyone is free to use, study, modify, and integrate Arbor into their own software, as long as that software also complies with the terms of the GPL-3.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>What is Arbor?</span>"
+    ]
+  },
+  {
+    "objectID": "arbor.html#arbor-r-package",
+    "href": "arbor.html#arbor-r-package",
+    "title": "1  What is Arbor?",
+    "section": "1.2 Arbor R Package",
+    "text": "1.2 Arbor R Package\nYou are currently reading the documentation for Arbor’s R interface. Using Arbor in R is straightforward and requires little to no programming experience. However, users who are comfortable working with code can leverage the full flexibility of the package to build custom workflows and applications.\nThe Arbor R package is free and open source under the GNU General Public License v3 (GPL-3).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>What is Arbor?</span>"
+    ]
+  },
+  {
+    "objectID": "arbor.html#arbor-studio",
+    "href": "arbor.html#arbor-studio",
+    "title": "1  What is Arbor?",
+    "section": "1.3 Arbor Studio",
+    "text": "1.3 Arbor Studio\nArborStudio is a desktop application with a graphical user interface designed for users who prefer a drag-and-drop workflow: load files, click a few buttons, and generate outputs without writing code.\nBut ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools.\nArborStudio is currently under active development and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.\nRegardless of the business model chosen for ArborStudio, the core Arbor engine will remain fully free and open source.\n\n\n\nArborStudio early stage of development\n\n\nThe video below presents an early prototype of ArborStudio and its ability to quickly and easily perform manual instance corrections.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>What is Arbor?</span>"
+    ]
+  },
+  {
+    "objectID": "preparation.html",
+    "href": "preparation.html",
+    "title": "2  Data Preparation & Quality",
+    "section": "",
+    "text": "2.1 Point Cloud Selection",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation & Quality</span>"
+    ]
+  },
+  {
+    "objectID": "preparation.html#sec-pcselection",
+    "href": "preparation.html#sec-pcselection",
+    "title": "2  Data Preparation & Quality",
+    "section": "",
+    "text": "2.1.1 Three Areas of Interest\nA typical Mobile Laser Scanning (MLS) point cloud is generally composed of three distinct zones: the Payload, the Buffer, and the Low quality area. Understanding these zones is critical for efficient processing.\n\n\n\nRaw MLS point cloud seen from below (we are seeing the ground) after a sampling campain of 1/4 of ha (50 x 50 meters)\n\n\n\n2.1.1.1 The Payload\nThe payload represents the area intentionally sampled in the field. This is the highest quality portion of the data, typically covering 400 m² or 0.25 ha (the two most common sampling sizes). In this zone, trees are fully captured and provide the detail necessary for accurate analysis.\n\n\n2.1.1.2 The Buffer\nThe buffer is the area immediately surrounding the payload where data quality remains “good enough” for contextual use. While we may still find dense ground points and visible tree structures, trees in this zone are often partially captured because they are sampled from one side only with more occlusion.\n\nPurpose: This zone acts as a safety margin to ensure clean results during processing of the payload area.\nExtent: It typically extends 5 to 10 meters beyond the payload boundary.\n\n\n\n2.1.1.3 The Low Quality Area\nThe low quality area consists of all remaining data, often extending 50 to 100 meters beyond the buffer. These points should be removed prior to processing for two main reasons:\n\nPerformance: The sheer volume of points over such a large area consumes significant RAM and increases computation time.\nGeometry: These points often form irregular, random shapes that interfere with clean boundary definitions and buffer removal. From the contour of the low quality area it is impossible to retrieve the payload area automatically.\n\n\n\n\n2.1.2 Clipping the Point Cloud\nThe first step before using Arbor is to clip the point cloud to isolate only the payload and the buffer.\n\nManual Clipping: For individual files or visual inspection, CloudCompare is our preferred tool for manual extraction.\nAutomated Clipping: If the point cloud is already georeferenced or centered at (0,0), the clipping process can be automated using the lidR package to extract a precise square or circular area. More complex polygon shapes are also supported.\n\nlibrary(lidR)\nctg &lt;- readTLSLAScatalog(\"myfile.laz\")\nlas &lt;- clip_circle(ctg, 0, 0, 11.28+10)\n\n\n2.1.3 Data Processing Assumptions\nIn the following chapters, we operate under the consistent assumption that all point clouds have been properly preprocessed. Specifically, the data has been clipped to retain only the payload and buffer, while low-quality areas have been entirely removed.\nBy focusing strictly on these two zones, we ensure that Arbor’s algorithms operate with optimal computational efficiency and that the structural analysis remains centered on high-fidelity data.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation & Quality</span>"
+    ]
+  },
+  {
+    "objectID": "preparation.html#sec-dataquality",
+    "href": "preparation.html#sec-dataquality",
+    "title": "2  Data Preparation & Quality",
+    "section": "2.2 Point Cloud Quality",
+    "text": "2.2 Point Cloud Quality\nOnce a point cloud has been acquired, there is no turning back: the quality is either sufficient or it is not. Arbor operates under the following assumptions regarding data quality.\n\n2.2.1 Coverage\nTrees in the payload area must be sampled at 360 degrees. To achieve this, sampling must also be performed in the exterior area surrounding the payload, as well as by following a valid walking pattern inside the plot. A good coverage is not hard to achieve with MLS. However it is rarely achieved with TLS.\n\n\n2.2.2 Noise\nThe level of noise must be acceptable. While this is difficult to quantify precisely, the core requirement is that the data is not overwhelmed by artifacts. Some sensors produce scattered noise points resembling a blizzard; Arbor is not designed to process datasets of that nature. Standard operational noise is already challenging enough. See Section 2.2.5\n\n\n2.2.3 Occlusion\nTrees are assumed to be sampled up to their tops. Naturally, higher sections of the tree contain fewer points, more occlusion, and lower accuracy; this is an inherent trade-off when using laser scanners in forest environments. However, Arbor is designed to measure trees, not invent them. See Section 2.2.5\nWhile reconstructing missing parts of a tree is possible to some extent, Arbor is not intended to fabricate geometry. If the physical structure of a tree is inaccessible because of extreme occlusion, Arbor may still perform well for instance segmentation, but it will produce poor results for Quantitative Structure Models (QSMs).\n\n\n2.2.4 Accuracy\nArbor assumes the use of accurate sensors. Not all sensors are created equal.\nThe Howevermap ST-X has an accuracy of 2 cm, which is currently among the best available on the market as of 2026, though it is also very expensive. Arbor performs exceptionally well with ST-X point clouds.\nThe Faro Orbis has an accuracy of 4 cm. Although the degradation in quality is noticeable, Arbor still performs well at this level of accuracy.\nBased on our observations, the GeoSLAM system has an accuracy ranging from 4 to 6 cm and is more noisy. An accuracy of 6 cm starts to be problematic. At this level, trunks and foliage are no longer statistically or geometrically distinct; everything becomes a sparse blob of points. Arbor can still produce usable results in some cases, but this falls below production-grade quality requirements.\nThe LiGrip is far below the required standard.\nThe easiest way to assess accuracy is to slice through a few trunks (or a wall), measure the thickness, and examine how smudged the edges are.\n\n\n\nFour slices of ~30 cm trees sampled with sensors of varying quality. Once accuracy raises above 4 cm, Arbor begins to encounter significant difficulties. We consider 4 cm accuracy or better to be production-grade data. Beyond this threshold, wood-versus-foliage segmentation becomes more and more difficult difficult, and without reliable wood/foliage separation, Arbor cannot perform effectively (see next chapters).\n\n\n\n\n2.2.5 Examples\nBelow are five commented screenshots of good and bad quality datasets:\n\n\n\nA typical great MLS dataset in a tropical rainforest. No noise; the trees are sampled to the top.\n\n\n\n\n\nA MLS dataset with too much occlusion. A solid half of the trees is missing. Arbor tracks and measures but does not “invent” geometries. If it not sampled it is not measured.\n\n\n\n\n\nA TLS dataset with way too much noise. The sensor is scattering rays and irrelevant points. There is also a single scan at the plot center meaning that we can see at best only half of the trunks. This is far beyond arbor capacities.\n\n\n\n\n\nA typical great MLS dataset in an oak plantation. No noise; the trees are sampled to the top.\n\n\n\n\n\nA very noisy MLS dataset. Noise seems to follow a pattern. It looks like that the SLAM misaligned some data leading to some duplicated “ghost” trees. Hard to guess what actually happened but this point cloud is of poor quality.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation & Quality</span>"
+    ]
+  },
+  {
+    "objectID": "preparation.html#first-lines-of-code",
+    "href": "preparation.html#first-lines-of-code",
+    "title": "2  Data Preparation & Quality",
+    "section": "2.3 First Lines of Code",
+    "text": "2.3 First Lines of Code\nThese three lines of code load the lidR and arbor packages. The final line assigns the params variable with the default Arbor parameters, which we will keep as default throughout this book.\nlibrary(lidR)\nlibrary(arbor)\nparams &lt;- arbor_parameters_default",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data Preparation & Quality</span>"
+    ]
+  },
+  {
+    "objectID": "decimation.html",
+    "href": "decimation.html",
+    "title": "3  Data Decimation",
+    "section": "",
+    "text": "3.1 Summary\nGround-based laser scanners (MLS, TLS) produce point clouds that are heavy, noisy, and unevenly sampled, the worst combination for point cloud processing. To make computation feasible and results consistent, we need to aggressively decimate our data before any analysis.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Decimation</span>"
+    ]
+  },
+  {
+    "objectID": "decimation.html#summary",
+    "href": "decimation.html#summary",
+    "title": "3  Data Decimation",
+    "section": "",
+    "text": "Note\n\n\n\nTL;DR: The main message of this chapter is: use our decimation process. Do not apply 1 cm voxel decimation, and do not process the full point cloud.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Decimation</span>"
+    ]
+  },
+  {
+    "objectID": "decimation.html#why-decimate-at-all",
+    "href": "decimation.html#why-decimate-at-all",
+    "title": "3  Data Decimation",
+    "section": "3.2 Why Decimate at All?",
+    "text": "3.2 Why Decimate at All?\nThree reasons drive aggressive decimation:\n\nComputability: reduce RAM consumption to avoid overflow.\nSpeed: keep runtimes in the range of minutes on a laptop.\nConsistency: most point cloud algorithms are sensitive to local density. Bringing every dataset to the same target density eliminates the need to re-tune parameters per dataset. Arbor is parameterless because every dataset is prepared in the same way, resulting in a roughly conform point spacing\n\nThe third point is often overlooked but is of major importance.\n\n3.2.1 More Points Is Not More Accuracy\nThis is counter-intuitive but important: more points does not means more accuracy but it’s definitely synonymous with runtime blow-up and crazy RAM consumption. The figure below shows trunk slices at various decimation levels: from 50% down to 1% of the original point cloud.\n\n\n\n10 cm slice at breast height, subsampled from 50% to 1% of the original point cloud.\n\n\nUsing RANSAC circle fitting, measured tree diameter remains stable from the full point cloud all the way down to 99% decimation. One percent of the points is still sufficient to measure a tree reliably.\n\n\n\n\n\nDBH measured as a function of decimation. The percentages correspond to the proportion of points remaining after subsampling.\n\n\n\n\nThis holds because MLS sensors cannot locate a target within better than 2 or 4 cm. Additional points carry no new information, only redundancy. Redundancy is expensive in storage and computation.\nThis confirms that we don’t need an indecent amount of points to process ground-based point clouds and make reliable measurements with proper methods. Even 1% of the points is sufficient to measure a tree! That said, we do not process just 1% of the data. Upper canopy points are far sparser than trunk points, so we typically retain 20–30% of the original cloud, around 25% for MLS and up to 50% for TLS, to preserve enough detail throughout the full vertical profile.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Decimation</span>"
+    ]
+  },
+  {
+    "objectID": "decimation.html#choosing-a-decimation-method",
+    "href": "decimation.html#choosing-a-decimation-method",
+    "title": "3  Data Decimation",
+    "section": "3.3 Choosing a Decimation Method",
+    "text": "3.3 Choosing a Decimation Method\nThree main options exist: random, voxel, and Poisson sampling.\n\n3.3.1 Random Sampling\nRandom sampling is non-spatial: it removes points uniformly at random, preserving the original density distribution, including its noise. Isolated noise points have the same chance of being discarded as any other point. The signal-to-noise ratio is therefore unchanged after random decimation. This is a desirable property.\nIts weakness: it cannot homogenize an unevenly sampled point cloud preserving the huge vertical variations.\n\n\n3.3.2 Spatial Sampling (Voxel and Poisson)\nSpatial sampling methods, on the other hand, homogenizes point spacing. Unlike random sampling an isolated noise point as 100% chance to be retained. If there is an isolated noise point somewhere, it will be retained by construction. Spatial methods are excellent at homogenizing the point cloud and preserving poorly sampled details, but they also amplify noise by design.\nThat last property is also their flaw: spatial sampling amplifies noise, which is exactly what we cannot afford.\n\n\n3.3.3 Spatial vs. Random\nIn Arbor, we are capable of segmenting very small branches and saplings lost in the noise that are geometrically undetectable (e.g., too small and too noisy to fit any cylinder). To do so, we track local high densities. In order to track local high density, we need to preserve these local density variations. However, a weakness of spatial sampling is that it can easily loose density variations.\n\n\n\nIn Arbor, we can perfectly segment some tiny saplings or small branch segments based on locally high-density tracking.\n\n\nTo compare we created a semi-realistic simulation of a tiny branch in a noisy foliage below. Visually in the raw point cloud, we are able to detect and track the branch based on local density variations. After random sampling (70% of points removed), the branch is still clearly present in the point cloud. After spatial sampling (only ~50% of points removed), the branch’s existence is far less obvious, and the data-to-noise ratio has increased significantly.\n\n\n\n\n\nFrom left to right: raw data, random sampling (removing 70%), voxel sampling (removing 50%), and Poisson sampling (removing 50%), demonstrating how spatial sampling can amplify noise.\n\n\n\n\nUltimately, it is very easy to completely lose a feature with spatial sampling, whereas it is essentially impossible with random sampling, because the noise ratio remains stable. The simulated figures below are close to what really happens within the foliage. Applying a spatial sampling retains all the noisy foliage points while loosing some details in branches (which are already not detailed at all).\n\n\n\n\n\nFrom left to right: raw data, random sampling, voxel sampling, and Poisson sampling, demonstrating how easily features can be lost through spatial sampling and noise amplification.\n\n\n\n\nThis is a serious problem of spatial sampling no matter which method is used (the worst being to retain the center of the voxel as a point). Arbor leverage local variations of density to track and disentangle branches that otherwise would not detectable with pure geometric analysis. We need to preserve density variation. Thus we need random sampling!\n\nBut spatial sampling also has advantages. We must weigh the pros and cons. The table below summarizes the trade-off:\n\n\n\n\n\n\n\n\nProblem\nRandom Sampling\nSpatial Sampling\n\n\n\n\nData reduction\n✅\n🔶 limited\n\n\nNoise\n🔶 neutral\n❌ amplifies noise\n\n\nHomogenization\n🔶 no effect\n✅\n\n\nSparse region preservation\n❌\n✅\n\n\n\n\nNo single method solves all problems. We need both.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Decimation</span>"
+    ]
+  },
+  {
+    "objectID": "decimation.html#our-hybrid-approach",
+    "href": "decimation.html#our-hybrid-approach",
+    "title": "3  Data Decimation",
+    "section": "3.4 Our Hybrid Approach",
+    "text": "3.4 Our Hybrid Approach\nWe developed a hybrid approach. We do not claim it is the best solution, but it offers a practical trade-off that:\n\nworks reasonably fast,\nprovides decent results at the end of the pipeline,\nand performs consistently across datasets.\n\nWe combine three steps:\n\n\n\n\n\n\n\nStep\nPurpose\n\n\n\n\nRandom sampling\nAggressive data reduction at read time\n\n\nBarycentric Voxel Decimation (BVD)\nHomogenization without amplifying noise\n\n\nRandom re-injection (~10%)\nRestore local density variations\n\n\n\nThe idea is to first apply a random decimation at read time such as 70% of the point are not even loaded in memory\nBVD differs from standard voxel decimation: instead of keeping a random point per voxel or worse, the voxel center, it retains the point closest to the barycenter of all points within the voxel i.e., the point located where local density is highest. This achieves homogenization while limiting the noise amplification that makes standard spatial sampling problematic. We call it density-preserving spatial sampling.\nThe final re-injection step brings back a small fraction of discarded points to recover density variation that BVD have smoothed away.\n\nThis pipeline is a practical compromise, not a perfect solution. It is fast enough to run on full MLS datasets, produces consistent results, and avoids the noise amplification that disqualifies pure spatial sampling.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Decimation</span>"
+    ]
+  },
+  {
+    "objectID": "decimation.html#data-loading",
+    "href": "decimation.html#data-loading",
+    "title": "3  Data Decimation",
+    "section": "3.5 Data Loading",
+    "text": "3.5 Data Loading\nThis brings us to the first line of code for loading the data:\nlas &lt;- readTLS(file, select = \"xyz\", filter= \"-keep_random_fraction 0.25\")\nlas &lt;- hybrid_homogeneization(las)\nUsing readTLS() is recommended. It sorts the point cloud so that points that are spatially close are also stored close together in memory. This significantly improves computation time by reducing L1 cache misses and pointer indirection (technical details appreciated by computer enthusiasts).\nThe fraction of points to retain depends on the original point cloud, but 25% is a good starting point. The function hybrid_homogeneization() then aims to homogenize the data as effectively as possible. When the forest is well sampled up to the canopy top, we can be more aggressive and discard more points. However, if the scene suffers from very low sampling near the apexes, it may be better to retain more points before applying spatial sampling. Remember, no solution is perfect, all are trade-offs.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Decimation</span>"
+    ]
+  },
+  {
+    "objectID": "decimation.html#our-recommendations",
+    "href": "decimation.html#our-recommendations",
+    "title": "3  Data Decimation",
+    "section": "3.6 Our Recommendations",
+    "text": "3.6 Our Recommendations\nLoading only 25% of a point cloud still means storing 75% of unnecessary data. It also requires reading and decompressing gigabytes of data for nothing, which is both time-consuming and cumbersome.\nWe recommend randomly decimating the original point cloud by 50% into a new file, then deleting the original file (since it will likely never be processable anyway) and working only with the pre-decimated file.\nBy subsequently reading only 40-50% of this pre-decimated file, you can significantly reduce storage requirements and processing time.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Decimation</span>"
+    ]
+  },
+  {
+    "objectID": "decimation.html#code",
+    "href": "decimation.html#code",
+    "title": "3  Data Decimation",
+    "section": "3.7 Code",
+    "text": "3.7 Code\n\n3.7.1 Function List\n\nreadTLS(): read LAS/LAZ file and perform on-the-fly random decimation without loading any useless point in memory\nhybrid_homogeneization(): performs a custom homogenization with re-injection of random points to preserve local variations of density\n\n\n\n3.7.2 Full Code\nlibrary(lidR)\nlibrary(arbor)\n\nparams &lt;- arbor_parameters_default\nfilter &lt;- \"-keep_random_fraction 0.25\"\n\nlas &lt;- readTLS(file, select = \"xyz\", filter = filter)\nlas &lt;- hybrid_homogeneization(las)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Decimation</span>"
+    ]
+  },
+  {
+    "objectID": "ground.html",
+    "href": "ground.html",
+    "title": "4  Ground Segmentation",
+    "section": "",
+    "text": "4.1 Ground and Height Above Ground\nAs with ALS data processing, the first step in MLS data processing is ground classification. This book will not cover ground classification in depth; readers can refer to the lidR book for a comprehensive explanation.\nUnlike ALS data processing, MLS/TLS datasets must NOT be normalized. Normalization distorts the geometry of the objects. While ALS processing relies on statistical approaches rather than geometry, MLS/TLS processing depends on computational geometry. Preserving the geometry is therefore critical!\nWith ground classification it becomes possible to compute the height above ground (hag) of each point and arbor relies heavily on hag in addition to the undistorded true z coordinates.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Ground Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "ground.html#ground-and-height-above-ground",
+    "href": "ground.html#ground-and-height-above-ground",
+    "title": "4  Ground Segmentation",
+    "section": "",
+    "text": "Caution\n\n\n\nAccurate ground point classification is critical, as all subsequent steps rely on the assumption that Height Above Ground values are reliable. In particular, users should pay close attention to low outlier points, which can significantly affect DTM quality.\n\n\n\n4.1.1 Using arbor\nArbor is providing a fast an memory optimized option that we are recommending to use. It classifies ground points and computes hag.\nlas &lt;- segment_ground(las)\ndtm &lt;- lidR::rasterize_terrain(las, 0.1, lidR::tin())\n\n\n4.1.2 Using lidR\nUser can use any method from the lidR package or from other third party software to classify ground points and compute the hag. The following code snippet uses a multi-pass pipepline based on the CSF + PTD algorithm with additional steps to classify outliers. This pipeline tends to be more robust to low outliers below the ground. We are using it for some datasets.\nground &lt;- lidR::decimate_points(las, lidR::lowest(0.05))\nground &lt;- lidR::classify_noise(ground, lidR::sor(10, 2))\nground &lt;- lidR::remove_noise(ground)\nalgo   &lt;- lidR::csf(rigidness = 1, class_threshold = 0.1, cloth_resolution = 0.1)\nground &lt;- lidR::classify_ground(ground, algo, last_returns = FALSE)\nground &lt;- lidR::filter_ground(ground)\nground &lt;- lidR::classify_noise(ground, lidR::ivf(0.5, 2))\nalgo   &lt;- lidR::ptd()\nground &lt;- lidR::classify_ground(ground, algo, last_returns = FALSE)\nground &lt;- lidR::filter_ground(ground)\n\ndtm    &lt;- lidR::rasterize_terrain(ground, 0.1, lidR::tin())\nlas    &lt;- lidR::height_above_ground(las, algorithm = dtm)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Ground Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "ground.html#low-point-removal",
+    "href": "ground.html#low-point-removal",
+    "title": "4  Ground Segmentation",
+    "section": "4.2 Low Point Removal",
+    "text": "4.2 Low Point Removal\nPerforming the segmentation on all the points can be risky. Typically the ground points (including low grass), constitute a continuity between the trees. This is not necessarily an issue but we recommend to do not work with point just above the ground.\nArbor does not perform any processing of the points a few centimeters above the ground. The pipeline is robust, and we typically remove 15 cm to 25 cm. In cases where the ground is very messy and dense, removing up to 50 cm may be sometime necessary.\nparams = arbor_parameters_default\nparams$global$cut_above_ground = 0.25\n\n\n\nRaw point cloud\n\n\n\n\n\nPoint cloud actually processed\n\n\nIn addition to removing points where segmentation is complex, this also eliminates a significant number of points that do not need to be processed, thereby speeding up computation time.\n\n\n\n\n\n\nTip\n\n\n\nLow points are not actually removed like in the previous image. All points are retained in the point cloud but those low points won’t be processed at all (saving time and memory) and will be assigned NA values in future steps.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Ground Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "ground.html#code",
+    "href": "ground.html#code",
+    "title": "4  Ground Segmentation",
+    "section": "4.3 Code",
+    "text": "4.3 Code\n\n4.3.1 Function List\n\nsegment_ground(): classifies ground points and computes height above ground\n\n\n\n4.3.2 Full Code\nlibrary(lidR)\nlibrary(arbor)\n\nparams &lt;- arbor_parameters_default\nparams$global$cut_above_ground = 0.25\nfilter &lt;- \"-keep_random_fraction 0.25\"\n\nlas &lt;- readTLS(file, select = \"xyz\", filter = filter)\n\nlas &lt;- hybrid_homogeneization(las)\nlas &lt;- segment_ground(las)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Ground Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "semantic.html",
+    "href": "semantic.html",
+    "title": "5  Semantic Segmentation",
+    "section": "",
+    "text": "5.1 Wood likelihood\nComputing the wood likelihood can be seen as a kind of pre-semantic segmentation. The core idea is simple: assign a decent probability to each point before to enter the actual segmentation function.\nIn arbor the wood likelihood is based on the computation of the local anisotropy. Foliage forms noisy clusters of points that are locally very isotropic, while wood structures, such as trunks and large branches, tend to be composed of harder, smoother surfaces that are locally planar and therefore more anisotropic.\nBranches, of course, are not planar, but they are elongated. This elongation also makes them strongly isotropic as well.\nAt first glance, segmenting wood from foliage might seem straightforward: foliage = isotropic, wood = anisotropic. End of the chapter, right?\nSadly, no! Not even close! This simple rule breaks down as soon as noise enters the picture. And there is a lot of noise. Mobile laser scanners are prolific noise producers, and forest environments, with their dense and uneven foliage, amplify that noise even further.\nAnyway, let’s compute wood likelihood based on local anisotropy:\nThis function inspects the k-nearest neighbors of each point and performs a Singular Value Decomposition (SVD) on each local neighborhood to estimate anisotropy.\nThe goal here isn’t perfection, it’s to get a result that looks good enough. Ideally, trunks and branches should appear in yellow-red hues, while foliage should appear in blue. This is still an early step in the pipeline, but a clear and consistent visual separation between wood and foliage at this stage will make the following stages far more robust.\nIn practice, the quality of this step depends heavily on the sensor’s accuracy. With a sensor accurate to around 2 cm, hard surfaces are well defined, producing excellent results, it’s easy to distinguish wood from foliage. As precision decreases, trunks and branches appear fluffier, and you’ll need larger neighborhoods to detect the local isotropy. At 4 cm, results remain quite acceptable; 6 cm can still work in simple conditions. Beyond that, it might be time to retire your device, at that level, you’re essentially trying to tell noise apart from more noise.\nLet’s take a look at some renderings: low anisotropy appears blue, high anisotropy appears red.\nThis result is acceptable. The sensor accuracy here is 4 cm. Small saplings often appear blue, whereas we would expect them to be red, but that’s acceptable for small trees, since we have other ways to distinguish wood from foliage.\nLarge trees generally appear yellow to red, which is good, even if we would prefer a stronger shift toward red. Medium-sized branches, however, often appear blue, and this remains the most frustrating issue. Small trunks and twigs can reasonably show low likelihood, but medium to large structures should clearly appear yellow to red. Overall, while not perfect, the result is decent and serves its purpose well.\nIn the following render, the output looks noticeably different. The sensor used is more precise, resulting in cleaner, more coherent wood structures that are less “fluffy”. The pre-segmentation is significantly improved, but such sensors are still quite expensive at the time of writing (end of 2025).",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Semantic Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "semantic.html#wood-likelihood",
+    "href": "semantic.html#wood-likelihood",
+    "title": "5  Semantic Segmentation",
+    "section": "",
+    "text": "las &lt;- wood_likelihood(las, params)\n\n\n\n\nplot_likelihood(las)\n\n\n\nWood likelihood plot for a 4 cm accuracy sensor. Blue-to-red gradient of anisotropy\n\n\n\n\n\n\n\n\nWood likelihood plot for a 2 cm accuracy sensor. Blue-to-red gradient of anisotropy\n\n\n\n\n\n\n\n\nTip\n\n\n\nThe interest of having an independent and standalone wood_likelihood() function is that it can easily be replaced in the processing pipeline by alternative user-defined methods.\nFor example, in a TLS dataset of cacao trees, we found that anisotropy-based likelihoods were weak because cacao trees leaves can be very large and appear isotropic in TLS data. In this case, we used an alternative method based on the reflectance recorded by the sensor hardware. We observed that wood points typically have reflectance values between −5 and −4.\nreflectance_wood_likelihood &lt;- function(las, refl_min = -5, refl_max = -4)\n{\n  pwood &lt;- (las$Reflectance - refl_min) / (refl_max - refl_min) # Linearly rescale reflectance to [0, 1]\n  pwood &lt;- pmin(pmax(pwood, 0), 1)  # Clamp to [0, 1]\n  pwood &lt;- pwood + runif(lidR::npoints(las), 0, 0.001) # Add small jitter to avoid identical values\n  las &lt;- lidR::add_lasattribute(las, pwood, \"pwood\", \"wood likelihood\")\n  return(las)\n}",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Semantic Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "semantic.html#semantic-segmentation",
+    "href": "semantic.html#semantic-segmentation",
+    "title": "5  Semantic Segmentation",
+    "section": "5.2 Semantic Segmentation",
+    "text": "5.2 Semantic Segmentation\nAt this stage, each point is assigned an probability value.\nThis value becomes a important input for the semantic segmentation function, which leverages it to separate wood from foliage. However, at the heart of the arbor pipeline lies one core concept: the pathfinder.\nlas &lt;- segment_semantic(las, params)\n\n5.2.1 Pathfinder\nIn practice, achieving a fully continuous segmentation of wood and foliage is extremely challenging. In most cases, and within reasonable computation time, the best we can hope for is a set of locally consistent patches regions that are mostly wood or mostly foliage. Branches may appear correctly segmented in some areas (true positives) but may be missed elsewhere (false negatives).\nHowever, a tree is a continuous biological structure, and our segmentation should reflect that continuity. This is precisely where pathfinders come to our rescue, they guarantee a continuous segmentation by enforcing structural coherence throughout the trees.\nTo put it simply, for every point in space, we compute the shortest path to the ground. When properly configured (and slightly “tricked”), these paths naturally follow the wood, tracing through branches that might not even be clearly detectable in the point cloud.\nWe won’t dive deeply into the pathfinder here, but three key principles are essential to remember:\n\nShortest path: For each point of the space, we search for the shortest path to reach the ground.\n\nCost function: The path cost is based on the cube of the distance between neighboring points, which favors traversal through dense areas and avoids low-density gaps.\n\nAngle penalty: The cost is penalized by the angle between points, encouraging vertical, downward paths.\n\nThese mechanisms ensure that the pathfinder primarily travels through wood. We then count, for each point, how many times it served as a passage point. The structure of the tree naturally emerges from these accumulated paths.\n\n\n\nAccumulation of passage counts for each point. Lower points appear red because many paths converge there, indicating frequent passage to the ground.\n\n\nAll points located within a 5 cm radius of these paths are classified as wood. This can produce some visually odd results, but it ensures a continuous segmentation, correctly identifying even faint or partially hidden branches.\n\n\n\nLower part. Points along the paths to the ground are classified as wood. Wood is continuous from bottom to top, with no isolated clusters.\n\n\n\n\n\nUpper part. Points along the paths include noisy branches hidden within foliage.\n\n\n\n\n5.2.2 High Probabilty Filtering\nNext, we classify as wood all major structures with high probability. Points showing strong likelihood are retained, resulting in a noisy but informative subset in which most points correspond to wood.\n\n\n\nHigh likelihood points only\n\n\nTo clean this subset, we compute connected components and keep only the largest, most coherent structures. Points belonging to these components are then classified as wood.\n\n\n\nHigh likelihood points only after cleaning\n\n\n\n\n5.2.3 Medium Likelihood Filtering\nThe medium likelihood range is more challenging: it contains both wood and foliage points in significant proportions. This is why accurate likelihood computation is so important, it makes this step easier and minimizes misclassification.\nWe start by extracting points with medium likelihood values and applying an aggressive noise filtering procedure to remove as much foliage as possible.\n\n\n\nMedium likelihood points only, classified as noise (yellow) and non-noise (gray)\n\n\nNext, we perform connected component analysis to retain only the largest, most coherent structures and remove small, isolated clusters. The remaining points are primarily wood, usually concentrated around major trunks.\nIn this specific case, most of the wood points are found within this likelihood range.\n\n\n\nMedium likelihood points only after cleaning\n\n\n\n\n\n\n\n\nNote\n\n\n\nWe can observe that the likelihood-based filter often isolates some disconnected sections of the trees, leading to a fragmented wood/foliage classification.\nThe pathfinder classification comes to the rescue, reconnecting these elements into a single, continuous wood–foliage segmentation.\n\n\n\n\n5.2.4 Cleaning and Enhancing\nThe final step consists of wood dilation, which fills small gaps and slightly expands wood regions.\nAfterward, clustering is applied to remove small, isolated wood clusters and reassign them to foliage for a cleaner, more coherent result.\nThe final segmentation is generally quite robust and visually convincing.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Semantic Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "semantic.html#parameters",
+    "href": "semantic.html#parameters",
+    "title": "5  Semantic Segmentation",
+    "section": "5.3 Parameters",
+    "text": "5.3 Parameters\nThere are numerous parameters controlling thresholds for low, medium, and high likelihoods, as well as those governing clustering, noise filtering, and pathfinder configuration.\nIf users had to adjust and understand all of them, the software would quickly become unusable. While every parameter can be configured, we deliberately avoid documenting them. This prevents endless tweaking. The pipeline MUST works reliably out of the box.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Semantic Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "semantic.html#point-wise-classification-accuracy",
+    "href": "semantic.html#point-wise-classification-accuracy",
+    "title": "5  Semantic Segmentation",
+    "section": "5.4 Point-wise Classification Accuracy",
+    "text": "5.4 Point-wise Classification Accuracy\nIs the wood/foliage semantic classification accurate? The answer might surprise you:\n\nWe don’t know! And we don’t mind!\n\nThis may sound bold, but it has a clear rationale.\n\n5.4.1 Point-wise classification is not the goal\nPoint-wise classification is not the goal; it’s just one step toward producing QSMs. The main objective is to build accurate QSMs to measure biomass, carbon stock, tree shape, volume, architecture, and other meaningful metrics.\nIf the QSMs show the correct number of trees, accurate positions, and accurate volumes, then the classification is doing its job.\nOur classification makes mistakes, but the pipeline is built to be robust. Instance segmentation is robust. QSM construction is robust. Each stage is designed to balance the strengths and weaknesses of the previous ones. Nothing is perfect, nor does it need to be. What matters is that the final outputs (DBH, height, volume) are correct, not that every intermediate label is flawless.\nOf course, better classification improves overall robustness, but measuring point-wise accuracy isn’t particularly helpful because:\n\n\n5.4.2 Point-wise classification is not meaningful\nBeyond not being the goal, point-wise validation gives very little insight into the quality of the results. For example:\n\nOne algorithm could have zero false positives but fail to capture branches, producing broken or incoherent wood segments. This would be dramatic for QSMs.\nAnother, with good F-score, might make critical mistakes that ruin QSM construction while a method with a lower F-score might yield better QSMs.\n\nYet another algorithm could have excellent point-wise accuracy but take hours to compute, making it impractical in real-world use.\n\nPoint-wise scores tell us almost nothing about the practical quality of the final output. What matters is whether the segmentation produces coherent instances and realistic QSMs, that’s the metric that truly counts.\nOur classification does not have the highest point-wise accuracy, but it:\n\nRuns on a laptop in a reasonable time (seconds to minutes)\n\nProduces continuous, coherent segments\n\nIs accurate enough to generate robust QSMs\nCan be installed easily on any computer\n\nIt has some known weaknesses by design (for example, it has a strong tendency to over-classify foliage at the ends of branches as wood). However, since we know and understand it we can manage these weaknesses, they are not a major issue. In fact we take advantage of this by design. Arbor is not composed of independent modules, each module is aware of the strengths and weaknesses of the others.\n\n\n\n\n\n\nTip\n\n\n\nAccurate wood–foliage segmentation may not be mandatory for QSMs, but for scientific studies focusing on foliage, such as estimating PAI or LAI, accurate semantic segmentation is essential. At this stage, our classification is not yet good enough for scientific use. However, in the following chapters, the reader will discover post-processing options.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Semantic Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "semantic.html#code",
+    "href": "semantic.html#code",
+    "title": "5  Semantic Segmentation",
+    "section": "5.5 Code",
+    "text": "5.5 Code\n\n5.5.1 Function List\n\nwood_likelihood()\nsegment_semantic()\nplot_likelihood()\nplot_semantic()\nplot_passage()\n\n\n\n5.5.2 Full Code\nlibrary(lidR)\nlibrary(arbor)\n\nparams &lt;- arbor_parameters_default\nparams$global$cut_above_ground = 0.25\nfilter &lt;- \"-keep_random_fraction 0.25\"\n\nlas &lt;- readTLS(file, select = \"xyz\", filter = filter)\n\nlas &lt;- hybrid_homogeneization(las)\nlas &lt;- segment_ground(las)\nlas &lt;- wood_likelihood(las, params)\nlas &lt;- segment_semantic(las, params)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Semantic Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html",
+    "href": "instance.html",
+    "title": "6  Instance Segmentation",
+    "section": "",
+    "text": "6.1 Seeds\nIn order to segment each tree individually, we first need to locate every tree. This step is the most critical, sensitive, and improvable stage of the entire pipeline. Detecting every tree, sapling, and bush accurately, without a single error, is highly challenging, especially in complex contexts, but it is essential for proper semantic segmentation.\nSegmenting individual bushes, for example, is necessary to isolate them and ensure they are not mistakenly assigned to a nearby tree.\nThe method relies on the pathfinder used in the semantic segmentation process described in the previous chapter. As we saw before, we were tracking passage points to reach the ground. The current pipeline uses these passage points along with the wood/foliage semantic segmentation to isolate each tree, sapling, or bush.\nIt is possible to have multiple passages for a given tree. The pathfinder cannot pass through the centerline of the trunk because there are no points there. Instead, it follows the shortest path, and depending on the starting points, multiple paths may be created. Typically, there are three or four hotspots per big tree and many more for massive tropical trees.\nThese passage points are connected and assigned an ID. However, since a tree can often have two or more passage paths, it may end up with multiple IDs.\nTo merge the different paths for each tree, we use the semantic segmentation. The paths are expected to be connected by wood, and since we have wood classification, we can extract wood points from the lower layers and apply a connected component analysis. This merges paths that are physically connected by wood.\nFinally, we keep only the passage points that are close to the ground to avoid complications in more complex forest contexts.\nWhile the previous sketches may make the process seem straightforward, in practice, passage points are often interleaved among branches. False positives and false negatives in wood points can occur. Real scenes are far more complex than these sketches, requiring careful analysis and additional constraints. Nevertheless, the sketches convey the main idea, despite the full algorithm being more intricate. An example of a real scene is shown in the next sections.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#seeds",
+    "href": "instance.html#seeds",
+    "title": "6  Instance Segmentation",
+    "section": "",
+    "text": "seeds = find_seeds(las, params)\n\n\n\n\n\n\nIn the previous stage of semantic segmentation we ended up with passage points after using a pathfinder\n\n\n\n\n\n\nSimple view of passage points\n\n\n\n\n\n\nAfter connecting the passage points we often have several IDs per tree\n\n\n\n\n\n\nSeveral paths per individual trees are connected by wood points\n\n\n\n\n\nIndividual paths are merged through wood points into coherent tree identification\n\n\n\n\n\n\n\nFinal seeds used to assign an ID to each tree",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#pathfinder",
+    "href": "instance.html#pathfinder",
+    "title": "6  Instance Segmentation",
+    "section": "6.2 Pathfinder",
+    "text": "6.2 Pathfinder\nlas &lt;- segment_instance(las, seeds, params)\nTo assign an ID to each tree, the pipeline uses a pathfinder to locate the closest seed. We won’t dive deeply into the pathfinder here, but four key principles are essential to remember:\n\nShortest path: For each point, we search for the shortest path to a seed and retain the tree ID of that seed.\n\nCost function: The path cost is based on the cube of the distance between neighboring points, which favors traversal through dense areas and avoids low-density gaps.\n\nAngle penalty: The cost is penalized based on the angle between points, encouraging vertical, downward paths.\n\nSemantic penalty: The cost is penalized according to the wood/foliage segmentation. Moving from wood to foliage is extremely expensive; moving from foliage to foliage incurs a significant extra cost. Moving from foliage to wood is favored, while moving from wood to wood has the regular cost.\n\nThese mechanisms ensure that the pathfinder primarily travels through wood and almost never moves from wood to foliage, protecting against incorrect tree ID assignments.\n\n\n\nFinal segmentation. Each point of the point cloud is assigned the ID of the closest seed using a pathfinder",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#real-rendering",
+    "href": "instance.html#real-rendering",
+    "title": "6  Instance Segmentation",
+    "section": "6.3 Real Rendering",
+    "text": "6.3 Real Rendering\nWhile sketches are useful for understanding and demonstrating the workflow, they do not capture the true complexity of real scenes. In particular, the workflow description presented so far is simplified. The following images show real data.\n\n\n\nPassage points in a real scene. We have a lot of passage points.\n\n\n\n\n\nPassage points close to the ground are the ones of interest. Green passage points are long paths from tall trees, while red passage points are short paths from bushes and low vegetation. Red circles are fitted on wood points (not described in previous sections) to make connected component merging more robust.\n\n\n\n\n\nPassage points that are connected through wood points are assigned the same IDs.\n\n\n\n\n\nRendering of the first 2 m of the scene with semantic classification and the retained seeds.\n\n\n\n\n\nFinal instance segmentation. Wide view.\n\n\n\n\n\nFinal instance segmentation. Close view.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#cleaning-understory",
+    "href": "instance.html#cleaning-understory",
+    "title": "6  Instance Segmentation",
+    "section": "6.4 Cleaning understory",
+    "text": "6.4 Cleaning understory\nAt this stage, the scene is largely segmented. If everything went well, every tree, sapling, and bush has been segmented and assigned an ID. However, in practice, it is unrealistic to expect every tiny feature, such as small bushes or saplings, to be perfectly segmented. These features are extremely complex, interleaved, and noisy.\nMoreover, they have virtually no significance in terms of carbon stock and are not harvested. Consequently, we suggest flagging all instances below a certain size threshold, typically 2 or 4 meters. The flagged trees won’t be processed in next steps.\nCleaning the understory is optional. You may keep all vegetation if desired.\nlas &lt;- flag_small_trees(las, max_height = 2)\n\n\n\n\n\n\nNote\n\n\n\nBe careful, flag_small_trees() does not removes points. It assigns all small instances a UserData attribute value equal to the constant ARBORUNDERSTORY value. This saves memory and allows to easily revert the operation by calling again flag_small_trees() with another max_height parameter. To actually remove those points users can use las &lt;- lidR::filter_poi(las, UserData != ARBORUNDERSTORY) but this is not necessary in Arbor.\n\n\n\n\n\nCleaned scene after removing small-size instances",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#buffer-clipping-and-edge-artifacts",
+    "href": "instance.html#buffer-clipping-and-edge-artifacts",
+    "title": "6  Instance Segmentation",
+    "section": "6.5 Buffer Clipping and Edge Artifacts",
+    "text": "6.5 Buffer Clipping and Edge Artifacts\n\n\n\n\n\n\nImportant\n\n\n\nThis section is of major importance. Please read it carefully.\n\n\nA common issue with pathfinding is that we need to find a path to the ground. This becomes problematic at the edges of a dataset when the dataset has been clipped. At the edges, we alway have floating branches and trunks that are not connected to the ground. Consequently, the only path to reach the ground or a seed may be through a nearby tree.\n\n\n\nThe pathfinder can only reach the seeds of the nearby tree since the branches are not connected to the ground by another path.\n\n\nThis produces invalid results, especially with large trees. Sometimes, for tilted trees, we may even see half of a trunk floating.\n\nTo avoid these issues, it is important to work with a scene larger than the area of interest, so that boundary trees can be removed (see also Section 2.1). In the images above, the green tree on the left and the reddish tree on the right should be removed. While the reddish tree may appear fine, this is merely coincidental: the scene happened to be cut just between two trees.\nThis can be achieved by flagging a buffer around the point cloud. The buffer size should correspond to the extent of the largest possible tree. Typically, we recommend a buffer of at least 10 meters, although this may vary depending on forest type and tree sizes. The flagged trees won’t be processed in next steps.\nlas &lt;- flag_buffer(las, seeds, -10)\n\n\n\nEdge trees were removed\n\n\n\n\n\n\n\n\nNote\n\n\n\nBe careful, flag_buffer() does not actually remove points. It assigns all instances in the buffer an attribute UserData with a constant equal to ARBORBUFFER. This saves memory and allows users to easily revert the operation by calling flag_buffer() a second time with another buffer value. To actually remove those points users can use las &lt;- lidR::filter_poi(las, UserData != ARBORBUFFER) but this is not necessary in Arbor.\n\n\nVisualization on real data:",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#rendering-filtering",
+    "href": "instance.html#rendering-filtering",
+    "title": "6  Instance Segmentation",
+    "section": "6.6 Rendering & Filtering",
+    "text": "6.6 Rendering & Filtering\nThe function plot_instance() renders the instance segmentation. All points have an attribute treeID. A treeID = 0 is equivalent to NA. Valid instances are guaranteed to not have a treeID equal to 0. Only strictly positive ID are valid.\nUsers can filter out valid tree with las &lt;- lidR::filter_poi(las, UserData == ARBORTREE).\nThe function colorize_tree() adds RGB colors to the point cloud for rendering in external softwares.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#parameters",
+    "href": "instance.html#parameters",
+    "title": "6  Instance Segmentation",
+    "section": "6.7 Parameters",
+    "text": "6.7 Parameters\nArbor is designed to be parameter-free. Most internal parameters are intentionally undocumented, as they require a deep understanding of the internal pathfinder and are not meant for routine tuning.\nTwo parameters, however, can be safely adjusted to improve connectivity in sparse point clouds:\nparams$path_finder$k_neighborhood_connectivity\nparams$path_finder$max_gap\n\nk_neighborhood_connectivity defines the number of neighbors used to build the graph (default: 10).\nmax_gap defines the maximum allowed distance between connected points (default: 1 m).\n\nIn sparse canopies, especially near tree tops, default values may fail to connect upper part or apexes to lower sections. Increasing these values can improve graph connectivity. However, this is rarely necessary, as internal safeguard routines are already implemented to maintain good connectivity in sparse regions.\n\n\n\nMultilayered plot with extremely sparse sampling in upper canopy layers without the automatic connectivity fix (left) and with the automatic connectivity fix enabled (right).\n\n\n\n\n\n\n\n\nImportant\n\n\n\nChanging these parameters also requires recomputing semantic segmentation, since it relies on the same pathfinder.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#point-wise-classification-accuracy",
+    "href": "instance.html#point-wise-classification-accuracy",
+    "title": "6  Instance Segmentation",
+    "section": "6.8 Point-wise Classification Accuracy",
+    "text": "6.8 Point-wise Classification Accuracy\nIs the instance semantic classification accurate? In practice, the answer here mirrors the case of semantic segmentation, and for the same reasons.\nPoint-wise classification accuracy is not a meaningful indicator of overall system performance. Even if our algorithm achieves 95–99% accuracy at the point level, this tells us very little about the practical quality of the final output. The remaining 1% of points, especially if they occur on tree boundaries or in areas critical for mensuration, can significantly distort measurements. Even a model that is 99.9% accurate could still produce unacceptable results if the remaining 0.1% introduces systematic or structurally important errors.\nWhat truly matters is not how many points are classified correctly, but whether the segmentation produces coherent, reliable instances. For our application, this means accurately identifying individual trees and correctly estimating their position, DBH, height, and volume. These are the metrics that matter, and these are the ones we validate and discuss later.\nFor this reason, point-wise classification accuracy provides almost no practical insight.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "instance.html#code",
+    "href": "instance.html#code",
+    "title": "6  Instance Segmentation",
+    "section": "6.9 Code",
+    "text": "6.9 Code\n\n6.9.1 Function List\n\nfind_seeds()\nsegment_instance()\nplot_instance() : render the instance segmentation\nflag_small_trees()\nflag_buffer()\nplot_semantic_instance() : render the instance + semantic segmentation\ncolorize_tree(): adds RGB colors to the point cloud for rendering in external softwares\n\n\n\n6.9.2 Full Code\nlibrary(lidR)\nlibrary(arbor)\n\nparams &lt;- arbor_parameters_default\nparams$global$cut_above_ground = 0.25\nfilter &lt;- \"-keep_random_fraction 0.25\"\n\nlas &lt;- readTLS(file, select = \"xyz\", filter = filter)\n\nlas &lt;- hybrid_homogeneization(las)\nlas &lt;- segment_ground(las)\nlas &lt;- wood_likelihood(las, params)\nlas &lt;- segment_semantic(las, params)\nsee &lt;- find_seeds(las, params)\nlas &lt;- segment_instance(las, see, params)\nlas &lt;- flag_small_trees(las, max_height = 2)\nlas &lt;- flag_buffer(las, see, -10)",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Instance Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html",
+    "href": "qsm.html",
+    "title": "7  Quantitative Structure Model",
+    "section": "",
+    "text": "7.1 RANSAC Orbicular Fitting\nTrees do not have the decency to be perfectly circular, that would be too simple. Circle fitting can underperform because trees deviate from perfect shapes. To better measure tree sizes, we designed an Orbicular Fitting (OF) method. The word orbicular refers to biological shapes that are circular-ish, which is precisely the shape of trunks and branches.\nFor a given cross section of a trunk or branch, we attempt at least three fitting methods and retain the best result:\nUltimately, our QSMs are cylinder-based, so all fitted shapes are converted into area-equivalent circles. This is demonstrated in the figure below, where OF is applied to various shapes and identifies the best fit. The fitted shape is shown in red; the area-equivalent circle used to build the QSM is shown in purple. Using area-equivalent circles ensures that volumes are preserved while simplifying the shapes.\nVarious cross sections. The fitted shape is shown in red; the area-equivalent circle used to build the QSM is shown in purple.\nThe reader may wonder: if any shape can be fitted with FHD, then circles and ellipses are merely special cases of FHD and therefore redundant.\nThis is technically true, and some studies have relied exclusively on FHD. However, Arbor is a production tool that must be robust to real-world data, not just benchmark data. FHD is really weak when data is incomplete (trees not fully sampled, classification errors). It is also sensitive to noise, and underperforms in general unless the input data is really clean. RANSAC circle fitting, on the other hand, is extraordinarily robust when well-designed, though less accurate when shapes deviate significantly from circular.\nOF finds the most robust fit available. When a clean, arbitrary shape can be reliably fitted, OF retains it, but it falls back to a more robust alternative when necessary, as illustrated below where an ellipse was selected as the best fit.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#treeqsm-and-adtree",
+    "href": "qsm.html#treeqsm-and-adtree",
+    "title": "7  Quantitative Structure Model",
+    "section": "",
+    "text": "7.1.1 TreeQSM\nTreeQSM remains the most accurate and reliable QSM tools available praised by the community. It works particularly well because TreeQSM was designed for (1) point clouds acquired with Terrestrial Laser Scanners (TLS), which are much more accurate than Mobile Laser Scanners (MLS) and (2) it was designed to work on individual trees that were segmented manually, and therefore are assumed to be perfectly segmented, either leaf-off or with manually performed wood/foliage segmentation.\nHowever, these 2 points do not scale in production. In a production-ready context, we work with MLS and automatic segmentation, which may contain segmentation errors and more noise and more residual foliage and more issue overall. We need tools that are more robust.\n\nMoreover, TreeQSM is extremely slow. Processing a single tree can easily take over five minutes. This does not scale: five minutes per tree times 20,000 trees equals roughly a solid month of computation. Processing 20,000 trees is not uncommon in production and we did it in some projects.\nSo, while TreeQSM was a game-changer when released in 2015 and is still top most accurate tool:\n\nIt is very slow\nIt is not designed to handle high levels of noise\nIt is not designed to handle misclassifications and incorrect segmentations\n\nIt does not scale to production environments.\n\n\n7.1.2 AdTree\nThe advantage of AdTree lies in its ability to compute visually convincing QSMs in less than five seconds, an impressive speed that makes it highly scalable in production.\nHowever, literature has repeatedly shown that AdTree is not accurate. Studying the source code of AdTree helps us understand its strengths and weaknesses.\nThe strategy of AdTree is to NOT measure the tree. This may sound bold, but it is essentially what AdTree does if you read the source code.\n\nAdTree builds a skeleton of the tree and measures only the root diameter. It then reconstructs the tree using simple rules: the end of a branch always has a 0 cm diameter and the stem taper is linear.\nIt starts with the main axis, measuring its root diameter:\n\nThe tree is essentially a cone that starts with the measured root diameter and tapers to 0 at the tip. In this book we call it conic allometric model.\n\nStem taper specialists may disagree, but as a first approximation, this makes sense. The same rule is applied to each branch based on its length. For example, a branch that is half the length of the main trunk inherit the trunk diameter at half its length.\n\nThis is applied globally to reconstruct the full tree:\n \nThis approach is clever: it produces very realistic trees with a single measurement (plus skeleton computation). Using more realistic tree proportions, the method generates plausible trees very quickly. Below using a real skeleton:\n\nThe idea is sound, but the implementation is highly sensitive to minor variability near the root. Trees that are not perfectly straight, noise, minor misclassifications, or non-circular trunks, all can very easily lead to incorrect measurements. AdTree can very easily get its unique measurement wrong! And when we have a single measurement to build an entire tree we can’t afford an error.\nA second and third sources of inaccuracy come from its simple reconstruction rules (conic allometric model). While it generally produce realistic trees, it overestimates branch diameters if branches deviate from the all-equal branch assumption which is actually often the case in real trees. In fact conic allometric model does not correspond to realistic assumption in grown trees.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#arbor-qsm",
+    "href": "qsm.html#arbor-qsm",
+    "title": "7  Quantitative Structure Model",
+    "section": "",
+    "text": "7.1.1 RANSAC Orbicular Fitting\nTrees do not have the decency to be perfectly circular, that would be too simple. Circle fitting can under-performs because trees deviate from perfect shapes. To better measure tree size, we designed an Orbicular Fitting (OF) method. The word orbicular refers to biological shapes that are circular-ish, which is precisely the shape of trunks and branches.\nFor a given section of a trunk or branch, we attempt at least three fitting methods and retain the best result:\n\nRANSAC circle fitting. Circle fitting MUST be RANSAC-based. Least-squares fitting is unreliable under noisy conditions.\nRANSAC ellipse fitting. Ellipse fitting MUST also be RANSAC-based.\nComplex closed polygon fitting based on Fourier decomposition.\n\nUltimately, our QSMs are cylinder-based, so all fitted shapes are converted into area-equivalent circles. This is demonstrated in the figure below, where OF is applied to various shapes and identifies the best fit. The fitted shape is shown in red; the area-equivalent circle used to build the QSM is shown in purple. Using area-equivalent circles ensures that volumes are preserved while simplifying the shapes.\n\n\n\n\n\n\n\n\n\nThe reader may wonder: if any shape can be fitted with Fourier decomposition (FD), then circles and ellipses are merely special cases of FD and therefore redundant.\nThis is technically true, and some studies have relied exclusively on FD. However, Arbor is a production tool that must be robust to real-world data, not just benchmark data. FD is weak when data is incomplete (trees not fully sampled, classification errors). It is also sensitive to noise, and underperforms in general unless the input data is really clean. RANSAC circle fitting, on the other hand, is extraordinarily robust when well-designed, though less accurate when shapes deviate significantly from circular.\nOF finds the most robust fit available. When a clean, arbitrary shape can be reliably fitted, OF retains it, but it falls back to a more robust alternative when necessary, as illustrated below where an ellipse was selected as the best fit.\n\n\n\n\n\n\n\n\n\n\n\n7.1.2 Skeleton\nFor the skeleton reconstruction, Arbor draws inspiration from the aRchi R package (Martin-Ducup et al., 2020). We reimplemented the core idea in C++ for scalability and introduced several improvements to enhance branch-tracking capabilities.\nLike aRchi, the point cloud is first clustered into layers. Unlike aRchi, which uses horizontal layers, we instead create layers based on the distance to the ground measured along the shortest path to the ground. Compared with horizontal layering, this approach naturally aligns with branch orientation, significantly improving the second processing step.\nAs in the original aRchi method, each layer is then analyzed and subdivided into clusters using dbscan.\n\n\n\nPoint cloud colorized by (a) solid brown (b) distance to the root, illustrating the shortest-path metric used for layering; (c) initial clustering into layers based on distance to the root; and (d) final clustering obtained by subdividing each layer into individual disconnected clusters.\n\n\nFor each cluster, the centroid is estimated using either Orbicular Fitting or the barycenter, depending on whether a reliable Orbicular Fitting solution can be obtained. This yields all the nodes of the QSM skeleton.\n\n\n\nCluster centroids reconstructed from layered point-cloud segments. Centroids are estimated using Orbicular Fitting whenever possible and fall back to the barycenter when fitting is unreliable.\n\n\nFinally, nodes are connected using a greedy chain-growing strategy, which is the original aRchi connection method and is arguably more robust than classical state-of-the-art graph-based approaches such as MST or PST, often found in the literature. This is not to say that MST or PST are poor methods; rather, globally optimal solutions do not scale robustly to real data because they are highly sensitive to gaps and other imperfections commonly found in point clouds. In contrast, the aRchi method is a locally optimal solution that reconstructs trees based on growth logic, making it inherently more suitable for tree structures. We did not modify the method itself; we simply reimplemented it efficiently.\n\n\n\nReconstructed tree skeleton colored by branch order. The topology is obtained by greedily connecting cluster centroids according to the original aRchi growth-based strategy.\n\n\n\n\n\n\n\n\nNote\n\n\n\nInterestingly, wood-versus-foliage segmentation was performed using a pathfinder, seed detection was carried out by reusing the same paths, instance segmentation was also performed using a pathfinder, and finally QSMs are built with a pathfinder. All we need is pathfinders.\n\n\n\n\n7.1.3 Preshot QSM\nThe QSM algorithm first computes a preshot QSM. This preshot QSM is generated virtually instantaneously without taking any measurements. Using the height of the tree, the routine estimates a plausible DBH from allometric relationships and a conical allometric model (?sec-adtree).\nThe goal of the preshot QSM is not to be accurate. Virtually any reasonable allometric relationship between height and DBH could work. The objective is simply to obtain a plausible tree model without performing any expensive computations. By default, Arbor uses the equation from Griese N. et al. (2025) to estimate DBH from tree height. For the example shown below, this relationship substantially underestimates the true size of the tree.\n\n\n\nRelationship between DBH and tree height from Griese et al. (2025). Blue annotations highlight our example tree used in this book\n\n\nHowever, this is not an issue. The preshot QSM is used only as a computational optimization tool. Despite being volumetrically inaccurate, it contains valuable information that can dramatically reduce processing time.\nAmong other things, it provides an estimate of the large proportion of cylinders that are too small to be measured reliably. There is no need to spend computational resources attempting to measure structures that are, in practice, below the detection threshold. In this example, the preshot QSM predicts that 26,000 out of 29,000 cylinders (90%) are likely smaller than 2 cm in diameter. As a result, approximately 90% of the measurement effort can be avoided. Even if the allometric prediction is inaccurate and the actual cross-sections are somewhat larger, the impact on the optimization strategy remains negligible.\nThe preshot QSM also indicates whether complex buttress detection should be activated, or whether computation time can be saved—and the risk of false positives reduced—by restricting Orbicular Fitting to simpler geometric shapes.\n\n\n\nExample of a highly inaccurate preshot QSM. Although volumetrically incorrect, it provides valuable prior information used to prune unnecessary computations and guide subsequent fitting strategies.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nWe are aware that many readers may be reluctant to use allometry, especially curves that may not fit their country or specific local context. It is true that generic equations are representative of local conditions.\nFor this reason, we want to emphasize once again that this is only a preliminary QSM, which is not used in the computation of the final QSM. It is only used as a computational trick to optimize processing.\n\n\n\n\n7.1.4 Diameters\nUsing the Orbicular Fitting approach and the skeleton’s cylinder orientations, we measure diameters wherever possible. Cylinders with poor fitting, insufficient points, or diameters too small to measure reliably are skipped or discarded. In the example used in this book, 285 valid measurements (v0.14.0) were retained along the main axis and major branches. Other measurements were considered too weak to be retained.\n\n\n\nThe algorithm measured 285 cylinders where robust measurements are possible. Other cylinders are left unknown due to weak RANSAC fitting or unmeasurable allometric predictions. The total measured volume is 3.55 m³.\n\n\nThe gaps are then interpolated. These interpolated gaps provide highly reliable estimates.\n\n\n\nGaps are filled by interpolating between the valid measurements. The total volume at this stage is 3.82 m³.\n\n\nBranches that cannot be measured are reconstructed hierarchically using a pipe model. This ensures that unmeasurable sections, which would are entirely speculative, are grounded in biological theory. While there is much to be said about pipe models and their biological validity, in practice, the pipe model helps to reconstruct a small fractions of the tree in a highly realistic way.\nThis approach avoids attempting to measure what cannot be reliably captured, thereby saving time and increasing robustness by eliminating erroneous data points. The reconstructed sections rely on multiple reliable anchor measurements, making the entire process both robust and accurate.\n\n\n\nFinal QSM: 4.91 m³\n\n\n\n\n\n\nEdges (%)\nVolume (m³) (%)\nCumulative (m²) (%)\n\n\n\n\nMeasured\n257 (0.8%)\n3.55 (72%)\n3.55 (72%)\n\n\nInterpolated\n102 (0.3%)\n0.25 (6%)\n3.82 (78%)\n\n\nPipe Model\n28,661 (98%)\n1.09 (22%)\n4.91 (100%)\n\n\n\n\n\n7.1.5 Extension to the Ground\nThe QSM initially misses 15 to 50 cm because the point cloud was cut above the ground during data preparation (Chapter 2). Arbor uses the recorded Height Above Ground (HAG) from the point cloud and the skeleton orientation to extend the QSM realistically to the ground, even for bent or non-straight trees.\n\n\n7.1.6 Non-measurable Trees\nArbor segments and builds QSMs for saplings and small trees whose sizes fall below the measurable limits of point clouds. Typically, a 4 m tree is expected to have a diameter of approximately 3 cm. It may be slightly smaller or slightly larger, but in all cases, accurate measurement with MLS is physically infeasible. Worse, it is dangerous.\nWith thousands of tiny, highly intricate saplings covered in foliage, attempting manual measurements would inevitably lead to false measurements and poor 3D reconstructions in many cases.\n\n\n\n\n\n\nNote\n\n\n\nIn this sense, Arbor differs from other QSM software such as AdTree, TreeQSM or Computree. Other software expects a single input tree that has already been verified by the user as a valid and well-segmented tree. They produce few errors because users do not feed them 3 m saplings. Arbor, on the other hand, batch-processes entire forests and is automatically fed with all saplings, segmentation errors, and noise, at a pace of 10 QSMs per second for thousands of QSMs, with no guarantee that the input is perfectly segmented. Arbor must therefore remain robust in all cases.\n\n\nIn such cases, we rely on allometry. By default, Arbor uses the equation from Griese N. et al. (2025) to estimate DBH from tree height. If the predicted DBH falls below a given threshold, the standard QSM algorithm is not applied. Instead, a conic allometric model based on the predicted DBH is used.\nThe default threshold is 6 cm, which ensures that saplings and other non-measurable trees are modeled realistically. Forcing a direct measurement would lead to significantly worse results. Although the relationship between height and diameter is species- and biome-specific, inter-species variation within this size range is assumed to be limited.\n\n\n\nImage from Griese N. et al. 2025 with annotations for the book. Scatter plot showing the relationship between DBH and tree height. Red points indicate rejected segments outside the defined 2σ interval of the fitted sigmoidal model (orange line). Blue annotations were added to highlight the range of trees not actually measured by Arbor.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThe allometry is NOT used to build standard QSMs. It is used only to discriminate between trees that can be measured and those that cannot, in order to build a plausible 3D model in these specific cases. The accuracy of the allometric model is therefore not critical. Trees that are measurable will still be reconstructed properly even with an inadequate allometric model. Purely allometric QSMs are flagged and generate a warning so users can easily identify them.\n\n\nIn some very specific cases, however, this approach reaches its limits. For example, we modeled a cacao plantation in Cameroon where trees are heavily managed and differ substantially from the Griese et al. model. Typically, a 5 m tree may have a diameter of 12 cm, whereas the Griese et al. model predicts approximately 4.5 cm, an underestimation by a factor of about 2.5. As a consequence, most trees are incorrectly flagged as non-measurable and are therefore not reconstructed using the standard QSM pipeline.\nIn such cases, parameter tuning becomes mandatory. Users can select an alternative allometric model, lower the minimum detectable DBH or scale one existing model. For the cacao plantation we scaled Griese’s model by a factor of 2.5. Again, the accuracy of the model is not critical. We simply scaled the Griese et al. model to ensure that measurable trees are no longer excluded.\nparams$qsm$allometry_name = \"Griese2025\"\nparams$qsm$allometry_scale = 2.5\nparams$qsm$min_measurable_dbh = 0.04\n\navailable_allometries()\n\n\n7.1.7 Broken Trees\nBroken trees do not follow the typical rules. They are often small in height but can still have a large diameter, and they do not terminate with a near-zero radius. Under the previous rules (Section 7.1.6), a broken tree may be classified as small in height, leading to a predicted DBH below the measurement threshold. As a result, the tree is not measured, conic allometry is applied, and the tree is consequently severely under-sized.\nIn practice, the internal routine includes safeguards. Without going into implementation details, the general idea is to detect enough valid and sufficiently large measurements to bypass the regular algorithm and instead use an alternative approach that is less sensitive to missing tips.\n\n\n\n\n\n\nCaution\n\n\n\nBroken tree detection is experimental because of the lack of a large dataset of broken trees for validation. It can be disabled with params$qsm$broken_detection_enabled = FALSE.\n\n\n\n\n\nA broken tree and its QSM\n\n\n\n\n\n7.1.8 Fitting Quality Assessment\nThe QSM records a quality attribute (accessible via qsm$quality) that indicates the quality of radius fitting. The codes are defined as follows. The associated colors are arbitrary and correspond only to the figure below; the default color scheme may change in future versions.\n\n0 – Unknown: Undefined state. This is a bug, it should never occur.\n1 – Prolongation: (blue) The segment belongs to the prolongation region (see Section 7.1.5). No points are available in this region, therefore no measurements can be performed.\n2 – Reconstruction: (green) No measurements are available. Radii are reconstructed purely from architectural assumptions based on conic allometry. Equivalent to poor quality.\n3 – Polynomial Fitting: (yellow) No direct measurements are available, but polynomial fitting provides plausible radius estimates. Equivalent to medium quality.\n4 – Good Orbicular Fitting: (orange) A valid measurement is available, but it does not meet the criteria for top-quality fitting. This typically occurs when either full 360° coverage is missing or the inlier-to-outlier ratio is insufficient. Equivalent to good quality.\n5 – Excellent Orbicular Fitting: (red) Full high-quality orbicular fitting. Few outliers. Equivalent to excellent quality.\n\nplot(qsm, color = \"quality\")\n\n\n\nRadius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement.\n\n\n\n\n7.1.9 Message\nIn version 0.10.0, qsm() can throw four warnings:\n\nFor non-measurable trees because they are too small and therefore not reliably measurable (Section 7.1.6).\nFor insufficient measurements. When fewer than five robust diameters have been fitted, it is unrealistic to expect the tree to be accurately measured. Polynomial fitting will likely diverge, so we fall back to a conic allometric model (bever actually observed case).\nFor measured root diameters more than 3 times greater than the expected DBH based on allometry. We are so far from expectation that a manual check may be required.\nFor broken tree detection.\n\nIt is possible to retrieve the warning emitted by a QSM with qsm_message(). This section written in June 2026 may become out of sync when the reader is reading these pages but qsm_message() will remain a valid command.\n\n\n7.1.10 Other Details\nWe have not gone into depth about how the architecture is recomputed, how the quality of the RANSAC Orbicular Fitting is assessed, how errors near the base of the tree are handled for robustness, or how unnecessary computations are skipped. Throughout this book, many such details are intentionally omitted. Otherwise, the book would be endless, and the effort required to explain and illustrate every single step would be colossal. Our goal here is to present the overarching concepts to provide a clear overall understanding.\nOne interesting feature is the ability to handle problematic situations at the base of trees. Semantic segmentation is not perfect, and even when it is perfect, the forest does not have the courtesy to conform to our reconstruction rules. In the example below, a tree has fallen between a forked tree. The wood classification is correct, the irregular structure at the bottom is indeed wood, and it is technically connected to the tree of interest. From a segmentation standpoint, this is valid. However, such a structure would break the QSM reconstruction.\nAs shown in the image, our QSMs remain robust in these situations and are extended to the ground without following the fallen trunk.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#final-note",
+    "href": "qsm.html#final-note",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.12 Final Note",
+    "text": "7.12 Final Note\nArbor’s QSMs are designed to be fast and robust. We are no longer dealing with single trees manually extracted and carefully inspected before generating one QSM at a time. Instead, Arbor is built to process tens of thousands of QSMs automatically, in contexts where semantic and instance segmentation are imperfect, and where 90% of instances may be leaf-on, non-measurable saplings.\nTo achieve this, Arbor’s QSM module is intentionally strict and highly conservative in what it considers a valid measurement. As a rule of thumb, if a tree is only partially sampled and Arbor fits a valid circle to a half cross-section, the measurement may still be rejected, even if the fit itself is correct (RANSAC is highly robust). For this reason, trees should be sampled over 360 degrees.\nPartially scanned trees, such as those commonly obtained from TLS data, may be technically measurable, but Arbor will generally fail to measure them reliably. A warning should be issued when Arbor detects poor overall measurement quality.\nAs stated in previous chapters: production-grade software requires production-grade data.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#code",
+    "href": "qsm.html#code",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.13 Code",
+    "text": "7.13 Code\n\n7.13.1 Minimal snippet\nIf readers have followed the book so far, they should now have a variable las in which every tree has been segmented, each with its own unique ID. The following code sample selects a random tree, computes its QSM, and plots the result. Loop over all trees is done via the qsf() function (Chapter 8).\n# Sample a random tree\nid   &lt;- sample(unique(las$treeID), 1)\ntree &lt;- lidR::filter_poi(trees, treeID == id)\n\nqsm  &lt;- qsm(tree)\nx &lt;- plot_semantic(tree)\nplot_qsm(qsm, add = x)\n\n\n\n\n\n\nTip\n\n\n\nA qsm object is simply a data.frame with an additional class to enable convenient printing and plotting methods. Use as.data.frame(qsm) to manipulate a QSM as a data.frame.\n\n\n\n\n7.13.2 Function list\n\nqsm() to build a QSM\nqsm_dbh(), qsm_volume() to extract DBH and Volume\nqsm_stats() to extract various useful informations from the QSM.\nqsm_write() for saving the QSM in .qsm, .obj, .ply, stl, .csv for analyzing or for rendering in 3D software. We recommend .qsm for storing and .obj for rendering in third-party 3D software.\nqsm_read() to read .qsm or .csv.\nqsm_message() for logs.\nqsm_merchandable(), qsm_stem() (see Chapter 9)\nplot_qsm() or plot() for 3D rendering\n\n\n\n7.13.3 Full Code\nlibrary(lidR)\nlibrary(arbor)\n\nparams &lt;- arbor_parameters_default\nparams$global$cut_above_ground = 0.25\nfilter &lt;- \"-keep_random_fraction 0.25\"\n\nlas &lt;- readTLS(file, select = \"xyz\", filter = filter)\n\nlas &lt;- hybrid_homogeneization(las)\nlas &lt;- segment_ground(las)\nlas &lt;- wood_likelihood(las, params)\nlas &lt;- segment_semantic(las, params)\nsee &lt;- find_seeds(las, params)\nlas &lt;- segment_instance(las, see, params)\nlas &lt;- flag_small_trees(las, max_height = 2)\nlas &lt;- flag_buffer(las, see, -buffer)\n\n# Sample a random tree\nid   &lt;- sample(unique(las$treeID), 1)\ntree &lt;- lidR::filter_poi(las, treeID == id)\n\nqsm  &lt;- qsm(tree, params)\nx &lt;- plot_semantic(tree)\nplot_qsm(qsm, add = x)",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsf.html",
+    "href": "qsf.html",
+    "title": "8  Quantitative Structure Forest",
+    "section": "",
+    "text": "8.1 Building a QSF\nBuilding a QSF is relatively straightforward. Users could simply loop over all trees and compute a QSM for each one. Arbor includes a function, qsf(), that performs this task in parallel and in an optimized manner.\nAs described in previous chapters, the variable las contains the segmented scene.\nThe qsf function is blazingly fast and can produce up to 100 QSMs in 1 minute!\nqsf() does not throw any warnings because, on a typical 1/4-hectare plot with 400 saplings and 200 young trees, this would generate at least 600 warnings. This is unmanageable. Indeed, qsm() warns about non-measurable young trees. Instead, all QSMs record a message. Users can call qsf_log() to obtain a summary of troubleshooting.\nBe careful: by default, qsf() produces a QSM for every instance taller than 2 m. This can create a large number of QSMs with negligible volume, which is not always desirable. The function provides a parameter to control this threshold e.g. qsf(las, min_height = 4).",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Quantitative Structure Forest</span>"
+    ]
+  },
+  {
+    "objectID": "qsf.html#building-a-qsf",
+    "href": "qsf.html#building-a-qsf",
+    "title": "8  Quantitative Structure Forest",
+    "section": "",
+    "text": "qsf = qsf(las)\n\n\n\n\n\n\n\nTip\n\n\n\nA qsf object is simply a list with an additional class to enable convenient printing and plotting methods. Thus, qsf[[1]] contains a qsm object.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Quantitative Structure Forest</span>"
+    ]
+  },
+  {
+    "objectID": "qsf.html#what-to-do-with-a-qsf",
+    "href": "qsf.html#what-to-do-with-a-qsf",
+    "title": "8  Quantitative Structure Forest",
+    "section": "8.2 What to Do with a QSF?",
+    "text": "8.2 What to Do with a QSF?\n\n8.2.1 3D Rendering\nThe first thing we can do with a QSF is render it in 3D within R.\nplot(qsf, pal = \"chocolate4\") |&gt; lidR::add_dtm3d(dtm)\n\n\n\n\n\n3D rendering of a QSF. QSF computed in 4 seconds\n\n\n\n\n8.2.2 Tree Map & Volume Inventory\nA QSF can also be used to perform complete forest inventories, producing a tree map with detailed information for each tree, such as basal area, volume, height, and other structural attributes.\ntm &lt;- qsf_treemap(qsf)\n\n\n\nA tree map with volume displayed (trees are scaled ×2 for rendering)\n\n\n\n\n8.2.3 Export to 3D Software\nThe qsf() function includes an option to export all trees into separate folders. Users can also use qsf_write() to export individual trees to formats such as .qsm, .obj, .stl, .ply, .csv or other formats supported by 3D software. For example, Blender can be used as an open-source solution for realistic rendering while CloudCompare can be use for casual rendering.\n\n\n\n\nRendering with Blender\n\n\n\n\n8.2.4 Reclassifying Wood and Foliage\n\n\n\n\n\n\nWarning\n\n\n\nThis feature is experimental; it may or may not be removed in future versions.\n\n\nOur semantic segmentation is not perfect. It intentionally over-segments in order to ensure that the entire tree branching structure is captured. As a result, this approach produces numerous false positives in foliage (by design) and some false negatives (not by design). The semantic segmentation is therefore not intended for direct scientific use; it is primarily designed to support QSM reconstruction.\nWith a QSF, it becomes possible to reclassify points based on each individual QSM. This reclassification can be useful for downstream analyses such as estimating Plant Area Index (PAI) or Leaf Area Index (LAI), where a more accurate separation between wood and foliage is required.\nlas = qsf_segment_semantic(las, qsf)\n\n\n\nRaw semantic segmentation (left) and post-processing using QSMs and a QSF (right)\n\n\n\n\n8.2.5 Merchandable Volume\nSee Chapter 9 for more information about forestry operations.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Quantitative Structure Forest</span>"
+    ]
+  },
+  {
+    "objectID": "qsf.html#code",
+    "href": "qsf.html#code",
+    "title": "8  Quantitative Structure Forest",
+    "section": "8.3 Code",
+    "text": "8.3 Code\n\n8.3.1 Function list\n\nqsf() to build a QSF\nqsf_write() for saving the QSMs in .obj, .ply .csv or .qsm for analyzing or for rendering in 3D software.\nqsf_treemap() for saving forest in GIS vector files\nqsf_segment_semantic() for more accurate semantic segmentation\nqsf_merchantable() (see Chapter 9)\nplot() for 3D rendering\n\n\n\n8.3.2 Full Code\nlibrary(lidR)\nlibrary(arbor)\n\nparams &lt;- arbor_parameters_default\nparams$global$cut_above_ground = 0.25\nfilter &lt;- \"-keep_random_fraction 0.25\"\nbuffer &lt;- 5\n\nlas &lt;- readTLS(file, select = \"xyz\", filter = filter)\n\nlas &lt;- hybrid_homogeneization(las)\nlas &lt;- segment_ground(las)\nlas &lt;- wood_likelihood(las, params)\nlas &lt;- segment_semantic(las, params)\nsee &lt;- find_seeds(las, params)\nlas &lt;- segment_instance(las, see, params)\nlas &lt;- flag_small_trees(las, max_height = 2)\nlas &lt;- flag_buffer(las, see, -buffer)\nqsf &lt;- qsf(las, params = params)\nplot(qsf)",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Quantitative Structure Forest</span>"
+    ]
+  },
+  {
+    "objectID": "forestry.html",
+    "href": "forestry.html",
+    "title": "9  Operational Forestry-Oriented Tools",
+    "section": "",
+    "text": "9.1 Nomenclature\nFunctions starting with qsf_ operate at the QSF level. They filter the set of QSMs contained in a QSF but do not modify the QSMs themselves.\nFunctions starting with qsm_ operate on both QSMs and QSFs. They modify the QSMs. When applied to a QSF, they are internally looped over all QSMs in the collection.\nInitial QSF containing all trees taller than 2 m:",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Operational Forestry-Oriented Tools</span>"
+    ]
+  },
+  {
+    "objectID": "forestry.html#filter-merchantable-trees",
+    "href": "forestry.html#filter-merchantable-trees",
+    "title": "9  Operational Forestry-Oriented Tools",
+    "section": "9.2 Filter Merchantable Trees",
+    "text": "9.2 Filter Merchantable Trees\nRemove trees with a DBH below a given threshold.\nqsf_merch &lt;- qsf_merchantable(qsf)",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Operational Forestry-Oriented Tools</span>"
+    ]
+  },
+  {
+    "objectID": "forestry.html#filter-stem-and-merchantable-volume",
+    "href": "forestry.html#filter-stem-and-merchantable-volume",
+    "title": "9  Operational Forestry-Oriented Tools",
+    "section": "9.3 Filter Stem and Merchantable Volume",
+    "text": "9.3 Filter Stem and Merchantable Volume\nRetain stem segments only.\nqsf_stem &lt;- qsm_stem(qsf)\n\nRetain only merchantable parts of the QSMs, i.e., the stem and branches above a specified radius threshold. This operation does more than simple radius-based trimming: it also ensures that the resulting QSM remains a valid connected graph without gaps.\nqsf_merch &lt;- qsm_merchantable(qsf)\n\nThese operations can be chained. For example, to retain only the merchantable portion of the stem:\nqsm_stem_merch &lt;- qsm |&gt; qsm_stem() |&gt; qsm_merchantable()",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Operational Forestry-Oriented Tools</span>"
+    ]
+  },
+  {
+    "objectID": "forestry.html#remove-stump",
+    "href": "forestry.html#remove-stump",
+    "title": "9  Operational Forestry-Oriented Tools",
+    "section": "9.4 Remove Stump",
+    "text": "9.4 Remove Stump\nRemove the stump portion from a QSM. For graph validity reasons the skeleton and cylinder are never physically subsetted by this function. Instead radii are zeroed which is equivalent in term of volume while ensuring the QSMs remain a valid graph with a single root in all cases.\nqsm_harvested &lt;- qsm_nostump(qsm)",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Operational Forestry-Oriented Tools</span>"
+    ]
+  },
+  {
+    "objectID": "results.html",
+    "href": "results.html",
+    "title": "10  Benchmarks - Results",
+    "section": "",
+    "text": "10.1 PRF\nIn collaboration with Ontario Forestry Futures Trust-Knowledge Transfer and Tool Development (KTTD) funded project with Murray Woods and Margaret Penner at Petawawa Research Forest (Ontario, Canada), the validation dataset contains seven 900 m² plots, including the DBH and height of merchantable trees (totaling 300 trees). These results come from a fully automated process without supervision. This represents a real production test.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Benchmarks - Results</span>"
+    ]
+  },
+  {
+    "objectID": "results.html#prf",
+    "href": "results.html#prf",
+    "title": "10  Benchmarks - Results",
+    "section": "",
+    "text": "DBH validates the QSM’s ability to measure the bottom of the tree.\nHeight validates that the instance segmentation is correct. Ground truth was measured using a vertex. The reference measurements have actually higher uncertainty than Arbor’s estimates, which inflates RMSE.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Benchmarks - Results</span>"
+    ]
+  },
+  {
+    "objectID": "results.html#vandendaele-2026",
+    "href": "results.html#vandendaele-2026",
+    "title": "10  Benchmarks - Results",
+    "section": "10.2 Vandendaele (2026)",
+    "text": "10.2 Vandendaele (2026)\nAn independent validation conducted by Natural Resources Canada (Laurentian Forestry Centre, Québec) was used to assess the performance of the methodology. The dataset consists of 98 destructively sampled trees from eight 1/4-hectare plots in Québec, Canada, for which reference measurements of DBH, height, operational volume (Vop), and stem volume (Vstem) were obtained. The validation was conducted using a pre-release version of Arbor, without involvement of the r-lidar company in the data collection or reference measurements, ensuring an independent assessment under real-world conditions.\nAll results were produced using a fully automated, unsupervised processing pipeline. This constitutes a real-world production test, as it reflects end-to-end processing with Arbor on field data without manual intervention.\n\n\n\n\n\n\nCaution\n\n\n\nThis independent validation study has been submitted to a peer-reviewed journal and is currently under review for publication. In accordance with the authors of the study, the detailed validation results are not disclosed in this book at this stage. The results will be made publicly available once the manuscript has been accepted for publication and are consequently blurred in the image below.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Benchmarks - Results</span>"
+    ]
+  },
+  {
+    "objectID": "results.html#demol-2021",
+    "href": "results.html#demol-2021",
+    "title": "10  Benchmarks - Results",
+    "section": "10.3 Demol (2021)",
+    "text": "10.3 Demol (2021)\nUsing the open-access dataset from Demol et al. (2021), which contains 66 TLS trees that were already manually segmented, we evaluated QSM accuracy under benchmark conditions. In this dataset, each tree is provided as an individual point cloud with foliage removed, making it well suited for controlled QSM validation.\nThe shared files include reference measurements for both DBH and total volume, allowing direct validation of QSM estimates for these two key metrics.\nHowever, this should not be interpreted as a real production test. Because the trees were already manually isolated and cleaned, the workflow bypasses both instance segmentation and semantic segmentation steps that would normally be required when processing raw point clouds in practical applications.\nData are available here and here.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Benchmarks - Results</span>"
+    ]
+  },
+  {
+    "objectID": "results.html#gonzales-2017",
+    "href": "results.html#gonzales-2017",
+    "title": "10  Benchmarks - Results",
+    "section": "10.4 Gonzales (2017)",
+    "text": "10.4 Gonzales (2017)\nUsing the open-access dataset from Gonzales et al. (2017), which contains 38 TLS trees that were already manually segmented, we evaluated QSM performance on isolated trees. In this dataset, each tree is provided as an individual point cloud, but foliage was not removed prior to exportation.\nThe shared files include DBH measurements, allowing validation of QSM DBH accuracy. However, no reference volume data were available, so QSM volume estimates could not be assessed. As a result, this benchmark is limited to DBH validation only.\nThis should not be interpreted as a true production test. Since the trees were already manually isolated, the workflow bypasses the instance segmentation step normally required in practical applications. In addition, although semantic segmentation is still applied for QSM reconstruction, its impact on volume estimation cannot be evaluated because no ground-truth volumes are available.\nData are available here.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Benchmarks - Results</span>"
+    ]
+  },
+  {
+    "objectID": "results.html#mls-vs-tls",
+    "href": "results.html#mls-vs-tls",
+    "title": "10  Benchmarks - Results",
+    "section": "10.5 MLS vs TLS",
+    "text": "10.5 MLS vs TLS\nFor this test, we used the dataset from Vandendaele et al. (2024), comprising 150 trees sampled using both terrestrial laser scanning (TLS) and mobile laser scanning (MLS). Readers are referred to the original publication for a detailed description of the dataset and acquisition protocols. In this analysis, we used the \\(MLS_{15}\\) dataset (see original article).\nWe generated QSMs for each of the 150 TLS–MLS tree pairs and evaluated agreement between the two acquisition modalities. In the original study, TreeQSM showed a proportional bias of approximately 30% for total volume and −10% for stem volume when MLS-derived estimates were compared with their TLS counterparts (see Figure 5 of the original study).\nIn contrast, arbor showed substantially smaller differences between MLS- and TLS-derived estimates, with proportional biases of approximately 3% and 6% respectively . These results indicate that arbor is less sensitive to differences in point-cloud acquisition modality and provides more consistent volume estimates across TLS and MLS.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Benchmarks - Results</span>"
+    ]
+  },
+  {
+    "objectID": "results.html#continuous-quality-validation",
+    "href": "results.html#continuous-quality-validation",
+    "title": "10  Benchmarks - Results",
+    "section": "10.7 Continuous Quality Validation",
+    "text": "10.7 Continuous Quality Validation\nArbor is continuously developed and improved to enhance functionality while maintaining the reliability of its existing features.\nExperience shows that improving complex Quantitative Structure Model (QSM) algorithms is challenging. Seemingly beneficial modifications can introduce unintended regressions. Long-term QSM software users are familiar with new releases producing lower-quality results than older versions, forcing a return to previous processing pipelines.\nTo deliver a highly reliable product, every modification to the Arbor source code is systematically validated against an extensive benchmark dataset before being integrated into a release.\n\nComprehensive Validation Framework\nOur framework utilizes approximately 1,000 trees for quality assurance and regression testing:\n\n300 trees with reference measurements for Diameter at Breast Height (DBH) and stem volume.\n150 TLS–MLS tree pairs used to assess consistency across acquisition modalities.\n500+ additional trees representing a wide range of challenging conditions (including saplings, damaged trees, and tropical species) with visually assessed QSM quality.\n\n\n\nContinuous Regression Testing\nWe monitor 18 quality-control metrics across 10 benchmark datasets, tracking 180 validation values for every update. Any code change affecting performance is detected immediately.\nThis continuous validation process ensures that code modifications genuinely improve Arbor’s performance and robustness while preserving the quality standards established by previous releases.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Benchmarks - Results</span>"
+    ]
+  },
+  {
+    "objectID": "faq.html",
+    "href": "faq.html",
+    "title": "11  Frequently Asked Questions",
+    "section": "",
+    "text": "11.1 Working with Pre-Segmented Individual Trees\nArbor expects point cloud prepared by Arbor that were segmented (semantic) by Arbor, hybrid decimated by Arbor and, super important, that have an attribute hag for Height Above Ground. Thus, applying qsm() on a single tree point cloud the users may get an error that stipulate that wood/foliage classification is missing or hag is missing. It means that segment_ground(), wood_likelihood() and segment_semantic() must be applied first. Sadly without ground ground points it is impossible to perform these operations. The solution is to use add_single_tree_ground() to add fake ground points.\nIf the individual tree already contains exclusively wood (foliage removed) it is even easier. We don’t need fake ground.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Frequently Asked Questions</span>"
+    ]
+  },
+  {
+    "objectID": "faq.html#woking-with-pre-segmented-individual-trees",
+    "href": "faq.html#woking-with-pre-segmented-individual-trees",
+    "title": "11  Frequently Asked Question",
+    "section": "",
+    "text": "I want to make QSMs of individual trees that were already segmented manually out of Arbor. I get errors.\n\n\ntree &lt;- lidR::readTLS(x, select = \"xyz\", filter = \"-keep_random_fraction 0.4\")\ntree &lt;- hybrid_homogeneization(tree)\ntree &lt;- add_single_tree_ground(tree)\ntree &lt;- segment_ground(tree)\ntree &lt;- wood_likelihood(tree)\ntree &lt;- segment_semantic(tree)\nqsm  &lt;- qsm(tree)\n\ntree &lt;- lidR::readTLS(x, select = \"xyz\", filter = \"-keep_random_fraction 0.4\")\ntree &lt;- hybrid_homogeneization(tree)\ntree &lt;- lidR::add_attribute(tree, 0L, \"foliage\")\ntree &lt;- lidR::add_attribute(tree, las$Z - min(las$Z), \"hag\")",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Frequently Asked Question</span>"
+    ]
+  },
+  {
+    "objectID": "faq.html#data-already-1-cm-voxel-decimated",
+    "href": "faq.html#data-already-1-cm-voxel-decimated",
+    "title": "11  Frequently Asked Questions",
+    "section": "11.2 Data Already 1-cm Voxel Decimated",
+    "text": "11.2 Data Already 1-cm Voxel Decimated\n\nOur dataset is already voxel-decimated at 1 cm, which is discouraged in this book. We do not have access to the raw point cloud. Can we still work with these data?\n\nYou are more likely to obtain acceptable results with TLS data than with MLS. Read the point cloud without applying additional read-time decimation (readTLS(x, select = \"xyz\")).\nHowever, performance may be reduced compared with our recommended pipeline, particularly for instance segmentation, as some structural information has already been lost through prior voxel decimation. Any benchmarking or comparison should therefore clearly acknowledge this limitation and avoid directly comparing results with benchmarks or claims reported in this book that were obtained from our decimation pipeline.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Frequently Asked Questions</span>"
+    ]
+  },
+  {
+    "objectID": "faq.html#processing-the-entire-point-cloud",
+    "href": "faq.html#processing-the-entire-point-cloud",
+    "title": "11  Frequently Asked Questions",
+    "section": "11.3 Processing the Entire Point Cloud",
+    "text": "11.3 Processing the Entire Point Cloud\n\nArbor is never processing the entire point cloud through its decimations pipeline. This is ok if the desired end product is the QSMs. But in our case the desired end product is a classified point cloud.\n\nArbor as a function transfer_attributes() designed for this very purpose. It transfers the attributes from a lower density point cloud to a higher density point cloud",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Frequently Asked Questions</span>"
+    ]
+  },
+  {
+    "objectID": "faq.html#massive-datasets",
+    "href": "faq.html#massive-datasets",
+    "title": "11  Frequently Asked Questions",
+    "section": "11.4 Massive Datasets",
+    "text": "11.4 Massive Datasets\n\nOur dataset is massive (3 ha). The point cloud is very dense, and we do not have enough RAM to run Arbor.\n\nArbor is indeed memory-intensive and does not yet include built-in mechanisms for chunked processing. Below is the workflow we use to process such large datasets on a laptop.\n\n\nShow the code\nlibrary(lidR)\nlibrary(arbor)\n\nfile = \"file.las\"\n\ndisplay = FALSE\nrandom_fraction  = 1\ncut_above_ground = 0.15\nbuffer_size = 10\n\npar = arbor_parameters_default\npar$global$cut_above_ground = cut_above_ground\n\no &lt;- tools::file_path_sans_ext(file)\ndir &lt;- paste0(o, \"_output\")\no = basename(o)\ntmp = paste0(dir, \"/\", \"tmp\")\ndir.create(dir, showWarnings = FALSE)\ndir.create(tmp, showWarnings = FALSE)\n\nctg = readTLScatalog(file, select = \"xyz0\", filter = paste(\"-keep_random_fraction\", random_fraction))\nopt_chunk_size(ctg) = 50\nopt_chunk_buffer(ctg) = buffer_size\nplot(ctg, chunk = T)\nchunks = lidR::engine_chunks(ctg)\n\nmaxID = 0\nfor (i in seq_along(chunks))\n{\n  cat(\"==============\\n\")\n  cat(\"Chunk\", i, \"of\", length(chunks), \"\\n\")\n  cat(\"==============\\n\")\n\n  # Regular pipeline\n  chk &lt;- chunks[[i]]\n  las &lt;- readLAS(chk)\n  las &lt;- hybrid_homogeneization(las)\n  las &lt;- segment_ground(las, par)\n  las &lt;- wood_likelihood(las, par)\n  las &lt;- segment_semantic(las, par)\n  see &lt;- find_seeds(las, par)\n  las &lt;- segment_instance(las, see, par)\n  las &lt;- colorize_trees(las, FALSE)\n\n  # Custom tree remove\n  bb &lt;- st_bbox(chk)\n  bb &lt;- sf::st_as_sfc(bb)\n  tm &lt;- see@data[, .(x = mean(X), y = mean(Y)), by = treeID]\n  tm &lt;- sf::st_as_sf(tm, coords = c(\"x\", \"y\"))\n  seeds_roi &lt;- sf::st_contains(bb, tm)\n  seeds_roi &lt;- tm[seeds_roi[[1]], ]\n  seeds_roi_ids &lt;- unique(seeds_roi$treeID)\n  seeds_roi &lt;- filter_poi(seeds, treeID %in% seeds_roi_ids)\n\n  las &lt;- filter_poi(las, treeID %in% seeds_roi_ids)\n  las$treeID &lt;- las$treeID + maxID\n  maxID &lt;- max(las@data$treeID)\n\n  dtm &lt;- rasterize_terrain(las, 0.1)\n  dtm &lt;- terra::crop(dtm, terra::vect(bb))\n\n  # Export\n  s &lt;- paste0(tmp, \"/\", o, \"_segmented_part\", i, \".laz\")\n  r &lt;- paste0(tmp, \"/\", o, \"_dtm_part\", i, \".tif\")\n  writeLAS(las, s)\n  terra::writeRaster(dtm, r)\n\n  # Clean up\n  rm(las)\n  rm(see)\n  rm(dtm)\n  gc()\n}\n\ngc()\n\n# Build the full DTM\nfiles = list.files(tmp, pattern = \"dtm\", full.names = T)\ndtm = terra::vrt(files)\nterra::writeRaster(dtm, paste0(dir, \"/\", o, \"_dtm.tif\"))\n\n# Build the full point cloud without buffer\nctg = readLAScatalog(tmp, pattern = \"segmented\", select = \"xyzic0\")\nlas = readLAS(ctg)\nlas = flag_buffer(las, buffer = -buffer_size)\nlas = filter_poi(las, treeID &gt; 0)\nwriteLAS(las, paste0(dir, \"/\", o, \"_full.laz\"))\n\nq(\"no\")",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Frequently Asked Questions</span>"
+    ]
+  },
+  {
+    "objectID": "faq.html#custom-allometric-model",
+    "href": "faq.html#custom-allometric-model",
+    "title": "11  Frequently Asked Questions",
+    "section": "11.5 Custom Allometric Model",
+    "text": "11.5 Custom Allometric Model\n\nWe would like to change the allometric model used in Section 7.6. How can we use our own equation?\n\nBecause Arbor is a standalone C++ library, allowing users to inject arbitrary R code is technically challenging. Therefore, this feature has not been implemented yet.\nHowever, feel free to contact us and we will gladly add your equation directly to the library.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Frequently Asked Questions</span>"
+    ]
+  },
+  {
+    "objectID": "mre.html",
+    "href": "mre.html",
+    "title": "Appendix A - Examples & Data",
+    "section": "",
+    "text": "Plot PRF 193\nPoint cloud from Petawawa Research Forest. The dataset was already decimated to reduce upload and download size, so there is no need to read a random fraction. It covers a 900 m² plot and was manually cleaned on edges, eliminating the need for buffer removal since no buffer was included in the original data. This manual cleaning prevents edge effects in a dataset without a buffer.\nDataset kindly provided through an Ontario Forestry Futures Trust-Knowledge Transfer and Tool Development (KTTD) funded project with Murray Woods and Margaret Penner.\n⬇ Download",
+    "crumbs": [
+      "Appendix A - Examples & Data"
+    ]
+  },
+  {
+    "objectID": "mre.html#plot-prf-193",
+    "href": "mre.html#plot-prf-193",
+    "title": "Appendix A - Examples & Data",
+    "section": "",
+    "text": "library(arbor)\nlibrary(lidR)\n\nfile &lt;- \"PRF193.laz\"\n\n# Dataset already decimated\nfilter &lt;- \"\" \n\npar &lt;- arbor_parameters_default\nlas &lt;- readTLS(file, select = \"xyz\", filter = filter)\n\nt0  &lt;- Sys.time()\nlas &lt;- hybrid_homogeneization(las)\nlas &lt;- segment_ground(las, par)\nlas &lt;- wood_likelihood(las, par)\nlas &lt;- segment_semantic(las, par)\nsee &lt;- find_seeds(las, par)\nlas &lt;- segment_instance(las, see, par)\nlas &lt;- colorize_trees(las)\n\nqsf &lt;- qsf(las, 2, params = par)\ntf  &lt;- Sys.time()\ndt  &lt;- difftime(tf, t0)\nprint(dt)\n\ndtm &lt;- rasterize_terrain(las, 0.2)\n\nx &lt;- plot_instance(las) |&gt; add_dtm3d(dtm)\nplot(qsf, add = x, pal = \"chocolate4\")",
+    "crumbs": [
+      "Appendix A - Examples & Data"
+    ]
+  },
+  {
+    "objectID": "mre.html#oak-plantation",
+    "href": "mre.html#oak-plantation",
+    "title": "Appendix A - Examples & Data",
+    "section": "Oak Plantation",
+    "text": "Oak Plantation\nThis is a 35 × 35 m clip from a 4 ha project conducted to isolate and measure 15,000 trees in a oak plantations. Data kindly shared by the Direction de la Recherche Forestière, Québec. The dataset is already decimated by 50% to reduce upload and download size (190 MB). To reach a 20% reduction, we recommend using a random fraction of 0.4 (0.4 × 0.5 = 20%). Computation time: 1 min 30 s. Tree crowns are relatively narrow, so we use a 5 m buffer to retain as much data as possible for the example. Using a 10 m buffer is generally safer.\n ⬇ Download \nlibrary(arbor)\nlibrary(lidR)\n\nfile &lt;- \"StA.laz\"\n\n# Dataset already decimated at 50% use 0.4 to reach 20%\nfilter &lt;- \"-keep_random_fraction 0.4\" \n\npar &lt;- arbor_parameters_default\nlas &lt;- readTLS(file, select = \"xyz\", filter = filter)\n\nt0  &lt;- Sys.time()\nlas &lt;- hybrid_homogeneization(las)\nlas &lt;- segment_ground(las, par)\nlas &lt;- wood_likelihood(las, par)\nlas &lt;- segment_semantic(las, par)\nsee &lt;- find_seeds(las, par)\nlas &lt;- segment_instance(las, see, par)\nlas &lt;- colorize_trees(las)\nlas &lt;- flag_buffer(las, see, -5)\n\nqsf &lt;- qsf(las, 2, params = par)\ntf  &lt;- Sys.time()\ndt  &lt;- difftime(tf, t0)\nprint(dt)\n\ndtm &lt;- rasterize_terrain(las, 0.2)\n\nview = filter_poi(las, UserData == ARBORTREE)\nx &lt;- plot_semantic(view) |&gt; add_dtm3d(dtm)\nx &lt;- plot_instance(view) |&gt; add_dtm3d(dtm)\nplot(qsf, add = x, pal = \"chocolate4\")",
+    "crumbs": [
+      "Appendix A - Examples & Data"
+    ]
+  },
+  {
+    "objectID": "mre.html#individual-tree-bank",
+    "href": "mre.html#individual-tree-bank",
+    "title": "Appendix A - Examples & Data",
+    "section": "Individual Tree Bank",
+    "text": "Individual Tree Bank\nA collection of 13 individual trees. These trees come either from our internal tests or from public datasets. For trees segmented with Arbor, qsm() can be applied directly because Height Above Ground (HAG) and semantic segmentation are already available. For publicly sourced trees without semantic classification or HAG data, a few additional preprocessing steps are required before computing a QSM (see the FAQ section).\n ⬇ Download \n\n\n\n\n\n\nWarning\n\n\n\nHere, we do not use filter = \"-keep_random_fraction 0.25\" because the point clouds either come from Arbor outputs and are therefore already decimated, or they are already voxelized TLS data. In the general case, however, do not load all points.\n\n\nfiles &lt;- list.files(wd, pattern = \".laz\", full.names = TRUE)\n\n# Select a tree (13 trees)\n# (12 and 13 are cool)\ni &lt;- 1\n\ntree &lt;- readLAS(files[i], select = \"xyz0\")\n\n# If hag not an attribute it is not a point cloud processed by Arbor\n# it is from public dataset\nif (!\"hag\" %in% names(tree)) {\n  message(\"Tree from public dataset\")\n  tree &lt;- hybrid_homogeneization(tree)\n  tree &lt;- add_single_tree_ground(tree)\n  tree &lt;- segment_ground(tree)\n  tree &lt;- wood_likelihood(tree)\n  tree &lt;- segment_semantic(tree)\n} else {\n  message(\"Tree from Arbor segmentation\")\n}\n\nq &lt;- qsm(tree)\n\nx &lt;- plot_semantic(tree)\nplot(q, add = x, skeleton = FALSE)",
+    "crumbs": [
+      "Appendix A - Examples & Data"
+    ]
+  },
+  {
+    "objectID": "spec.html",
+    "href": "spec.html",
+    "title": "Appendix B - QSM Format Specifications",
+    "section": "",
+    "text": "Rationale\nThere is currently no standard format for storing and sharing QSM files. Different software uses different formats: early tools such as Computree and SimpleForest stored QSMs as CSV files, while TreeQSM used MATLAB files. AdTree exports 3D meshes that do not record architectural information. SmartQSM exports a mixture of Matlab, DXF and PLY files.\nLater, tools such as aRchi, rTwig, ITSme introduced converters between TreeQSM and Computree-like CSV formats, but each implementation includes small variations. Even Computree or SimpleForest do not follow a strict consistent scheme across versions.\nShould branch order start at 0 or 1? There is no standard. Are diameters recorded in centimeters or meters? There is no standard. Should we record diameters or radii? There is no standard. Some software/formats support geographical coordinates, some support only local coordinates. None support Coordinate Reference System. As a result, building a cross-software QSM reader is unnecessarily complex. Arbor also introduced its own CSV format derived from SimpleForest, with additional naming variations. We plead guilty of format fragmentation.\nTo address this fragmentation, we propose the first binary QSM exchange format with clear, consistent, extensible and open specifications.\nWe also provide a simple, minimal and standalone library to read and write .qsm files with an MIT license. We hope this can help standardize QSM exchange between software.\n⬇ libqsm v1.0",
+    "crumbs": [
+      "Appendix B - QSM Format Specifications"
+    ]
+  },
+  {
+    "objectID": "spec.html#overview",
+    "href": "spec.html#overview",
+    "title": "Appendix B - QSM Format Specifications",
+    "section": "Overview",
+    "text": "Overview\nQSM is the native serialization format for a single Quantitative Structure Model. It stores one tree as a rooted directed graph (formally an arborescence) whose unique root represents the base of the stem, whose nodes are 3-D junction points, and whose edges are cylinders. The graph is acyclic and every node is reachable from the root by exactly one directed path. The format also carries all associated scalar attributes and an arbitrary set of user-defined metadata.\nThe format is split into two sections:\n\n\n\n\n\n\n\n\nSection\nEncoding\nPurpose\n\n\n\n\nHeader\nASCII text\nHuman-readable metadata, field descriptions, message log\n\n\nData\nRaw binary\nCompact node and edge records\n\n\n\nThe header is self-describing and extensible; the binary block begins immediately after the sentinel line DATA binary.",
+    "crumbs": [
+      "Appendix B - QSM Format Specifications"
+    ]
+  },
+  {
+    "objectID": "spec.html#header",
+    "href": "spec.html#header",
+    "title": "Appendix B - QSM Format Specifications",
+    "section": "Header",
+    "text": "Header\n\nGeneral rules\n\nEvery header line is terminated by \\n (Unix LF).\nLines starting with # are comments and are ignored on read.\nAll other lines have the form KEY &lt;value&gt;\\n where KEY is a single token of printable ASCII (no whitespace) and &lt;value&gt; is everything after the first space up to (but not including) the newline.\nKeys are case-sensitive.\nAn implementation MUST write the mandatory keys listed in Mandatory keys, but MAY insert additional custom keys anywhere before the DATA sentinel.\nAn implementation MUST silently ignore any key it does not recognize. This rule makes the format forward-compatible: future versions may add new keys without breaking older readers.\nMESSAGE, NODE_EXTRABYTES and EDGE_EXTRABYTES are repeatable keys; all others are expected to appear at most once.\nThe header is terminated by the sentinel line DATA binary\\n. Nothing may appear on the same line after binary.\n\n\n\nMandatory keys\n\n\n\nKey\nValue type\nDescription\n\n\n\n\nSIGNATURE\nstring\nFile signature\n\n\nVERSION\nstring\nFile version\n\n\nFORMAT\nuint8_t\nFile format\n\n\nNODES\nuint32\nNumber of node records in the binary block\n\n\nEDGES\nuint32\nNumber of edge records in the binary block\n\n\nX_OFFSET\ndouble\nGeographic X (easting) of the graph origin\n\n\nY_OFFSET\ndouble\nGeographic Y (northing) of the graph origin\n\n\nZ_OFFSET\ndouble\nGeographic Z (elevation) of the graph origin\n\n\nXMIN\ndouble\nGlobal bounding-box minimum X\n\n\nYMIN\ndouble\nGlobal bounding-box minimum Y\n\n\nZMIN\ndouble\nGlobal bounding-box minimum Z\n\n\nXMAX\ndouble\nGlobal bounding-box maximum X\n\n\nYMAX\ndouble\nGlobal bounding-box maximum Y\n\n\nZMAX\ndouble\nGlobal bounding-box maximum Z\n\n\nDATA\nbinary\nSentinel; terminates the header\n\n\n\nSIGNATURE — The file signature must contain the four characters “QSMF”, and it is required by the QSM specification. These four characters can be checked by user software as a quick look initial determination of file type.\nVERSION — Currently must be 1.0. The version number consists of a major and minor field. The major and minor fields combine to form the number that indicates the format number of the current specification itself.\nFORMAT — The format record indicates the type of data records contains in the file. QSM 1.0 defines types 0 to 2. These types are defined later in this specification.\nX_OFFSET, Y_OFFSET, Z_OFFSET — Define the geographic position of the graph origin (QSM root). Node coordinates in the binary block are stored as single-precision floats relative to this origin (see Node record). The origin MUST be set to the position of the root node so that we can know the geographic position of the tree by probing the header only. Writers that do not need geographic referencing may set all three offsets to 0.0. In that case the root of the QSM must be at (0,0,0). The specification states nothing about the recorded accuracy of these keys but sub-millimeter precision is unlikely to be useful.\nXMIN, YMIN, ZMIN, XMAX, YMAX, ZMAX — The axis-aligned bounding box of all node positions expressed in global coordinates (i.e. after adding the offsets, same CRS as X_OFFSET). A reader may use these six values to quickly assess the spatial extent of the tree without reading the binary block at all, which is useful when cataloguing large collections of .qsm files. The writer MUST compute them from the actual node data; they are not user-supplied hints. Writers that set all offsets to 0.0 must still populate these keys from the node coordinates.\n\n\nOptional keys\n\n\n\n\n\n\n\n\nKey\nValue type\nDescription\n\n\n\n\nCREATED\nISO-8601 string\nUTC timestamp of file creation\n\n\nSOFTWARE\nstring\nName and version of writing software\n\n\nCRS\nstring\nWKT string Coordinate Reference System\n\n\nTREEID\nuint32_t\nA numeric ID\n\n\nTREENAME\nstring\nA name\n\n\nMESSAGE\nstring\nOne log/diagnostic message (repeatable)\n\n\nUUID\nstring\nUUID RFC 4122\n\n\nNODE_EXTRABYTES\nstring\nOne extra node field declaration (repeatable)\n\n\nEDGE_EXTRABYTES\nstring\nOne extra edge field declaration (repeatable)\n\n\n\nCREATED — a standardized timestamp indicating when the file was generated. It must conform to the ISO-8601 standard and express the time in Coordinated Universal Time (UTC) to ensure cross-platform consistency.\nSOFTWARE — a free-form text string identifying the specific software application and version number that generated the file. This is primarily used for debugging, backward compatibility checks, and provenance tracking.\nCRS — specifies the Coordinate Reference System used for any spatial data within the file. The value must be a valid Well-Known Text (WKT) string defining a projected coordinate system. Geographic Coordinate Systems are not allowed, as the CRS units must match the linear coordinates of the nodes.\nTREEID — a 32-bit signed integer used to identify a specific tree structure within the file. This is particularly useful for matching features back to an ID in the original point cloud data.\nTREENAME — a free-form, human-readable text string assigned as a label or name for the tree structure, complementing the numerical TREEID.\nMESSAGE — there is no limit on the number of MESSAGE lines or on their length; the only constraint is that the text of a single message must not contain a newline character (embed \\n as the two-character escape \\\\n if needed, and unescape on read).\nUUID — a Universally Unique Identifier string used to globally distinguish this specific file. Since cryptographic-level security is not required, any RFC 4122 compliant sequence is accepted, regardless of the UUID version used.\nNODE_EXTRABYTES, EDGE_EXTRABYTES — declare named, typed fields appended after the format-mandated bytes of each node or edge record. Each line declares exactly one field; the order of declaration is the order of storage in the binary block. The value of each key has the form &lt;type&gt; &lt;name&gt;, where &lt;type&gt; is one of the tokens: I8, U8, I16, U16, I32, U32, I64, U64, F32,F64 and &lt;name&gt; is a non-empty ASCII string containing no whitespace. More details in Extrabytes.\n\n\nExample header\n# QSM Binary Format - https://github.com/r-lidar/arbor/spec.md\nSIGNATURE QSMF\nVERSION 1.0\nFORMAT 2\nSOFTWARE Arbor 1.0.0\nCREATED 2026-05-13T09:11:05Z\nNODES 4821\nEDGES 4820\nX_OFFSET 448231.472\nY_OFFSET 5412087.231\nZ_OFFSET 312.548\nXMIN 448200.134\nYMIN 5412050.302\nZMIN 310.201\nXMAX 448265.817\nYMAX 5412120.944\nZMAX 345.087\nNODE_EXTRABYTES U8 wood_leaf\nEDGE_EXTRABYTES F32 taper_rate\nEDGE_EXTRABYTES U8  defect_code\nMESSAGE Tree too small for being measured. Reconstruction based on pure allometry.\nDATA binary\nIn this example: node records are 12 + 4 = 16 bytes each; edge records are 26 + 4 + 1 = 31 bytes each. Values 12 and 26 come from format 3. See section Binary data block.",
+    "crumbs": [
+      "Appendix B - QSM Format Specifications"
+    ]
+  },
+  {
+    "objectID": "spec.html#sec-binary",
+    "href": "spec.html#sec-binary",
+    "title": "Appendix B - QSM Format Specifications",
+    "section": "Binary data block",
+    "text": "Binary data block\nThe binary block starts on the byte immediately following the newline of the DATA binary line and is laid out as:\n[ node_record × NODES ][ edge_record × EDGES ]\nThere is no padding between records or between the two sections.\n\nNode record\n\n\n\nOffset\nSize\nC type\nField\nNote\n\n\n\n\n0\n4\nfloat\nx\noffset-relative easting\n\n\n4\n4\nfloat\ny\noffset-relative northing\n\n\n8\n4\nfloat\nz\noffset-relative elevation\n\n\n\nThe geographic position of a node is recovered as:\nx_geo = (double)x + X_OFFSET\ny_geo = (double)y + Y_OFFSET\nz_geo = (double)z + Z_OFFSET\nMinimum: 12 bytes. Any NODE_EXTRABYTES fields follow immediately after offset 8, in declaration order.\n\n\nEdge record\n\nFormat 0\nFormat 0 is very minimal to fit with software that does not compute architectural information.\n\n\n\nOffset\nSize\nC type\nField\nNotes\n\n\n\n\n0\n4\nuint32_t\nsource_id\nSource node index\n\n\n4\n4\nuint32_t\ntarget_id\nTarget node index\n\n\n8\n4\nfloat\nradius\nCylinder radius\n\n\n12\n1\nuint8_t\nquality_level\nMax value 255\n\n\n\nRadius — the radius of the edges in the same units as the nodes (meters preferred). Radius is NOT recorded in centimeters.\nQuality level — records the quality of the fit (i.e., confidence in the radius measurement). 0 stands for NA. The specification does not define the interpretation of the other values, except that higher numbers indicate greater confidence in the radius measurement.\nMinimum: 13 bytes.\n\n\nFormat 1\nFormat 1 adds minimal architectural information attributes per edge, expected to be computed by any QSM software.\n\n\n\nOffset\nSize\nC type\nField\nNotes\n\n\n\n\n13\n4\nuint32_t\naxis_id\n\n\n\n17\n1\nuint8_t\nbranch_order\nMax value 255\n\n\n\nAxis ID — there is no strict definition of what an “axis ID” is. The stem of the tree typically has its own ID (1) as the main axis, while branches have incrementally assigned IDs. IDs start at 1. 0 stands for NA.\nBranch order — records the branching order. The main stem has an order of 1. Branches connected directly to the main stem have an order of 2, and so on. 0 stands for NA.\nMinimum: 18 bytes.\nAny EDGE_EXTRABYTES fields follow immediately after the last mandatory field of the active format, in declaration order.\n\n\nFormat 2\nFormat 2 adds useful architectural information attributes per edge.\n\n\n\nOffset\nSize\nC type\nField\nNotes\n\n\n\n\n18\n4\nfloat\nsubtree_length\n\n\n\n22\n4\nfloat\ndistance_to_root\n\n\n\n\nSubtree length — for a given axis, this is the remaining distance to the end of the axis. -1 stands for NA.\nMinimum: 26 bytes.\nAny EDGE_EXTRABYTES fields follow immediately after the last mandatory field of the active format, in declaration order.\n\n\nFormat 3\nFormat 3 is only a draft (no current support). It adds valuable information about defects for each edge. As there is currently no software capable of detecting such features, the format is only a draft for future use with nothing definitively dedicated.\n\n\n\nOffset\nSize\nC type\nField\nNotes\n\n\n\n\n26\n2\nuint16_t\ndefect_code\n\n\n\n\nDefect — records a defect code. The code lookup table must be discussed with practitioners.\nMinimum: 28 bytes.",
+    "crumbs": [
+      "Appendix B - QSM Format Specifications"
+    ]
+  },
+  {
+    "objectID": "spec.html#sec-extrabytes",
+    "href": "spec.html#sec-extrabytes",
+    "title": "Appendix B - QSM Format Specifications",
+    "section": "Extrabytes",
+    "text": "Extrabytes\nThe header can declare typed fields appended after the format-mandated bytes of each node or edge record. The value of each key has the form &lt;type&gt; &lt;name&gt;, where &lt;type&gt; encodes kind and bit-width: I for signed integer, U for unsigned integer, F for IEEE 754 floating-point, followed by the width in bits. Valid tokens are I8, U8, I16, U16, I32, U32, F32, F64.\nThe total record size for a given record type is therefore derived as:\nnode_record_size = format_minimum_node_size + sum(size_of(type) for each NODE_EXTRABYTES line)\nedge_record_size = format_minimum_edge_size + sum(size_of(type) for each EDGE_EXTRABYTES line)\nThe format_minimum_node_size is given in Node record and format_minimum_edge_size in Edge record\nA reader that encounters an unrecognised NODE_EXTRABYTES or EDGE_EXTRABYTES type token MUST abort with a descriptive error; silently skipping a field of unknown size would misalign all subsequent records.\nA reader that does not use an extra field MUST still read and discard it; it MUST NOT skip the entire record.\nThis mechanism provides open-ended extensibility: any implementation may add its own fields while remaining readable by implementations that do not recognise those extensions.",
+    "crumbs": [
+      "Appendix B - QSM Format Specifications"
+    ]
+  },
+  {
+    "objectID": "spec.html#versioning-and-compatibility",
+    "href": "spec.html#versioning-and-compatibility",
+    "title": "Appendix B - QSM Format Specifications",
+    "section": "Versioning and compatibility",
+    "text": "Versioning and compatibility\nFuture versions that add mandatory fields to the node or edge records will increment the minor version and raise the respective minimum size. Fields will only be removed on a major version bump.",
+    "crumbs": [
+      "Appendix B - QSM Format Specifications"
+    ]
+  },
+  {
+    "objectID": "spec.html#sec-impnotes",
+    "href": "spec.html#sec-impnotes",
+    "title": "Appendix B - QSM Format Specifications",
+    "section": "Implementation notes",
+    "text": "Implementation notes\nEndianness: all multi-byte values are written in little-endian byte order. On big-endian platforms the implementation must byte-swap each field individually.\nIEEE 754: float and double fields follow IEEE 754 single and double precision respectively.",
+    "crumbs": [
+      "Appendix B - QSM Format Specifications"
+    ]
+  },
+  {
+    "objectID": "qsm.html#ransac-orbicular-fitting",
+    "href": "qsm.html#ransac-orbicular-fitting",
+    "title": "7  Quantitative Structure Model",
+    "section": "",
+    "text": "RANSAC circle fitting. Circle fitting MUST be RANSAC-based. Least-squares fitting is unreliable under noisy conditions.\nRANSAC ellipse fitting. Ellipse fitting MUST also be RANSAC-based.\nComplex closed polygon fitting based on Fourier Harmonic Decomposition (FHD).",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "ground.html#sec-lowpoints",
+    "href": "ground.html#sec-lowpoints",
+    "title": "4  Ground Segmentation",
+    "section": "4.2 Low Point Removal",
+    "text": "4.2 Low Point Removal\nPerforming the segmentation on all the points can be risky. Typically the ground points (including low grass), constitute a continuity between the trees. This is not necessarily an issue but we recommend to do not work with point just above the ground.\nArbor does not perform any processing of the points a few centimeters above the ground. The pipeline is robust, and we typically remove 15 cm to 25 cm. In cases where the ground is very messy and dense, removing up to 50 cm may be sometime necessary.\nparams = arbor_parameters_default\nparams$global$cut_above_ground = 0.25\n\n\n\nRaw point cloud\n\n\n\n\n\nPoint cloud actually processed\n\n\nIn addition to removing points where segmentation is complex, this also eliminates a significant number of points that do not need to be processed, thereby speeding up computation time.\n\n\n\n\n\n\nTip\n\n\n\nLow points are not actually removed like in the previous image. All points are retained in the point cloud but those low points won’t be processed at all (saving time and memory) and will be assigned NA values in future steps.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Ground Segmentation</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#skeleton",
+    "href": "qsm.html#skeleton",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.2 Skeleton",
+    "text": "7.2 Skeleton\nFor the skeleton reconstruction, Arbor draws inspiration from the aRchi R package (Martin-Ducup et al., 2020). We reimplemented the core idea in C++ for scalability and introduced several improvements to enhance branch-tracking capabilities.\nLike aRchi, the point cloud is first clustered into layers. Unlike aRchi, which uses horizontal layers, we instead create layers based on the geodesic distance to the ground. Compared with horizontal layering, this approach naturally aligns with branch orientation, significantly improving the second processing step.\nAs in the original aRchi method, each layer is then analyzed and subdivided into clusters using dbscan.\n\n\n\nPoint cloud colorized by (a) solid brown (b) geodesic distance to the ground, illustrating the shortest-path metric used for layering; (c) initial clustering into layers based on geodesic distance to the ground; and (d) final clustering obtained by subdividing each layer into individual disconnected clusters.\n\n\nFor each cluster, the centroid is estimated using either Orbicular Fitting or the barycenter, depending on whether a reliable Orbicular Fitting solution can be obtained. This yields all the nodes of the QSM skeleton.\n\n\n\nCluster centroids reconstructed from layered point-cloud segments. Centroids are estimated using Orbicular Fitting whenever possible and fall back to the barycenter when fitting is unreliable.\n\n\nFinally, nodes are connected using a greedy chain-growing strategy, which is the original aRchi connection method and is arguably more robust than classical state-of-the-art graph-based approaches such as Minimun Spanning Tree (MST) or PST, often found in the literature. This is not to say that MST or PST are poor methods; rather, globally optimal solutions do not scale robustly to real data because they are highly sensitive to gaps and other imperfections commonly found in point clouds. In contrast, the aRchi method is a locally optimal solution that reconstructs trees based on growth logic, making it inherently more suitable for tree structures. We did not modify the method itself; we simply reimplemented it efficiently.\n\n\n\nReconstructed tree skeleton colored by branch order. The topology is obtained by greedily connecting nodes according to the original aRchi growth-based strategy.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#preshot-qsm",
+    "href": "qsm.html#preshot-qsm",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.3 Preshot QSM",
+    "text": "7.3 Preshot QSM\nThe QSM algorithm first computes a preshot QSM. This preshot QSM is generated virtually instantaneously without taking any measurements. Using the height of the tree, the routine estimates a plausible DBH from allometric relationships and linear stem tapper decrease to the tip.\nThe goal of the preshot QSM is not to be accurate. Virtually any reasonable allometric relationship between height and DBH could work. The objective is simply to obtain a plausible tree model without performing any expensive computations. By default, Arbor uses the equation from Griese N. et al. (2025) to estimate DBH from tree height.\nFor the example shown below, this relationship substantially underestimates the true size of the tree.\n\n\n\nRelationship between DBH and tree height from Griese et al. (2025). Blue annotations highlight our example tree used in this book\n\n\nHowever, this is not an issue. The preshot QSM is used only as a computational optimization tool. Despite being volumetrically inaccurate, it contains valuable information that can dramatically reduce processing time.\nAmong other things, it provides an estimate of the large proportion of nodes that are too small to be measured reliably. There is no need to spend computational resources attempting to measure structures that are, in practice, below the measurable limit of the sensor. In this example, the preshot QSM predicts that 26,000 out of 29,000 nodes (90%) are likely smaller than 2 cm in diameter. As a result, more than 90% of the measurement effort can be skipped. Even if the allometric prediction is inaccurate and the actual cross-sections are somewhat larger, the impact on the optimization strategy remains gigantic. We can roughly bypass 90% to 95% of the CPU effort initially required.\nThe preshot QSM also indicates whether complex buttress detection should be activated, or whether computation time can be saved by desactivating it. Restricting Orbicular Fitting to simpler geometric shapes reduces computation time.\n\n\n\nExample of a highly inaccurate preshot QSM. Although volumetrically incorrect, it provides valuable prior information used to prune unnecessary computations and guide subsequent fitting strategies.\n\n\n\n\n\n\n\n\nWarning\n\n\n\nWe are aware that many readers may be reluctant to use allometry, especially curves that may not fit their country or specific local context. It is true that generic equations are not representative of local conditions.\nFor this reason, we want to emphasize once again that this is only a preliminary QSM, which is not used in the computation of the final QSM. It is only used as a computational trick to optimize processing. And we carefully chose a tree to illustrate the book that if completely off prediction to demonstrate that the allometry has little importance.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#diameters",
+    "href": "qsm.html#diameters",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.4 Diameters",
+    "text": "7.4 Diameters\nUsing the Orbicular Fitting approach and the skeleton’s cylinder orientations, we measure diameters wherever possible. Cylinders with poor fitting, insufficient points, or diameters too small to measure reliably are skipped or discarded. In the example used in this book, 257 valid measurements (v0.14.0) were retained along the main axis and major branches. Other measurements were considered too weak to be retained.\n\n\n\nThe algorithm measured 257 cylinders where robust measurements are possible. Other cylinders are left unknown due to weak RANSAC fitting or unmeasurable allometric predictions. The total measured volume is 3.55 m³.\n\n\nThe gaps are then interpolated. These interpolated gaps provide highly reliable estimates.\n\n\n\nGaps are filled by interpolating between the valid measurements. The total volume at this stage is 3.82 m³.\n\n\nBranches that cannot be measured are reconstructed hierarchically using a pipe model. This ensures that unmeasurable sections, which are entirely speculative, are grounded in biological theory.\nWhile there is much to be said about pipe models and their biological validity, in practice, the pipe model helps to reconstruct a small volumetric fraction of the tree in a highly realistic way and based on strong upstream measurement. Pipe model is virtually instantaneous to compute.\nThis approach avoids attempting to measure what cannot be reliably captured, thereby saving time and increasing robustness by eliminating erroneous data points. The reconstructed sections rely on multiple reliable anchor measurements, making the entire process both robust and accurate.\n\n\n\nFinal QSM: 4.91 m³\n\n\n\n\n\n\nNodes (%)\nVolume (m³) (%)\nCumulative (m³) (%)\n\n\n\n\nMeasured\n257 (0.8%)\n3.55 (72%)\n3.55 (72%)\n\n\nInterpolated\n102 (0.3%)\n0.25 (6%)\n3.82 (78%)\n\n\nPipe Model\n28,661 (98%)\n1.09 (22%)\n4.91 (100%)",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#sec-prologation",
+    "href": "qsm.html#sec-prologation",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.5 Extension to the Ground",
+    "text": "7.5 Extension to the Ground\nThe QSM initially misses 15 to 50 cm because the point cloud was cut above the ground during data preparation (Section 4.2). Arbor uses the recorded Height Above Ground (HAG) from the point cloud and the skeleton orientation to extend the QSM realistically to the ground, even for bent or non-straight trees.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#sec-tinytree",
+    "href": "qsm.html#sec-tinytree",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.6 Non-measurable Trees",
+    "text": "7.6 Non-measurable Trees\nArbor segments and builds QSMs for saplings and small trees whose sizes fall below the measurable limits of point clouds. Typically, a 4 m tree is expected to have a diameter of approximately 3 cm. It may be slightly smaller or slightly larger, but in all cases, accurate measurement with MLS is physically infeasible. Worse, it is dangerous.\nWith thousands of tiny, highly intricate saplings covered in foliage, attempting manual measurements would inevitably lead to false measurements and poor 3D reconstructions in many cases.\n\n\n\n\n\n\nNote\n\n\n\nIn this sense, Arbor differs from other QSM software such as AdTree, TreeQSM or Computree. Other software expects a single input tree that has already been verified by the user as a valid and well-segmented tree. They produce few errors because no user in the world feeds them with noisy, intricate, 3 meters saplings.\nArbor, on the other hand, batch-processes hectares of forest and is automatically fed with all saplings, segmentation errors, and noise, at a pace of 10 QSMs per second for thousands of QSMs, with no guarantee that the input is perfectly segmented. Arbor must therefore remain robust in all cases.\n\n\nIn such cases, we rely on allometry. By default, Arbor uses the equation from Griese N. et al. (2025) to estimate DBH from tree height. If the predicted DBH falls below a given threshold, the standard QSM algorithm is not applied. Instead, an had oc QSMs is built from the theoric DBH and the skeleton.\nThe default threshold is 6 cm, which ensures that saplings and other non-measurable trees are modeled realistically. Forcing a direct measurement would lead to significantly worse results. Although the relationship between height and diameter is species- and biome-specific, inter-species variation within this size range is assumed to be limited.\n\n\n\nImage from Griese N. et al. (2025) with annotations for the book. Scatter plot showing the relationship between DBH and tree height. Blue annotations were added to highlight the range of trees not actually measured by Arbor.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThe allometry is NOT used to build standard QSMs. It is used only to discriminate between trees that can be measured and those that cannot, in order to build a plausible 3D model in these specific cases.\nThe accuracy of the allometric model is therefore not critical. Trees that are measurable will still be reconstructed properly even with an inadequate allometric model. Purely allometric QSMs are flagged and generate a warning so users can easily identify them.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#sec-broketree",
+    "href": "qsm.html#sec-broketree",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.8 Broken Trees",
+    "text": "7.8 Broken Trees\nBroken trees do not follow the typical rules. They are often small in height but can still have a large diameter, and they do not terminate with a near-zero radius. Under the previous rules (Section 7.6), a broken tree may be classified as small in height, leading to a predicted DBH below the measurement threshold. As a result, the tree is not measured, allometry is applied, and the tree is consequently severely under-sized.\nIn practice, the internal routine includes safeguards. Without going into implementation details, the general idea is to detect enough valid and sufficiently large measurements to bypass the regular algorithm and instead use an alternative approach that is less sensitive to missing tips.\n\n\n\n\n\n\nCaution\n\n\n\nBroken tree detection is experimental because of the lack of a large dataset of broken trees for validation. It can be disabled with params$qsm$broken_detection_enabled = FALSE.\n\n\n\n\n\nA broken tree and its QSM",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#fitting-quality-assessment",
+    "href": "qsm.html#fitting-quality-assessment",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.9 Fitting Quality Assessment",
+    "text": "7.9 Fitting Quality Assessment\nThe QSM records a quality attribute (accessible via qsm$quality) that indicates the quality of radius fitting. The codes are defined as follows. The associated colors are arbitrary and correspond only to the figure below; the default color scheme may change in future versions.\n\n0 – Unknown: Undefined state. This is a bug, it should never occur.\n1 – Prolongation: (blue) The segment belongs to the prolongation region (see Section 7.5). No points are available in this region, therefore no measurements can be performed.\n2 – Reconstruction: (green) No measurements are available. Radii are reconstructed purely from architectural assumptions based on pipe model. Equivalent to poor quality.\n3 – Interpolation: (yellow) No direct measurements are available, but we are between valid measurements. Interpolation provides serious plausible radius estimates. Equivalent to medium quality.\n4 – Good Orbicular Fitting: (orange) A valid measurement is available, but it does not meet the criteria for top-quality fitting. This typically occurs when either full 360° coverage is missing or the inlier-to-outlier ratio is insufficient. Equivalent to good quality.\n5 – Excellent Orbicular Fitting: (red) Full high-quality orbicular fitting. Few outliers. Equivalent to excellent quality.\n\nplot(qsm, color = \"quality\")\n\n\n\nRadius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#sec-warnings",
+    "href": "qsm.html#sec-warnings",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.10 Message",
+    "text": "7.10 Message\nIn version 0.14.0, the function qsm() can throw four warnings:\n\nFor non-measurable trees because they are too small and therefore not reliably measurable (Section 7.6).\nFor insufficient measurements.\nFor measured root diameters more than 3 times greater than the expected DBH based on allometry assumption. We are so far from expectation that a manual check may be required.\nFor broken tree detection.\n\nIt is possible to retrieve the warning emitted by a QSM with qsm_message(). This section written in June 2026 may become out of sync when the reader is reading these pages but qsm_message() will remain a valid command.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#other-details",
+    "href": "qsm.html#other-details",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.11 Other Details",
+    "text": "7.11 Other Details\nWe have not gone into depth about how the architecture is recomputed, how the quality of the RANSAC Orbicular Fitting is assessed, how errors near the base of the tree are handled for robustness, or how unnecessary computations are skipped. Throughout this book, many such details are intentionally omitted. Otherwise, the book would be endless, and the effort required to explain and illustrate every single step would be colossal. Our goal here is to present the overarching concepts to provide a clear overall understanding.\nOne interesting feature is the ability to handle problematic situations at the base of trees. Semantic segmentation is not perfect, and even when it is perfect, the forest does not have the courtesy to conform to our reconstruction rules. In the example below, a tree has fallen between a forked tree. The wood classification is correct, the irregular structure at the bottom is indeed wood, and it is technically connected to the tree of interest. From a segmentation standpoint, this is valid. However, such a structure would break the QSM reconstruction.\nAs shown in the image, our QSMs remain robust in these situations and are extended to the ground without following the fallen trunk.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "qsm.html#sec-edgecases",
+    "href": "qsm.html#sec-edgecases",
+    "title": "7  Quantitative Structure Model",
+    "section": "7.7 Non-measurable Trees - edge cases",
+    "text": "7.7 Non-measurable Trees - edge cases\nIn some very specific cases, however, this approach reaches its limits. For example, we modeled a cacao plantation in Cameroon where trees are heavily managed and differ substantially from the Griese et al. model. Typically, a 5 m tree may have a diameter of 12 cm, whereas the Griese et al. model predicts approximately 4.5 cm, an underestimation by a factor of about 2.5 tp 3 and all tree are around 5 meters height. As a consequence, most trees are incorrectly flagged as non-measurable and are therefore not measured using the standard QSM pipeline.\nOverall the approach described in previous section may fall short in non-forested areas such as plantations of fruit trees, urban areas, heavily managed trees where small trees can become particularly big compared to typical forest trees of the same height that compete differently for ressources.\nIn such cases, parameter tuning becomes mandatory. Users can select an alternative allometric model, lower the minimum detectable DBH or scale one existing model. For the cacao plantation we scaled Griese’s model by a factor of 2.5. Again, the accuracy of the model is NOT critical. We simply scaled the Griese et al. model to ensure that measurable trees are no longer excluded.\nparams$qsm$allometry_name = \"Griese2025\"\nparams$qsm$allometry_scale = 2.5\nparams$qsm$min_measurable_dbh = 0.04\n\navailable_allometries()",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Quantitative Structure Model</span>"
+    ]
+  },
+  {
+    "objectID": "faq.html#working-with-pre-segmented-individual-trees",
+    "href": "faq.html#working-with-pre-segmented-individual-trees",
+    "title": "11  Frequently Asked Questions",
+    "section": "",
+    "text": "I want to make QSMs of individual trees that were already segmented manually out of Arbor. I get errors.\n\n\ntree &lt;- lidR::readTLS(x, select = \"xyz\", filter = \"-keep_random_fraction 0.4\")\ntree &lt;- hybrid_homogeneization(tree)\ntree &lt;- add_single_tree_ground(tree)\ntree &lt;- segment_ground(tree)\ntree &lt;- wood_likelihood(tree)\ntree &lt;- segment_semantic(tree)\nqsm  &lt;- qsm(tree)\n\ntree &lt;- lidR::readTLS(x, select = \"xyz\", filter = \"-keep_random_fraction 0.4\")\ntree &lt;- hybrid_homogeneization(tree)\ntree &lt;- lidR::add_attribute(tree, 0L, \"foliage\")\ntree &lt;- lidR::add_attribute(tree, tree$Z - min(tree$Z), \"hag\")",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Frequently Asked Questions</span>"
+    ]
+  },
+  {
+    "objectID": "arbor.html#arbor-c-library",
+    "href": "arbor.html#arbor-c-library",
+    "title": "1  What is Arbor?",
+    "section": "",
+    "text": "Warning\n\n\n\nWe provide 0 free help and 0 free support to third parties who want to integrate the C++ library directly into their own software. This type of integration work is only available through our paid consulting and custom development services (see the Economic Model section in the Preface).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>What is Arbor?</span>"
+    ]
+  },
+  {
+    "objectID": "results.html#other",
+    "href": "results.html#other",
+    "title": "10  Benchmarks - Results",
+    "section": "10.6 Other",
+    "text": "10.6 Other\nArbor has also been evaluated on additional datasets provided by international research teams. Due to the lack of authorization for public disclosure, the corresponding results cannot be shared. Nevertheless, these independent evaluations produced results generally consistent with those presented in this document.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Benchmarks - Results</span>"
+    ]
+  }
+]
