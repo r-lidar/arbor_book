@@ -31,6 +31,10 @@ poisson_sampling <- function(df, r, max_iter = 10000) {
 
 Ground-based laser scanners (MLS, TLS) produce point clouds that are heavy, noisy, and unevenly sampled, the worst combination for point cloud processing. To make computation feasible and results consistent, we need to aggressively decimate our data before any analysis.
 
+::: {.callout-note}
+TL;DR: The main message of this chapter is: use our decimation process. Do not apply 1 cm voxel decimation, and do not process the full point cloud.
+:::
+
 <!--
 - **More points ≠ more accuracy.** Even 1% of the original points is enough to reliably measure tree diameter. Redundant points waste memory and time without adding information.
 - **Random sampling** reduces data volume but does not homogenize density and hurts already sparse regions.

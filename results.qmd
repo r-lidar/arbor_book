@@ -15,7 +15,7 @@ In collaboration with [Ontario Forestry Futures Trust-Knowledge Transfer and Too
 
 ## Vandendaele (2026)
 
-An independent validation conducted by Canadian Natural Resources was used to assess the performance of the methodology. The dataset consists of 100 destructively sampled trees from eight 1/4-hectare plots in Québec, Canada, for which reference measurements of DBH, height, operational volume (Vop), and stem volume (Vstem) were obtained. The validation was conducted using a pre-release version of Arbor, without involvement of the r-lidar company in the data collection or reference measurements, ensuring an independent assessment under real-world conditions.
+An independent validation conducted by Natural Resources Canada ([Laurentian Forestry Centre](https://ressources-naturelles.canada.ca/science-donnees/science-recherche/centre-recherche/centre-foresterie-laurentides), Québec) was used to assess the performance of the methodology. The dataset consists of 98 destructively sampled trees from eight 1/4-hectare plots in Québec, Canada, for which reference measurements of DBH, height, operational volume (Vop), and stem volume (Vstem) were obtained. The validation was conducted using a pre-release version of Arbor, without involvement of the r-lidar company in the data collection or reference measurements, ensuring an independent assessment under real-world conditions.
 
 All results were produced using a fully automated, unsupervised processing pipeline. This constitutes a real-world production test, as it reflects end-to-end processing with Arbor on field data without manual intervention.
 

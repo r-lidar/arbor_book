@@ -72,6 +72,10 @@ The `qsf()` function includes an option to export all trees into separate folder
 
 ### Reclassifying Wood and Foliage
 
+:::{.callout-warning}
+This feature is experimental; it may or may not be removed in future versions.
+:::
+
 Our semantic segmentation is not perfect. It intentionally over-segments in order to ensure that the entire tree branching structure is captured. As a result, this approach produces numerous false positives in foliage (by design) and some false negatives (not by design). The semantic segmentation is therefore not intended for direct scientific use; it is primarily designed to support QSM reconstruction.
 
 With a QSF, it becomes possible to reclassify points based on each individual QSM. This reclassification can be useful for downstream analyses such as estimating Plant Area Index (PAI) or Leaf Area Index (LAI), where a more accurate separation between wood and foliage is required.
@@ -119,6 +123,6 @@ see <- find_seeds(las, params)
 las <- segment_instance(las, see, params)
 las <- flag_small_trees(las, max_height = 2)
 las <- flag_buffer(las, see, -buffer)
-qsf <- qsf(las)
+qsf <- qsf(las, params = params)
 plot(qsf)
 ```

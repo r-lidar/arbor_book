@@ -6,9 +6,9 @@ Arbor is an open-source standalone C++ library designed for processing mobile la
 
 The C++ library is licensed under the **GNU General Public License v3 (GPL-3)**. Anyone is free to use, study, modify, and integrate Arbor into their own software, as long as that software also complies with the terms of the GPL-3.
 
-::: {.callout-warning}
+<!--::: {.callout-warning}
 We provide **0 free help and 0 free support** to third parties who want to integrate the C++ library directly into their own software. This type of integration work is only available through our paid consulting and custom development services (see the *Economic Model* section in the Preface).
-:::
+:::-->
 
 ## Arbor R Package
 
@@ -24,11 +24,7 @@ ArborStudio is a desktop application with a graphical user interface designed fo
 
 But ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools.
 
-ArborStudio also integrates the latest developments from the core library, including features not yet publicly available. In addition, it includes memory optimizations that are not possible within the R package, making it significantly more efficient for large datasets.
-
-**ArborStudio is currently under active development** and is not yet publicly available. It may or may not be released as open source. While the Arbor license (GPL-3) prohibits third parties from building closed-source software on top of Arbor, we are the copyright holders and therefore retain the right to distribute ArborStudio under a different licensing model.
-
-Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.
+**ArborStudio is currently under active development** and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.
 
 Regardless of the business model chosen for ArborStudio, the core Arbor engine will remain fully free and open source.
 

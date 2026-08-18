@@ -512,7 +512,7 @@ las <- flag_buffer(las, see, -buffer)
 id   <- sample(unique(las$treeID), 1)
 tree <- lidR::filter_poi(las, treeID == id)
 
-qsm  <- qsm(tree)
+qsm  <- qsm(tree, params)
 x <- plot_semantic(tree)
 plot_qsm(qsm, add = x)
 ```

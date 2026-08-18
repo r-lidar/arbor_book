@@ -1,5 +1,6 @@
-<img src="figures/r-lidar.png" style="float: right; width:150px; margin-left: 1em;"/>
-
+<a href="https://r-lidar.com">
+  <img src="figures/r-lidar.png" style="float: right; width:150px; margin-left: 1em;"/>
+</a>
 
 ```{r}
 #| label: setup
@@ -12,9 +13,11 @@ options(rgl.useNULL = TRUE) # Suppress the separate rgl window during knitting
 
 In less than 10 minutes, on a laptop, Arbor turns 2500 m² of raw forest point cloud into a 3D model of every tree it contains. This book presents Arbor, the open source workflow developed by [r-lidar inc](https://www.r-lidar.com/) for processing mobile laser scanning point clouds, from raw data to QSM (Quantitative Structure Models).
 
-Arbor is a production-grade C++ library for large-scale processing of mobile laser scanning data of forests, with an R package API. It introduces a new generation of algorithms for tree segmentation and modeling capable of processing hectares of data within minutes, significantly advancing the state of the art in forest point-cloud analysis.
+Arbor is a production-grade C++ library for large-scale processing of forest mobile laser scanning data, with an R package API. It introduces a new generation of algorithms for tree segmentation and modeling, enabling the processing of hectares of data within minutes and significantly advancing forest point-cloud analysis.
 
 In this book the reader will find an in-depth explanation of the pipeline, how it works, and how to use it in R. By reading this book, the reader will gain insight into the internal workings of the pipeline as well as a step-by-step tutorial on how to use it effectively.
+
+{{< video https://youtu.be/uvsoBODrmpw >}}
 
 ## What do we mean by *production-grade*?
 
@@ -56,6 +59,11 @@ To demonstrate the performance of the pipeline, the following sections present a
 ### QSM Showcase
 
 {{< video https://youtu.be/KUN9Uv76fbM >}}
+
+
+### Other instance segmentation
+
+{{< video https://youtu.be/_CrEEW4pM08 >}}
 
 <!-- ### QSM showcase 3D
 
@@ -116,6 +124,24 @@ While Arbor has been developed independently by [r-lidar inc.](www.r-lidar.com/)
 
 * [Sherbrooke University](https://www.usherbrooke.ca/) (Richard Fournier) contributed financially to the open source release of Arbor by providing the necessary funding to finalize the Arbor's R API, this documentation and the practitioner oriented tools.
 * [Natural Resources Canada](https://natural-resources.canada.ca/) (Bastien Vandendaele), who had early access to Arbor prior to its release, performed initial testing, identified bugs, and shared valuable improvement ideas, literature, and expertise regarding MLS, TLS and practitioners needs. He also conducted an independent validation study: Vandendaele et al. 2026 (in prep)
-* [IRD Montpellier](https://www.ird.fr/occitanie) (Olivier Martin) contributed financially toward several improvements in Arbor as well as ongoing R&D on tropical rainforest data.
+* [AMAP-Lab](https://amap.cirad.fr/en/unite.php) (Olivier Martin; Nicolas Barbier) Contributed financially through IRD funding and [One Forest Vision](https://www.oneforestvision.org/eng) (OFVi) project towards several improvements in Arbor as well as ongoing R&D on tropical rainforest data
 * [Ministère des Ressources naturelles et des Forêts du Québec](https://www.quebec.ca/gouvernement/ministeres-organismes/ressources-naturelles-forets) contributed financially to improving Arbor’s computational efficiency prior to its public release by requesting a large-scale inventory project (5 ha, 15,000 QSMs). This was made as part of a project funded by the Ministère de l’Environnement, de la Lutte contre les changements climatiques, de la Faune et des Parcs (Plan pour une économie verte 2030, project no. 112959356, led by Julie Godbout).
 * [Ontario Forestry Futures Trust-Knowledge Transfer and Tool Development (KTTD)](https://www.forestryfutures.ca/forest-resource-inventory) funded project with Murray Woods and Margaret Penner who shared early validation data to help test Arbor during its early versions.
+
+
+::: {layout-ncol="3"}
+
+![](figures/logo/amap.jpeg){width=200px}
+
+![](figures/logo/onevision.jpeg){width=200px}
+
+![](figures/logo/usherbrooke.jpg){width=200px}
+
+![](figures/logo/nrcan.png){width=200px}
+
+![](figures/logo/ffto.jpg){width=200px}
+
+![](figures/logo/mrnf.png){width=200px}
+
+:::
+  
