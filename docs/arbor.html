@@ -259,14 +259,24 @@ We provide **0 free help and 0 free support** to third parties who want to integ
 <section id="arbor-studio" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="arbor-studio"><span class="header-section-number">1.3</span> Arbor Studio</h2>
 <p>ArborStudio is a desktop application with a graphical user interface designed for users who prefer a drag-and-drop workflow: load files, click a few buttons, and generate outputs without writing code.</p>
-<p>But ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools.</p>
-<p><strong>ArborStudio is currently under active development</strong> and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.</p>
+<p>But ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools. The software is intended for two main types of users:</p>
+<ul>
+<li><strong>Practitioners:</strong> to work outside R without coding</li>
+<li><strong>Researchers:</strong> to easily achieve perfect segmentation manually in order to build validation datasets and/or train models</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>ArborStudio is currently under active development and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.</p>
 <p>Regardless of the business model chosen for ArborStudio, the core Arbor engine will remain fully free and open source.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="figures/chap_studio/arborstudio.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="ArborStudio early stage of development"><img src="figures/chap_studio/arborstudio.png" class="img-fluid figure-img" width="500" alt="ArborStudio early stage of development"></a></p>
-<figcaption>ArborStudio early stage of development</figcaption>
-</figure>
+</div>
 </div>
 <p>The video below presents an early prototype of ArborStudio and its ability to quickly and easily perform manual instance corrections.</p>
 <div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="figures/chap_studio/instance_studio.mp4"></video></div>
@@ -709,7 +719,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </nav>
 </div> <!-- /content -->
 <script>videojs(video_shortcode_videojs_video1);</script>
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","loop":false,"closeEffect":"zoom","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

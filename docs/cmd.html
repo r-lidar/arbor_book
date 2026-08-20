@@ -274,34 +274,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The <code>arbor</code> package comes with command line tools that we are using to run arbor via a terminal. These tools are mainly dedicated to our own usage and are subject to modification without prior modification. But since it is part of the package, reader will find quick documentation below.</p>
+<p>The <code>arbor</code> package comes with command line tools that we use to run arbor via a terminal. These tools are mainly dedicated to our own usage and are subject to change without prior notice. However, since they are part of the package, readers will find quick documentation below.</p>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Run <code>arbor::install_cmd_tools()</code>. The behavior of the function is OS dependent. It has been tested on Linux only. If Windows or MacOS users find troubleshoorting please contact us.</p>
+<p>Run <code>arbor::install_cmd_tools()</code>. The behavior of the function is OS-dependent. It has been tested on Linux only. If Windows or macOS users encounter issues, please contact us.</p>
 <ul>
-<li>Linux/MacOS: it creates a symlink pointing to the utilities so that the shipped utilities become in your PATH</li>
-<li>Windows: it creates a <code>.bat</code> file that is supposed to be in you path</li>
+<li>Linux/macOS: it creates a symlink so that the shipped utilities are added to your PATH.</li>
+<li>Windows: it creates a <code>.bat</code> file that should be added to your PATH.</li>
 </ul>
-<p>To test if it is type in a terminal</p>
+<p>To test whether it is working, type in a terminal:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="segment-module" class="level2">
 <h2 class="anchored" data-anchor-id="segment-module">Segment module</h2>
-<p>This module segment the scene (ground, semantic, instance) and produce a DTM, and <code>scene_segmented.laz</code></p>
+<p>This module segments the scene (ground, semantic, instance) and produces a DTM and <code>scene_segmented.laz</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> segment scene.laz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To see the avaible options</p>
+<p>To see the available options:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> segment <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="qsf-module" class="level2">
 <h2 class="anchored" data-anchor-id="qsf-module">QSF module</h2>
-<p>This module creates the 3D model of the forest. The input is the output of the previous module. It creates a folder <code>qsm/</code> and inside this directory, one or several sub-directories depending on the output format desired.</p>
+<p>This module creates the 3D model of the forest. The input is the output of the previous module. It creates a <code>qsm/</code> folder, containing one or several subdirectories depending on the desired output format.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> qsf scene_segmented.laz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To see the avaible options</p>
+<p>To see the available options:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> qsf <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="report-module" class="level2">
 <h2 class="anchored" data-anchor-id="report-module">Report module</h2>
-<p>The report module generates a pdf that summarizes the scene (volume, basal area, distribution, tree map). The input is the directory produced by the <code>qsf</code> module</p>
+<p>The report module generates a PDF that summarizes the scene (volume, basal area, distribution, tree map, …). The input is the directory produced by the <code>qsf</code> module.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> report qsm/qsm/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="figures/gallery/report.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figures/gallery/report.png" class="no-shadow img-fluid"></a></p>
 
@@ -739,7 +739,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","loop":false,"closeEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

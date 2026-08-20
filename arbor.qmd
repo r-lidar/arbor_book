@@ -22,13 +22,17 @@ The Arbor R package is free and open source under the **GNU General Public Licen
 
 ArborStudio is a desktop application with a graphical user interface designed for users who prefer a drag-and-drop workflow: load files, click a few buttons, and generate outputs without writing code.
 
-But ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools.
+But ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools. The software is intended for two main types of users:
 
-**ArborStudio is currently under active development** and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.
+- **Practitioners:** to work outside R without coding
+- **Researchers:** to easily achieve perfect segmentation manually in order to build validation datasets and/or train models
+
+
+:::{.callout-note}
+ArborStudio is currently under active development and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.
 
 Regardless of the business model chosen for ArborStudio, the core Arbor engine will remain fully free and open source.
-
-![ArborStudio early stage of development](figures/chap_studio/arborstudio.png){width=500px}
+:::
 
 The video below presents an early prototype of ArborStudio and its ability to quickly and easily perform manual instance corrections.
 

@@ -94,7 +94,7 @@
     "href": "arbor.html#arbor-studio",
     "title": "1  What is Arbor?",
     "section": "1.3 Arbor Studio",
-    "text": "1.3 Arbor Studio\nArborStudio is a desktop application with a graphical user interface designed for users who prefer a drag-and-drop workflow: load files, click a few buttons, and generate outputs without writing code.\nBut ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools.\nArborStudio is currently under active development and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.\nRegardless of the business model chosen for ArborStudio, the core Arbor engine will remain fully free and open source.\n\n\n\nArborStudio early stage of development\n\n\nThe video below presents an early prototype of ArborStudio and its ability to quickly and easily perform manual instance corrections.",
+    "text": "1.3 Arbor Studio\nArborStudio is a desktop application with a graphical user interface designed for users who prefer a drag-and-drop workflow: load files, click a few buttons, and generate outputs without writing code.\nBut ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools. The software is intended for two main types of users:\n\nPractitioners: to work outside R without coding\nResearchers: to easily achieve perfect segmentation manually in order to build validation datasets and/or train models\n\n\n\n\n\n\n\nNote\n\n\n\nArborStudio is currently under active development and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.\nRegardless of the business model chosen for ArborStudio, the core Arbor engine will remain fully free and open source.\n\n\nThe video below presents an early prototype of ArborStudio and its ability to quickly and easily perform manual instance corrections.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>What is Arbor?</span>"
     ]
@@ -894,7 +894,7 @@
     "href": "cmd.html",
     "title": "Appendix C - Command Line Tools",
     "section": "",
-    "text": "Installation\nRun arbor::install_cmd_tools(). The behavior of the function is OS dependent. It has been tested on Linux only. If Windows or MacOS users find troubleshoorting please contact us.\nTo test if it is type in a terminal",
+    "text": "Installation\nRun arbor::install_cmd_tools(). The behavior of the function is OS-dependent. It has been tested on Linux only. If Windows or macOS users encounter issues, please contact us.\nTo test whether it is working, type in a terminal:",
     "crumbs": [
       "Appendix C - Command Line Tools"
     ]
@@ -904,7 +904,7 @@
     "href": "cmd.html#installation",
     "title": "Appendix C - Command Line Tools",
     "section": "",
-    "text": "Linux/MacOS: it creates a symlink pointing to the utilities so that the shipped utilities become in your PATH\nWindows: it creates a .bat file that is supposed to be in you path\n\n\narbor --help",
+    "text": "Linux/macOS: it creates a symlink so that the shipped utilities are added to your PATH.\nWindows: it creates a .bat file that should be added to your PATH.\n\n\narbor --help",
     "crumbs": [
       "Appendix C - Command Line Tools"
     ]
@@ -914,7 +914,7 @@
     "href": "cmd.html#segment-module",
     "title": "Appendix C - Command Line Tools",
     "section": "Segment module",
-    "text": "Segment module\nThis module segment the scene (ground, semantic, instance) and produce a DTM, and scene_segmented.laz\narbor segment scene.laz\nTo see the avaible options\narbor segment --help",
+    "text": "Segment module\nThis module segments the scene (ground, semantic, instance) and produces a DTM and scene_segmented.laz.\narbor segment scene.laz\nTo see the available options:\narbor segment --help",
     "crumbs": [
       "Appendix C - Command Line Tools"
     ]
@@ -924,7 +924,7 @@
     "href": "cmd.html#qsf-module",
     "title": "Appendix C - Command Line Tools",
     "section": "QSF module",
-    "text": "QSF module\nThis module creates the 3D model of the forest. The input is the output of the previous module. It creates a folder qsm/ and inside this directory, one or several sub-directories depending on the output format desired.\narbor qsf scene_segmented.laz\nTo see the avaible options\narbor qsf --help",
+    "text": "QSF module\nThis module creates the 3D model of the forest. The input is the output of the previous module. It creates a qsm/ folder, containing one or several subdirectories depending on the desired output format.\narbor qsf scene_segmented.laz\nTo see the available options:\narbor qsf --help",
     "crumbs": [
       "Appendix C - Command Line Tools"
     ]
@@ -934,7 +934,7 @@
     "href": "cmd.html#report-module",
     "title": "Appendix C - Command Line Tools",
     "section": "Report module",
-    "text": "Report module\nThe report module generates a pdf that summarizes the scene (volume, basal area, distribution, tree map). The input is the directory produced by the qsf module\narbor report qsm/qsm/",
+    "text": "Report module\nThe report module generates a PDF that summarizes the scene (volume, basal area, distribution, tree map, …). The input is the directory produced by the qsf module.\narbor report qsm/qsm/",
     "crumbs": [
       "Appendix C - Command Line Tools"
     ]
