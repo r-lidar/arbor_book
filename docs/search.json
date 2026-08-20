@@ -14,7 +14,7 @@
     "href": "index.html#what-do-we-mean-by-production-grade",
     "title": "Arbor: The Complete R Tutorial Book",
     "section": "What do we mean by production-grade?",
-    "text": "What do we mean by production-grade?\nTo be considered production-grade, a pipeline must:\n\nWork under leaf-on conditions.\nBe fast: practitioners should obtain valuable outputs within minutes of computation. Slow workflows do not scale to real large inventories.\nBe parameterless: software with an overwhelming number of parameters is impractical. It should work out of the box without adjustment.\nBe easy to install: a production-grade tool should be straightforward to install for everyone.\n\nTo demonstrate the performance of the pipeline, the following sections present a gallery of outputs produced by Arbor.",
+    "text": "What do we mean by production-grade?\nTo be considered production-grade, a pipeline must:\n\nWork under leaf-on conditions.\nBe fast: practitioners should obtain valuable outputs within minutes of computation. Slow workflows do not scale to real Pzen inventories.\nBe parameterless: software with an overwhelming number of parameters is impractical. It should work out of the box without adjustment.\nBe easy to install: a production-grade tool should be straightforward to install for everyone.\n\nTo demonstrate the performance of the pipeline, the following sections present a gallery of outputs produced by Arbor.",
     "crumbs": [
       "Preface"
     ]
@@ -887,6 +887,56 @@
     "text": "Implementation notes\nEndianness: all multi-byte values are written in little-endian byte order. On big-endian platforms the implementation must byte-swap each field individually.\nIEEE 754: float and double fields follow IEEE 754 single and double precision respectively.",
     "crumbs": [
       "Appendix B - QSM Format Specifications"
+    ]
+  },
+  {
+    "objectID": "cmd.html",
+    "href": "cmd.html",
+    "title": "Appendix C - Command Line Tools",
+    "section": "",
+    "text": "Installation\nRun arbor::install_cmd_tools(). The behavior of the function is OS dependent. It has been tested on Linux only. If Windows or MacOS users find troubleshoorting please contact us.\nTo test if it is type in a terminal",
+    "crumbs": [
+      "Appendix C - Command Line Tools"
+    ]
+  },
+  {
+    "objectID": "cmd.html#installation",
+    "href": "cmd.html#installation",
+    "title": "Appendix C - Command Line Tools",
+    "section": "",
+    "text": "Linux/MacOS: it creates a symlink pointing to the utilities so that the shipped utilities become in your PATH\nWindows: it creates a .bat file that is supposed to be in you path\n\n\narbor --help",
+    "crumbs": [
+      "Appendix C - Command Line Tools"
+    ]
+  },
+  {
+    "objectID": "cmd.html#segment-module",
+    "href": "cmd.html#segment-module",
+    "title": "Appendix C - Command Line Tools",
+    "section": "Segment module",
+    "text": "Segment module\nThis module segment the scene (ground, semantic, instance) and produce a DTM, and scene_segmented.laz\narbor segment scene.laz\nTo see the avaible options\narbor segment --help",
+    "crumbs": [
+      "Appendix C - Command Line Tools"
+    ]
+  },
+  {
+    "objectID": "cmd.html#qsf-module",
+    "href": "cmd.html#qsf-module",
+    "title": "Appendix C - Command Line Tools",
+    "section": "QSF module",
+    "text": "QSF module\nThis module creates the 3D model of the forest. The input is the output of the previous module. It creates a folder qsm/ and inside this directory, one or several sub-directories depending on the output format desired.\narbor qsf scene_segmented.laz\nTo see the avaible options\narbor qsf --help",
+    "crumbs": [
+      "Appendix C - Command Line Tools"
+    ]
+  },
+  {
+    "objectID": "cmd.html#report-module",
+    "href": "cmd.html#report-module",
+    "title": "Appendix C - Command Line Tools",
+    "section": "Report module",
+    "text": "Report module\nThe report module generates a pdf that summarizes the scene (volume, basal area, distribution, tree map). The input is the directory produced by the qsf module\narbor report qsm/qsm/",
+    "crumbs": [
+      "Appendix C - Command Line Tools"
     ]
   }
 ]

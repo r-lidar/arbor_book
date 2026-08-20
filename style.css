@@ -16,6 +16,10 @@ img:hover {
   transform: scale(1.01);
 }
 
+img.no-shadow {
+  box-shadow: none !important;
+}
+
 
 .thumb:hover {
   transform: scale(1.1);

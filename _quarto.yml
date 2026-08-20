@@ -25,8 +25,7 @@ book:
     - faq.qmd
     - mre.qmd
     - spec.qmd
-
-bibliography: references.bib
+    - cmd.qmd
 
 format:
   html:
@@ -36,8 +35,6 @@ format:
     include-in-header:
       text: |
         <meta name="referrer" content="strict-origin-when-cross-origin">
-  pdf:
-    documentclass: scrreprt
 
 lightbox: true
 

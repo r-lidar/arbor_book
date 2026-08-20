@@ -8,7 +8,7 @@
 
 <meta name="description" content="A comprehensive guide to LiDAR data processing, tree segmentation, and structural analysis in R.">
 
-<title>9&nbsp; Operational Forestry-Oriented Tools – Arbor: The Complete R Tutorial Book</title>
+<title>Appendix C - Command Line Tools – Arbor: The Complete R Tutorial Book</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./results.html" rel="next">
-<link href="./qsf.html" rel="prev">
+<link href="./spec.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -121,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./forestry.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Operational Forestry-Oriented Tools</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cmd.html">Appendix C - Command Line Tools</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -202,7 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./forestry.html" class="sidebar-item-text sidebar-link active">
+  <a href="./forestry.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Operational Forestry-Oriented Tools</span></span></a>
   </div>
 </li>
@@ -232,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./cmd.html" class="sidebar-item-text sidebar-link">
+  <a href="./cmd.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Appendix C - Command Line Tools</span></a>
   </div>
 </li>
@@ -246,10 +245,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#nomenclature" id="toc-nomenclature" class="nav-link active" data-scroll-target="#nomenclature"><span class="header-section-number">9.1</span> Nomenclature</a></li>
-  <li><a href="#filter-merchantable-trees" id="toc-filter-merchantable-trees" class="nav-link" data-scroll-target="#filter-merchantable-trees"><span class="header-section-number">9.2</span> Filter Merchantable Trees</a></li>
-  <li><a href="#filter-stem-and-merchantable-volume" id="toc-filter-stem-and-merchantable-volume" class="nav-link" data-scroll-target="#filter-stem-and-merchantable-volume"><span class="header-section-number">9.3</span> Filter Stem and Merchantable Volume</a></li>
-  <li><a href="#remove-stump" id="toc-remove-stump" class="nav-link" data-scroll-target="#remove-stump"><span class="header-section-number">9.4</span> Remove Stump</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#segment-module" id="toc-segment-module" class="nav-link" data-scroll-target="#segment-module">Segment module</a></li>
+  <li><a href="#qsf-module" id="toc-qsf-module" class="nav-link" data-scroll-target="#qsf-module">QSF module</a></li>
+  <li><a href="#report-module" id="toc-report-module" class="nav-link" data-scroll-target="#report-module">Report module</a></li>
   </ul>
 </nav>
     </div>
@@ -258,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-opforestry" class="quarto-section-identifier"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Operational Forestry-Oriented Tools</span></span></h1>
+<h1 class="title">Appendix C - Command Line Tools</h1>
 </div>
 
 
@@ -275,35 +274,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>QSMs provide estimates of total tree volume. This is useful for applications such as total biomass or carbon stock assessment, but it is not always the most relevant output for forestry practitioners. This chapter introduces operational forestry tools designed to manipulate QSFs and QSMs by filtering, truncating, and transforming outputs to derive harvesting-oriented metrics.</p>
-<section id="nomenclature" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="nomenclature"><span class="header-section-number">9.1</span> Nomenclature</h2>
-<p>Functions starting with <code>qsf_</code> operate at the QSF level. They filter the set of QSMs contained in a QSF but do not modify the QSMs themselves.</p>
-<p>Functions starting with <code>qsm_</code> operate on both QSMs and QSFs. They modify the QSMs. When applied to a QSF, they are internally looped over all QSMs in the collection.</p>
-<p>Initial QSF containing all trees taller than 2 m:</p>
-<p><a href="figures/chap_qsf/qsf.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figures/chap_qsf/qsf.jpg" class="img-fluid" width="400"></a></p>
+<p>The <code>arbor</code> package comes with command line tools that we are using to run arbor via a terminal. These tools are mainly dedicated to our own usage and are subject to modification without prior modification. But since it is part of the package, reader will find quick documentation below.</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>Run <code>arbor::install_cmd_tools()</code>. The behavior of the function is OS dependent. It has been tested on Linux only. If Windows or MacOS users find troubleshoorting please contact us.</p>
+<ul>
+<li>Linux/MacOS: it creates a symlink pointing to the utilities so that the shipped utilities become in your PATH</li>
+<li>Windows: it creates a <code>.bat</code> file that is supposed to be in you path</li>
+</ul>
+<p>To test if it is type in a terminal</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="filter-merchantable-trees" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="filter-merchantable-trees"><span class="header-section-number">9.2</span> Filter Merchantable Trees</h2>
-<p>Remove trees with a DBH below a given threshold.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>qsf_merch <span class="ot">&lt;-</span> <span class="fu">qsf_merchantable</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="figures/chap_qsf/qsf_merch.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figures/chap_qsf/qsf_merch.jpg" class="img-fluid" width="400"></a></p>
+<section id="segment-module" class="level2">
+<h2 class="anchored" data-anchor-id="segment-module">Segment module</h2>
+<p>This module segment the scene (ground, semantic, instance) and produce a DTM, and <code>scene_segmented.laz</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> segment scene.laz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To see the avaible options</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> segment <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="filter-stem-and-merchantable-volume" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="filter-stem-and-merchantable-volume"><span class="header-section-number">9.3</span> Filter Stem and Merchantable Volume</h2>
-<p>Retain stem segments only.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>qsf_stem <span class="ot">&lt;-</span> <span class="fu">qsm_stem</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="figures/chap_qsf/qsf_stem.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="figures/chap_qsf/qsf_stem.jpg" class="img-fluid" width="400"></a></p>
-<p>Retain only merchantable parts of the QSMs, i.e., the stem and branches above a specified radius threshold. This operation does more than simple radius-based trimming: it also ensures that the resulting QSM remains a valid connected graph without gaps.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>qsf_merch <span class="ot">&lt;-</span> <span class="fu">qsm_merchantable</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="figures/chap_qsf/qsf_merch2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="figures/chap_qsf/qsf_merch2.jpg" class="img-fluid" width="400"></a></p>
-<p>These operations can be chained. For example, to retain only the merchantable portion of the stem:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>qsm_stem_merch <span class="ot">&lt;-</span> qsm <span class="sc">|&gt;</span> <span class="fu">qsm_stem</span>() <span class="sc">|&gt;</span> <span class="fu">qsm_merchantable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="qsf-module" class="level2">
+<h2 class="anchored" data-anchor-id="qsf-module">QSF module</h2>
+<p>This module creates the 3D model of the forest. The input is the output of the previous module. It creates a folder <code>qsm/</code> and inside this directory, one or several sub-directories depending on the output format desired.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> qsf scene_segmented.laz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To see the avaible options</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> qsf <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="remove-stump" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="remove-stump"><span class="header-section-number">9.4</span> Remove Stump</h2>
-<p>Remove the stump portion from a QSM. For graph validity reasons the skeleton and cylinder are never physically subsetted by this function. Instead radii are zeroed which is equivalent in term of volume while ensuring the QSMs remain a valid graph with a single root in all cases.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>qsm_harvested <span class="ot">&lt;-</span> <span class="fu">qsm_nostump</span>(qsm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="report-module" class="level2">
+<h2 class="anchored" data-anchor-id="report-module">Report module</h2>
+<p>The report module generates a pdf that summarizes the scene (volume, basal area, distribution, tree map). The input is the directory produced by the <code>qsf</code> module</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">arbor</span> report qsm/qsm/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="figures/gallery/report.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figures/gallery/report.png" class="no-shadow img-fluid"></a></p>
 
 
 </section>
@@ -731,18 +731,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./qsf.html" class="pagination-link" aria-label="Quantitative Structure Forest">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Quantitative Structure Forest</span></span>
+      <a href="./spec.html" class="pagination-link" aria-label="Appendix B - QSM Format Specifications">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Appendix B - QSM Format Specifications</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./results.html" class="pagination-link" aria-label="Benchmarks - Results">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Benchmarks - Results</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","loop":false});
+<script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

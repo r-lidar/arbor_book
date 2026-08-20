@@ -24,7 +24,7 @@ In this book the reader will find an in-depth explanation of the pipeline, how i
 To be considered production-grade, a pipeline must:
 
 - **Work under leaf-on conditions**.
-- **Be fast**: practitioners should obtain valuable outputs within minutes of computation. Slow workflows do not scale to real large inventories.
+- **Be fast**: practitioners should obtain valuable outputs within minutes of computation. Slow workflows do not scale to real Pzen inventories.
 - **Be parameterless**: software with an overwhelming number of parameters is impractical. It should work out of the box without adjustment.
 - **Be easy to install**: a production-grade tool should be straightforward to install for everyone.
 
