@@ -106,13 +106,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<meta name="referrer" content="strict-origin-when-cross-origin">
+</head><body class="nav-sidebar floating"><a title="Google Analytics Alternative" href="https://clicky.com/101510612"><img alt="Clicky" src="//static.getclicky.com/media/links/badge.gif" border="0"></a>
+<script async="" data-id="101510612" src="//static.getclicky.com/js"></script>
 
 
 <link rel="stylesheet" href="style.css">
-</head>
 
-<body class="nav-sidebar floating">
+
+
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -406,8 +407,6 @@ Below is a simulation of circular cross-sections of objects with various radii, 
 
 
 
-
-
 ::: {.cell}
 ::: {.cell-output-display}
 ![](decimation_files/figure-html/unnamed-chunk-3-1.png){width=1536}
@@ -419,8 +418,6 @@ Below is a simulation of circular cross-sections of objects with various radii, 
 ![](decimation_files/figure-html/unnamed-chunk-4-1.png){width=1536}
 :::
 :::
-
-
 
 
 
@@ -495,8 +492,6 @@ Let's simulate some data. Below, on the left we have a pure 4 cm uniform noise f
 
 
 
-
-
 ::: {.cell}
 
 :::
@@ -510,15 +505,11 @@ Let's simulate some data. Below, on the left we have a pure 4 cm uniform noise f
 
 
 
-
-
 Below is the result of Random, Voxel, and Poisson sampling. Random sampling preserves the original distribution of the noise. Noise points can be removed randomly, and their overall ratio is maintained. Some noise points are retained (sadly), some are removed, and we end up with a distribution that is essentially the same as the original.
 
 Spatial sampling methods, on the other hand, try to retain as many points as possible. If there is an isolated noise point somewhere, it will be retained by construction. Spatial methods are excellent at homogenizing the point cloud and preserving details, but they also **enhance noise by design**.
 
 At r-lidar, we believe that, as long as mobile scanners remain big noise producers, it is better to use Random sampling, with all its defaults and weaknesses. At least this way, **noise is not amplified**.
-
-
 
 
 
@@ -532,11 +523,7 @@ At r-lidar, we believe that, as long as mobile scanners remain big noise produce
 
 
 
-
-
 To convince the reader even more, here is a (somehow) realistic simulation of a tiny branch in a noisy foliage. In the raw point cloud, we are able to detect the branch (though not measure it). Detection is possible on a density basis. After random sampling (70% of points removed), the branch is still clearly present. After spatial sampling (only ~50% of points removed), the branch's existence is far less obvious, and the data-to-noise ratio has increased significantly.
-
-
 
 
 
@@ -551,11 +538,7 @@ To convince the reader even more, here is a (somehow) realistic simulation of a 
 
 
 
-
-
 Ultimately, it is very easy to completely lose a feature with spatial sampling, whereas it is essentially impossible with random sampling, because the noise ratio remains stable. The simulated figures below are close to what really happens within the foliage. Applying a spatial sampling retains **all** the noisy foliage points while loosing some details in branches (which are already not detailed at all).
-
-
 
 
 
@@ -565,8 +548,6 @@ Ultimately, it is very easy to completely lose a feature with spatial sampling, 
 ![From left to right: raw data, random sampling, voxel sampling, and Poisson sampling, demonstrating how easily features can be lost through spatial sampling and noise amplification.](decimation_files/figure-html/unnamed-chunk-11-1.png){width=1056}
 :::
 :::
-
-
 
 
 
@@ -1180,7 +1161,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":false,"descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","loop":false,"closeEffect":"zoom","openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

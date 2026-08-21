@@ -34,7 +34,9 @@ format:
     self-contained: false
     include-in-header:
       text: |
-        <meta name="referrer" content="strict-origin-when-cross-origin">
+        <a title="Google Analytics Alternative" href="https://clicky.com/101510612"><img alt="Clicky" src="//static.getclicky.com/media/links/badge.gif" border="0" /></a>
+        <script async data-id="101510612" src="//static.getclicky.com/js"></script>
+
 
 lightbox: true
 
