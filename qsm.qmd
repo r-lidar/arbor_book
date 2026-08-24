@@ -19,73 +19,9 @@ for (img in img_files) {
 ```
 </div>
 
-<!--
-## TreeQSM and AdTree
-
-### TreeQSM
-
-[TreeQSM](https://github.com/InverseTampere/TreeQSM) remains the most accurate and reliable QSM tools available praised by the community. It works particularly well because TreeQSM was designed for (1) point clouds acquired with Terrestrial Laser Scanners (`TLS`), which are much more accurate than Mobile Laser Scanners (`MLS`) and (2) it was designed to work on individual trees that were segmented manually, and therefore are assumed to be perfectly segmented, either leaf-off or with manually performed wood/foliage segmentation.
-
-However, these 2 points do not scale in production. In a production-ready context, we work with MLS and automatic segmentation, which may contain segmentation errors and more noise and more residual foliage and more issue overall. We need tools that are more robust.
-
-[With MLS sampling, the level of detail we can achieve on small objects is physically limited. Each white line is the same size, showing that objects that are too small end up being approximately the same size, even in a perfectly segmented tree.](figures/chap_qsm/measure.png){width=500px}
-
-Moreover, TreeQSM is extremely slow. Processing a single tree can easily take over five minutes. This does not scale: five minutes per tree times 20,000 trees equals roughly a solid month of computation. Processing 20,000 trees is not uncommon in production and we did it in some projects.
-
-So, while TreeQSM was a game-changer when released in 2015 and is still top most accurate tool:
-
-- It is very slow
-- It is not designed to handle high levels of noise
-- It is not designed to handle misclassifications and incorrect segmentations
-
-It does not scale to production environments.
-
-### AdTree {#sec-adtree}
-
-The advantage of [AdTree](https://www.mdpi.com/2072-4292/11/18/2074) lies in its ability to compute visually convincing QSMs in less than five seconds, an impressive speed that makes it highly scalable in production.  
-
-However, literature has repeatedly shown that AdTree is not accurate. Studying the source code of AdTree helps us understand its strengths and weaknesses.
-
-The strategy of AdTree is to **NOT** measure the tree. This may sound bold, but it is essentially what AdTree does if you read the source code.
-
-::: {.callout-important}
-The academic paper describing AdTree presents a slightly different approach. However, the paper does not match the source code or the output produced by AdTree. The explanation below reflects the actual implementation more accurately.
-:::
-
-AdTree builds a skeleton of the tree and measures **only the root diameter**. It then reconstructs the tree using simple rules: the end of a branch always has a 0 cm diameter and the stem taper is linear.
-
-It starts with the main axis, measuring its root diameter:
-
-![](figures/chap_qsm/adtree1.png){width=200px}
-
-The tree is essentially a cone that starts with the measured root diameter and tapers to 0 at the tip. In this book we call it **conic allometric model**.
-
-![](figures/chap_qsm/adtree2.png){width=200px}
-
-Stem taper specialists may disagree, but as a first approximation, this makes sense. The same rule is applied to each branch based on its length. For example, a branch that is half the length of the main trunk inherit the trunk diameter at half its length.
-
-![](figures/chap_qsm/adtree3.png){width=200px}
-
-This is applied globally to reconstruct the full tree:
-
-![](figures/chap_qsm/adtree4.png){width=200px}
-![](figures/chap_qsm/adtree5.png){width=200px}
-
-This approach is clever: it produces **very realistic trees** with **a single measurement** (plus skeleton computation). Using more realistic tree proportions, the method generates plausible trees very quickly. Below using a real skeleton:
-
-![](figures/chap_qsm/puremodel.png){width=200px}
-
-The idea is sound, but the implementation is highly sensitive to minor variability near the root. Trees that are not perfectly straight, noise, minor misclassifications, or non-circular trunks, all can very easily lead to incorrect measurements. AdTree can very easily get its unique measurement wrong! And when we have a single measurement to build an entire tree we can't afford an error.
-
-A second and third sources of inaccuracy come from its simple reconstruction rules (conic allometric model). While it generally produce realistic trees, it overestimates branch diameters if branches deviate from the *all-equal branch* assumption which is actually often the case in real trees. In fact conic allometric model does not correspond to realistic assumption in grown trees.
-
-## Arbor QSM
-
-What if we could build a hybrid approach? Measure what can be measured robustly, and reconstruct what cannot be measured using simple rules. This is the approach used by Arbor.-->
-
 ## RANSAC Orbicular Fitting
 
-Trees do not have the decency to be perfectly circular, that would be too simple. Circle fitting can underperform because trees deviate from perfect shapes. To better measure tree sizes, we designed an Orbicular Fitting (OF) method. The word *orbicular* refers to biological shapes that are circular-ish, which is precisely the shape of trunks and branches.
+Trees do not have the courtesy to be perfectly circular, that would be too simple. Circle/cylinder fitting can under-perform because trees deviate from perfect shapes. To better measure tree sizes, we designed an Orbicular Fitting (OF) method. The word *orbicular* refers to biological shapes that are circular-ish, which is precisely the shape of trunks and branches.
 
 For a given cross section of a trunk or branch, we attempt at least three fitting methods and retain the best result:
 

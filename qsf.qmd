@@ -16,7 +16,7 @@ As described in previous chapters, the variable `las` contains the segmented sce
 qsf = qsf(las)
 ```
 
-The `qsf` function is blazingly fast and can produce up to 100 QSMs in 1 minute!
+The `qsf` function is blazingly fast and can produce several hundreds QSMs per minute!
 
 ::: {.callout-tip}
 A `qsf` object is simply a `list` with an additional class to enable convenient printing and plotting methods. Thus, `qsf[[1]]` contains a `qsm` object.
