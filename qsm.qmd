@@ -298,7 +298,7 @@ The accuracy of the allometric model is therefore not critical. Trees that are m
 
 ## Non-measurable Trees - edge cases {#sec-edgecases}
 
-In some very specific cases, however, this approach reaches its limits. For example, we modeled a cacao plantation in Cameroon where trees are heavily managed and differ substantially from the Griese et al. model. Typically, a 5 m tree may have a diameter of 12 cm, whereas the Griese et al. model predicts approximately 4.5 cm, an underestimation by a factor of about 2.5 tp 3 and all tree are around 5 meters height. As a consequence, most trees are incorrectly flagged as non-measurable and are therefore not measured using the standard QSM pipeline.
+In some very specific cases, however, this approach reaches its limits. For example, we modeled a cacao plantation in Cameroon where the trees are heavily managed and differ substantially from those represented in the Griese et al. model. Typically, a 5 m tall tree may have a diameter of 12 cm, whereas the Griese et al. model predicts approximately 4.5 cm, an underestimation by a factor of about 2.5 to 3. Moreover, all the trees are approximately 5 m tall. As a consequence, most trees are incorrectly flagged as non-measurable and are therefore not measured using the standard QSM pipeline.
 
 Overall the approach described in previous section may fall short in non-forested areas such as plantations of fruit trees, urban areas, heavily managed trees where small trees can become particularly big compared to typical forest trees of the same height that compete differently for ressources.
 

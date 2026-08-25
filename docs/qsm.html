@@ -513,7 +513,7 @@ Important
 </section>
 <section id="sec-edgecases" class="level2" data-number="7.7">
 <h2 data-number="7.7" class="anchored" data-anchor-id="sec-edgecases"><span class="header-section-number">7.7</span> Non-measurable Trees - edge cases</h2>
-<p>In some very specific cases, however, this approach reaches its limits. For example, we modeled a cacao plantation in Cameroon where trees are heavily managed and differ substantially from the Griese et al.&nbsp;model. Typically, a 5 m tree may have a diameter of 12 cm, whereas the Griese et al.&nbsp;model predicts approximately 4.5 cm, an underestimation by a factor of about 2.5 tp 3 and all tree are around 5 meters height. As a consequence, most trees are incorrectly flagged as non-measurable and are therefore not measured using the standard QSM pipeline.</p>
+<p>In some very specific cases, however, this approach reaches its limits. For example, we modeled a cacao plantation in Cameroon where the trees are heavily managed and differ substantially from those represented in the Griese et al.&nbsp;model. Typically, a 5 m tall tree may have a diameter of 12 cm, whereas the Griese et al.&nbsp;model predicts approximately 4.5 cm, an underestimation by a factor of about 2.5 to 3. Moreover, all the trees are approximately 5 m tall. As a consequence, most trees are incorrectly flagged as non-measurable and are therefore not measured using the standard QSM pipeline.</p>
 <p>Overall the approach described in previous section may fall short in non-forested areas such as plantations of fruit trees, urban areas, heavily managed trees where small trees can become particularly big compared to typical forest trees of the same height that compete differently for ressources.</p>
 <p>In such cases, parameter tuning becomes mandatory. Users can select an alternative allometric model, lower the minimum detectable DBH or scale one existing model. For the cacao plantation we scaled Griese’s model by a factor of 2.5. Again, the accuracy of the model is <strong>NOT</strong> critical. We simply scaled the Griese et al.&nbsp;model to ensure that measurable trees are no longer excluded.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>qsm<span class="sc">$</span>allometry_name <span class="ot">=</span> <span class="st">"Griese2025"</span></span>
@@ -1113,7 +1113,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","loop":false});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
