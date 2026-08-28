@@ -28,6 +28,8 @@ To be considered production-grade, a pipeline must:
 - **Be parameterless**: software with an overwhelming number of parameters is impractical. It should work out of the box without adjustment.
 - **Be easy to install**: a production-grade tool should be straightforward to install for everyone.
 
+In addition the internal algorithm follows a classical, rule-based approach rather than a learning-based one. It does **not** use deep learning, AI models, or training data. Consequently, it does not depend on the characteristics of a particular training dataset and can be applied directly to new datasets without retraining.
+
 To demonstrate the performance of the pipeline, the following sections present a gallery of outputs produced by Arbor.
 
 ## Showcase
