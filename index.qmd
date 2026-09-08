@@ -9,6 +9,10 @@ library(rgl)
 options(rgl.useNULL = TRUE) # Suppress the separate rgl window during knitting
 ```
 
+Recent book update
+
+- 2026-09-08 section @sec-oversegmentation introduce v1.1.0 over-fitting solver.
+
 # Preface {.unnumbered}
 
 In less than 10 minutes, on a laptop, Arbor turns 2500 m² of raw forest point cloud into a 3D model of every tree it contains. This book presents Arbor, the open source workflow developed by [r-lidar inc](https://www.r-lidar.com/) for processing mobile laser scanning point clouds, from raw data to QSM (Quantitative Structure Models).

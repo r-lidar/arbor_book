@@ -250,15 +250,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#seeds" id="toc-seeds" class="nav-link active" data-scroll-target="#seeds"><span class="header-section-number">6.1</span> Seeds</a></li>
   <li><a href="#pathfinder" id="toc-pathfinder" class="nav-link" data-scroll-target="#pathfinder"><span class="header-section-number">6.2</span> Pathfinder</a></li>
   <li><a href="#real-rendering" id="toc-real-rendering" class="nav-link" data-scroll-target="#real-rendering"><span class="header-section-number">6.3</span> Real Rendering</a></li>
-  <li><a href="#cleaning-understory" id="toc-cleaning-understory" class="nav-link" data-scroll-target="#cleaning-understory"><span class="header-section-number">6.4</span> Cleaning understory</a></li>
-  <li><a href="#buffer-clipping-and-edge-artifacts" id="toc-buffer-clipping-and-edge-artifacts" class="nav-link" data-scroll-target="#buffer-clipping-and-edge-artifacts"><span class="header-section-number">6.5</span> Buffer Clipping and Edge Artifacts</a></li>
-  <li><a href="#rendering-filtering" id="toc-rendering-filtering" class="nav-link" data-scroll-target="#rendering-filtering"><span class="header-section-number">6.6</span> Rendering &amp; Filtering</a></li>
-  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">6.7</span> Parameters</a></li>
-  <li><a href="#point-wise-classification-accuracy" id="toc-point-wise-classification-accuracy" class="nav-link" data-scroll-target="#point-wise-classification-accuracy"><span class="header-section-number">6.8</span> Point-wise Classification Accuracy</a></li>
-  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"><span class="header-section-number">6.9</span> Code</a>
+  <li><a href="#sec-oversegmentation" id="toc-sec-oversegmentation" class="nav-link" data-scroll-target="#sec-oversegmentation"><span class="header-section-number">6.4</span> Common mistakes</a></li>
+  <li><a href="#cleaning-understory" id="toc-cleaning-understory" class="nav-link" data-scroll-target="#cleaning-understory"><span class="header-section-number">6.5</span> Cleaning understory</a></li>
+  <li><a href="#buffer-clipping-and-edge-artifacts" id="toc-buffer-clipping-and-edge-artifacts" class="nav-link" data-scroll-target="#buffer-clipping-and-edge-artifacts"><span class="header-section-number">6.6</span> Buffer Clipping and Edge Artifacts</a></li>
+  <li><a href="#rendering-filtering" id="toc-rendering-filtering" class="nav-link" data-scroll-target="#rendering-filtering"><span class="header-section-number">6.7</span> Rendering &amp; Filtering</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">6.8</span> Parameters</a></li>
+  <li><a href="#point-wise-classification-accuracy" id="toc-point-wise-classification-accuracy" class="nav-link" data-scroll-target="#point-wise-classification-accuracy"><span class="header-section-number">6.9</span> Point-wise Classification Accuracy</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"><span class="header-section-number">6.10</span> Code</a>
   <ul class="collapse">
-  <li><a href="#function-list" id="toc-function-list" class="nav-link" data-scroll-target="#function-list"><span class="header-section-number">6.9.1</span> Function List</a></li>
-  <li><a href="#full-code" id="toc-full-code" class="nav-link" data-scroll-target="#full-code"><span class="header-section-number">6.9.2</span> Full Code</a></li>
+  <li><a href="#function-list" id="toc-function-list" class="nav-link" data-scroll-target="#function-list"><span class="header-section-number">6.10.1</span> Function List</a></li>
+  <li><a href="#full-code" id="toc-full-code" class="nav-link" data-scroll-target="#full-code"><span class="header-section-number">6.10.2</span> Full Code</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -419,12 +420,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </section>
-<section id="cleaning-understory" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="cleaning-understory"><span class="header-section-number">6.4</span> Cleaning understory</h2>
+<section id="sec-oversegmentation" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="sec-oversegmentation"><span class="header-section-number">6.4</span> Common mistakes</h2>
+<p>Overall, the approach gives very good results. Yet, the most common error (putting aside issues with lianas in tropical forests) that users may encounter in instance segmentation is over-segmented trees receiving two or more IDs instead of one. The occurrence of such errors ranges between 0 and 5 per 1,000 trees depending on scene complexity, with higher occurrences in TLS than MLS. The error is particularly prominent with massive buttress trees.</p>
+<p>Arbor <code>v1.1.0</code> introduced an over-segmentation solver module. Starting in <code>v1.1.0</code>, <code>segment_instance()</code> automatically detects and fixes a significant number of over-segmentation cases. The module is enabled by default and can be turned off (restoring <code>v1.0.0</code> behavior) via:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>arbor_parameters_default<span class="sc">$</span>instance<span class="sc">$</span>oversegmentation_solver_enabled <span class="ot">=</span> <span class="cn">FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If disabled at segmentation time, it can still be executed during post-processing on an already segmented point cloud using:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">resolve_oversegmentation</span>(las)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_instance/overfitting.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Arbor v1.0.0 tends to oversegment some trees, and especially tends to oversegment large buttress trees. v1.1.0 introduces an over-segmentation solver that significantly reduces the occurrence of such problems (which were already relatively rare)."><img src="figures/chap_instance/overfitting.png" class="img-fluid figure-img" alt="Arbor v1.0.0 tends to oversegment some trees, and especially tends to oversegment large buttress trees. v1.1.0 introduces an over-segmentation solver that significantly reduces the occurrence of such problems (which were already relatively rare)."></a></p>
+<figcaption>Arbor v1.0.0 tends to oversegment some trees, and especially tends to oversegment large buttress trees. v1.1.0 introduces an over-segmentation solver that significantly reduces the occurrence of such problems (which were already relatively rare).</figcaption>
+</figure>
+</div>
+</section>
+<section id="cleaning-understory" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="cleaning-understory"><span class="header-section-number">6.5</span> Cleaning understory</h2>
 <p>At this stage, the scene is largely segmented. If everything went well, every tree, sapling, and bush has been segmented and assigned an ID. However, in practice, it is unrealistic to expect every tiny feature, such as small bushes or saplings, to be perfectly segmented. These features are extremely complex, interleaved, and noisy.</p>
 <p>Moreover, they have virtually no significance in terms of carbon stock and are not harvested. Consequently, we suggest flagging all instances below a certain size threshold, typically 2 or 4 meters. The flagged trees won’t be processed in next steps.</p>
 <p>Cleaning the understory is <strong>optional</strong>. You may keep all vegetation if desired.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_small_trees</span>(las, <span class="at">max_height =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_small_trees</span>(las, <span class="at">max_height =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -440,13 +455,13 @@ Note
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_instance/cleaned.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Cleaned scene after removing small-size instances"><img src="figures/chap_instance/cleaned.jpg" class="img-fluid figure-img" width="400" alt="Cleaned scene after removing small-size instances"></a></p>
+<p><a href="figures/chap_instance/cleaned.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Cleaned scene after removing small-size instances"><img src="figures/chap_instance/cleaned.jpg" class="img-fluid figure-img" width="400" alt="Cleaned scene after removing small-size instances"></a></p>
 <figcaption>Cleaned scene after removing small-size instances</figcaption>
 </figure>
 </div>
 </section>
-<section id="buffer-clipping-and-edge-artifacts" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="buffer-clipping-and-edge-artifacts"><span class="header-section-number">6.5</span> Buffer Clipping and Edge Artifacts</h2>
+<section id="buffer-clipping-and-edge-artifacts" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="buffer-clipping-and-edge-artifacts"><span class="header-section-number">6.6</span> Buffer Clipping and Edge Artifacts</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -463,18 +478,18 @@ Important
 <p>A common issue with pathfinding is that we need to find a path to the ground. This becomes problematic at the edges of a dataset when the dataset has been clipped. At the edges, we alway have <em>floating</em> branches and trunks that are not connected to the ground. Consequently, the only path to reach the ground or a seed may be through a nearby tree.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_instance/buffer0.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="The pathfinder can only reach the seeds of the nearby tree since the branches are not connected to the ground by another path."><img src="figures/chap_instance/buffer0.jpg" class="img-fluid figure-img" width="600" alt="The pathfinder can only reach the seeds of the nearby tree since the branches are not connected to the ground by another path."></a></p>
+<p><a href="figures/chap_instance/buffer0.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-16" title="The pathfinder can only reach the seeds of the nearby tree since the branches are not connected to the ground by another path."><img src="figures/chap_instance/buffer0.jpg" class="img-fluid figure-img" width="600" alt="The pathfinder can only reach the seeds of the nearby tree since the branches are not connected to the ground by another path."></a></p>
 <figcaption>The pathfinder can only reach the seeds of the nearby tree since the branches are not connected to the ground by another path.</figcaption>
 </figure>
 </div>
 <p>This produces invalid results, especially with large trees. Sometimes, for tilted trees, we may even see half of a trunk floating.</p>
-<p><a href="figures/chap_instance/buffer1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-16"><img src="figures/chap_instance/buffer1.jpg" class="img-fluid" width="600"></a></p>
+<p><a href="figures/chap_instance/buffer1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-17"><img src="figures/chap_instance/buffer1.jpg" class="img-fluid" width="600"></a></p>
 <p>To avoid these issues, it is important to work with a scene larger than the area of interest, so that boundary trees can be removed (see also <a href="preparation.html#sec-pcselection" class="quarto-xref"><span>Section 2.1</span></a>). In the images above, the green tree on the left and the reddish tree on the right should be removed. While the reddish tree may appear fine, this is merely coincidental: the scene happened to be cut just between two trees.</p>
 <p>This can be achieved by flagging a buffer around the point cloud. The buffer size should correspond to the extent of the largest possible tree. Typically, we recommend a buffer of at least 10 meters, although this may vary depending on forest type and tree sizes. The flagged trees won’t be processed in next steps.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_buffer</span>(las, seeds, <span class="sc">-</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_buffer</span>(las, seeds, <span class="sc">-</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_instance/buffer2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="Edge trees were removed"><img src="figures/chap_instance/buffer2.jpg" class="img-fluid figure-img" width="600" alt="Edge trees were removed"></a></p>
+<p><a href="figures/chap_instance/buffer2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-18" title="Edge trees were removed"><img src="figures/chap_instance/buffer2.jpg" class="img-fluid figure-img" width="600" alt="Edge trees were removed"></a></p>
 <figcaption>Edge trees were removed</figcaption>
 </figure>
 </div>
@@ -492,21 +507,21 @@ Note
 </div>
 </div>
 <p>Visualization on real data:</p>
-<p><a href="figures/gallery/plot1/2_2semantic.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-18"><img src="figures/gallery/plot1/2_2semantic.jpg" class="img-fluid" width="400"></a></p>
-<p><a href="figures/gallery/plot1/2_4main.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="figures/gallery/plot1/2_4main.jpg" class="img-fluid" width="400"></a></p>
+<p><a href="figures/gallery/plot1/2_2semantic.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-19"><img src="figures/gallery/plot1/2_2semantic.jpg" class="img-fluid" width="400"></a></p>
+<p><a href="figures/gallery/plot1/2_4main.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-20"><img src="figures/gallery/plot1/2_4main.jpg" class="img-fluid" width="400"></a></p>
 </section>
-<section id="rendering-filtering" class="level2" data-number="6.6">
-<h2 data-number="6.6" class="anchored" data-anchor-id="rendering-filtering"><span class="header-section-number">6.6</span> Rendering &amp; Filtering</h2>
+<section id="rendering-filtering" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="rendering-filtering"><span class="header-section-number">6.7</span> Rendering &amp; Filtering</h2>
 <p>The function <code>plot_instance()</code> renders the instance segmentation. All points have an attribute <code>treeID</code>. A <code>treeID = 0</code> is equivalent to <code>NA</code>. Valid instances are guaranteed to not have a treeID equal to 0. Only strictly positive ID are valid.</p>
 <p>Users can filter out valid tree with <code>las &lt;- lidR::filter_poi(las, UserData == ARBORTREE)</code>.</p>
 <p>The function <code>colorize_tree()</code> adds RGB colors to the point cloud for rendering in external softwares.</p>
 </section>
-<section id="parameters" class="level2" data-number="6.7">
-<h2 data-number="6.7" class="anchored" data-anchor-id="parameters"><span class="header-section-number">6.7</span> Parameters</h2>
+<section id="parameters" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="parameters"><span class="header-section-number">6.8</span> Parameters</h2>
 <p><code>Arbor</code> is designed to be <strong>parameter-free</strong>. Most internal parameters are intentionally undocumented, as they require a deep understanding of the internal pathfinder and are not meant for routine tuning.</p>
 <p>Two parameters, however, can be safely adjusted to improve connectivity in sparse point clouds:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>path_finder<span class="sc">$</span>k_neighborhood_connectivity</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>path_finder<span class="sc">$</span>max_gap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>path_finder<span class="sc">$</span>k_neighborhood_connectivity</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>path_finder<span class="sc">$</span>max_gap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><code>k_neighborhood_connectivity</code> defines the number of neighbors used to build the graph (default: 10).</li>
 <li><code>max_gap</code> defines the maximum allowed distance between connected points (default: 1 m).</li>
@@ -514,7 +529,7 @@ Note
 <p>In sparse canopies, especially near tree tops, default values may fail to connect upper part or apexes to lower sections. Increasing these values can improve graph connectivity. However, this is rarely necessary, as internal safeguard routines are already implemented to maintain good connectivity in sparse regions.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_instance/prf002_nas.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-20" title="Multilayered plot with extremely sparse sampling in upper canopy layers without the automatic connectivity fix (left) and with the automatic connectivity fix enabled (right)."><img src="figures/chap_instance/prf002_nas.jpg" class="img-fluid figure-img" alt="Multilayered plot with extremely sparse sampling in upper canopy layers without the automatic connectivity fix (left) and with the automatic connectivity fix enabled (right)."></a></p>
+<p><a href="figures/chap_instance/prf002_nas.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-21" title="Multilayered plot with extremely sparse sampling in upper canopy layers without the automatic connectivity fix (left) and with the automatic connectivity fix enabled (right)."><img src="figures/chap_instance/prf002_nas.jpg" class="img-fluid figure-img" alt="Multilayered plot with extremely sparse sampling in upper canopy layers without the automatic connectivity fix (left) and with the automatic connectivity fix enabled (right)."></a></p>
 <figcaption>Multilayered plot with extremely sparse sampling in upper canopy layers without the automatic connectivity fix (left) and with the automatic connectivity fix enabled (right).</figcaption>
 </figure>
 </div>
@@ -532,17 +547,17 @@ Important
 </div>
 </div>
 </section>
-<section id="point-wise-classification-accuracy" class="level2" data-number="6.8">
-<h2 data-number="6.8" class="anchored" data-anchor-id="point-wise-classification-accuracy"><span class="header-section-number">6.8</span> Point-wise Classification Accuracy</h2>
+<section id="point-wise-classification-accuracy" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="point-wise-classification-accuracy"><span class="header-section-number">6.9</span> Point-wise Classification Accuracy</h2>
 <p>Is the instance semantic classification accurate? In practice, the answer here mirrors the case of semantic segmentation, and for the same reasons.</p>
 <p>Point-wise classification accuracy is not a meaningful indicator of overall system performance. Even if our algorithm achieves 95–99% accuracy at the point level, this tells us very little about the practical quality of the final output. The remaining 1% of points, especially if they occur on tree boundaries or in areas critical for mensuration, can significantly distort measurements. Even a model that is 99.9% accurate could still produce unacceptable results if the remaining 0.1% introduces systematic or structurally important errors.</p>
 <p>What truly matters is not how many points are classified correctly, but whether the segmentation produces coherent, reliable instances. For our application, this means accurately identifying individual trees and correctly estimating their position, DBH, height, and volume. These are the metrics that matter, and these are the ones we validate and discuss later.</p>
 <p>For this reason, point-wise classification accuracy provides almost no practical insight.</p>
 </section>
-<section id="code" class="level2" data-number="6.9">
-<h2 data-number="6.9" class="anchored" data-anchor-id="code"><span class="header-section-number">6.9</span> Code</h2>
-<section id="function-list" class="level3" data-number="6.9.1">
-<h3 data-number="6.9.1" class="anchored" data-anchor-id="function-list"><span class="header-section-number">6.9.1</span> Function List</h3>
+<section id="code" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="code"><span class="header-section-number">6.10</span> Code</h2>
+<section id="function-list" class="level3" data-number="6.10.1">
+<h3 data-number="6.10.1" class="anchored" data-anchor-id="function-list"><span class="header-section-number">6.10.1</span> Function List</h3>
 <ul>
 <li><code>find_seeds()</code></li>
 <li><code>segment_instance()</code></li>
@@ -553,25 +568,25 @@ Important
 <li><code>colorize_tree()</code>: adds RGB colors to the point cloud for rendering in external softwares</li>
 </ul>
 </section>
-<section id="full-code" class="level3" data-number="6.9.2">
-<h3 data-number="6.9.2" class="anchored" data-anchor-id="full-code"><span class="header-section-number">6.9.2</span> Full Code</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lidR)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arbor)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> arbor_parameters_default</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>global<span class="sc">$</span>cut_above_ground <span class="ot">=</span> <span class="fl">0.25</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> <span class="st">"-keep_random_fraction 0.25"</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">readTLS</span>(file, <span class="at">select =</span> <span class="st">"xyz"</span>, <span class="at">filter =</span> filter)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">hybrid_homogeneization</span>(las)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_ground</span>(las)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">wood_likelihood</span>(las, params)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_semantic</span>(las, params)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>see <span class="ot">&lt;-</span> <span class="fu">find_seeds</span>(las, params)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_instance</span>(las, see, params)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_small_trees</span>(las, <span class="at">max_height =</span> <span class="dv">2</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_buffer</span>(las, see, <span class="sc">-</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="full-code" class="level3" data-number="6.10.2">
+<h3 data-number="6.10.2" class="anchored" data-anchor-id="full-code"><span class="header-section-number">6.10.2</span> Full Code</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lidR)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arbor)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> arbor_parameters_default</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>global<span class="sc">$</span>cut_above_ground <span class="ot">=</span> <span class="fl">0.25</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> <span class="st">"-keep_random_fraction 0.25"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">readTLS</span>(file, <span class="at">select =</span> <span class="st">"xyz"</span>, <span class="at">filter =</span> filter)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">hybrid_homogeneization</span>(las)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_ground</span>(las)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">wood_likelihood</span>(las, params)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_semantic</span>(las, params)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>see <span class="ot">&lt;-</span> <span class="fu">find_seeds</span>(las, params)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_instance</span>(las, see, params)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_small_trees</span>(las, <span class="at">max_height =</span> <span class="dv">2</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_buffer</span>(las, see, <span class="sc">-</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -1011,7 +1026,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","loop":false,"openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
