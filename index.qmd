@@ -149,5 +149,7 @@ While Arbor has been developed independently by [r-lidar inc.](www.r-lidar.com/)
 
 ![](figures/logo/mrnf.png){width=200px}
 
+
+![](figures/logo/uquat.png){width=200px}
 :::
   
