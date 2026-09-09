@@ -11,7 +11,7 @@ options(rgl.useNULL = TRUE) # Suppress the separate rgl window during knitting
 
 Recent book update
 
-- 2026-09-08 section @sec-oversegmentation introduce v1.1.0 over-fitting solver.
+- 2026-09-08: @sec-oversegmentation introduces v1.1.0 over-segmentation solver.
 
 # Preface {.unnumbered}
 
