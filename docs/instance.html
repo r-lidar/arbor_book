@@ -423,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sec-oversegmentation" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="sec-oversegmentation"><span class="header-section-number">6.4</span> Common mistakes</h2>
 <p>Overall, the approach gives very good results. Yet, the most common error (putting aside issues with lianas in tropical forests) that users may encounter in instance segmentation is over-segmented trees receiving two or more IDs instead of one. The occurrence of such errors ranges between 0 and 5 per 1,000 trees depending on scene complexity, with higher occurrences in TLS than MLS. The error is particularly prominent with massive buttress trees.</p>
-<p>Arbor <code>v1.1.0</code> introduced an over-segmentation solver module. Starting in <code>v1.1.0</code>, <code>segment_instance()</code> automatically detects and fixes a significant number of over-segmentation cases. The module is enabled by default and can be turned off (restoring <code>v1.0.0</code> behavior) via:</p>
+<p>Arbor <code>v1.1.0</code> (currently available in beta-testing in the development branch on github (<code>devel</code>)) introduced an over-segmentation solver module. Starting in <code>v1.1.0</code>, <code>segment_instance()</code> automatically detects and fixes a significant number of over-segmentation cases. The module is enabled by default and can be turned off (restoring <code>v1.0.0</code> behavior) via:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>arbor_parameters_default<span class="sc">$</span>instance<span class="sc">$</span>oversegmentation_solver_enabled <span class="ot">=</span> <span class="cn">FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If disabled at segmentation time, it can still be executed during post-processing on an already segmented point cloud using:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">resolve_oversegmentation</span>(las)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1026,7 +1026,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
