@@ -251,8 +251,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pathfinder" id="toc-pathfinder" class="nav-link" data-scroll-target="#pathfinder"><span class="header-section-number">6.2</span> Pathfinder</a></li>
   <li><a href="#real-rendering" id="toc-real-rendering" class="nav-link" data-scroll-target="#real-rendering"><span class="header-section-number">6.3</span> Real Rendering</a></li>
   <li><a href="#sec-oversegmentation" id="toc-sec-oversegmentation" class="nav-link" data-scroll-target="#sec-oversegmentation"><span class="header-section-number">6.4</span> Common mistakes</a></li>
-  <li><a href="#cleaning-understory" id="toc-cleaning-understory" class="nav-link" data-scroll-target="#cleaning-understory"><span class="header-section-number">6.5</span> Cleaning understory</a></li>
-  <li><a href="#buffer-clipping-and-edge-artifacts" id="toc-buffer-clipping-and-edge-artifacts" class="nav-link" data-scroll-target="#buffer-clipping-and-edge-artifacts"><span class="header-section-number">6.6</span> Buffer Clipping and Edge Artifacts</a></li>
+  <li><a href="#sec-understory" id="toc-sec-understory" class="nav-link" data-scroll-target="#sec-understory"><span class="header-section-number">6.5</span> Cleaning understory</a></li>
+  <li><a href="#sec-buffer" id="toc-sec-buffer" class="nav-link" data-scroll-target="#sec-buffer"><span class="header-section-number">6.6</span> Buffer Clipping and Edge Artifacts</a></li>
   <li><a href="#rendering-filtering" id="toc-rendering-filtering" class="nav-link" data-scroll-target="#rendering-filtering"><span class="header-section-number">6.7</span> Rendering &amp; Filtering</a></li>
   <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters"><span class="header-section-number">6.8</span> Parameters</a></li>
   <li><a href="#point-wise-classification-accuracy" id="toc-point-wise-classification-accuracy" class="nav-link" data-scroll-target="#point-wise-classification-accuracy"><span class="header-section-number">6.9</span> Point-wise Classification Accuracy</a></li>
@@ -434,8 +434,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </section>
-<section id="cleaning-understory" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="cleaning-understory"><span class="header-section-number">6.5</span> Cleaning understory</h2>
+<section id="sec-understory" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="sec-understory"><span class="header-section-number">6.5</span> Cleaning understory</h2>
 <p>At this stage, the scene is largely segmented. If everything went well, every tree, sapling, and bush has been segmented and assigned an ID. However, in practice, it is unrealistic to expect every tiny feature, such as small bushes or saplings, to be perfectly segmented. These features are extremely complex, interleaved, and noisy.</p>
 <p>Moreover, they have virtually no significance in terms of carbon stock and are not harvested. Consequently, we suggest flagging all instances below a certain size threshold, typically 2 or 4 meters. The flagged trees won’t be processed in next steps.</p>
 <p>Cleaning the understory is <strong>optional</strong>. You may keep all vegetation if desired.</p>
@@ -460,8 +460,8 @@ Note
 </figure>
 </div>
 </section>
-<section id="buffer-clipping-and-edge-artifacts" class="level2" data-number="6.6">
-<h2 data-number="6.6" class="anchored" data-anchor-id="buffer-clipping-and-edge-artifacts"><span class="header-section-number">6.6</span> Buffer Clipping and Edge Artifacts</h2>
+<section id="sec-buffer" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="sec-buffer"><span class="header-section-number">6.6</span> Buffer Clipping and Edge Artifacts</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1026,7 +1026,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":false,"openEffect":"zoom","descPosition":"bottom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

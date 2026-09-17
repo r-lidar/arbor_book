@@ -294,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Building a QSF is relatively straightforward. Users could simply loop over all trees and compute a QSM for each one. Arbor includes a function, <code>qsf()</code>, that performs this task in parallel and in an optimized manner.</p>
 <p>As described in previous chapters, the variable <code>las</code> contains the segmented scene.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>qsf <span class="ot">=</span> <span class="fu">qsf</span>(las)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>qsf</code> function is blazingly fast and can produce several hundreds QSMs per minute!</p>
+<p>The <code>qsf</code> function is blazingly fast and can produce several hundred QSMs per minute! <code>qsf()</code> computes one QSM per tree but <strong>excludes</strong> trees that are in the buffer zone (see <code>flag_buffer()</code> in <a href="instance.html#sec-buffer" class="quarto-xref"><span>Section 6.6</span></a>) or that are flagged as low understory (see <code>flag_small_trees()</code> in <a href="instance.html#sec-understory" class="quarto-xref"><span>Section 6.5</span></a>). This makes sense since <code>flag_*</code> functions are designed to exclude trees for which we cannot obtain good results.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -852,7 +852,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"closeEffect":"zoom","descPosition":"bottom","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

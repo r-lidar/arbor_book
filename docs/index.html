@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jean-Romain Roussel">
-<meta name="dcterms.date" content="2026-09-09">
+<meta name="dcterms.date" content="2026-09-17">
 <meta name="description" content="A comprehensive guide to LiDAR data processing, tree segmentation, and structural analysis in R.">
 
 <title>Arbor: The Complete R Tutorial Book</title>
@@ -303,7 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 9, 2026</p>
+      <p class="date">September 17, 2026</p>
     </div>
   </div>
   
@@ -318,7 +318,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://r-lidar.com"> <img src="figures/r-lidar.png" style="float: right; width:150px; margin-left: 1em;"> </a></p>
 <p>Recent book update</p>
 <ul>
-<li>2026-09-08: <a href="instance.html#sec-oversegmentation" class="quarto-xref"><span>6.4 Common mistakes</span></a> introduces v1.1.0 over-segmentation solver.</li>
+<li>2026-09-17: Added details on trees excluded by the <code>qsf()</code> function. It was unclear to users why <code>qsf()</code> does not compute QSMs for all trees. See section <a href="qsf.html" class="quarto-xref"><span>8&nbsp; Quantitative Structure Forest</span></a>.</li>
+<li>2026-09-08: Added section <a href="instance.html#sec-oversegmentation" class="quarto-xref"><span>6.4 Common mistakes</span></a> that introduces v1.1.0 over-segmentation solver.</li>
 </ul>
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
@@ -878,7 +879,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","openEffect":"zoom","loop":false,"closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","descPosition":"bottom","loop":false});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

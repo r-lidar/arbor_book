@@ -109,7 +109,7 @@ las <- resolve_oversegmentation(las)
 
 ![Arbor v1.0.0 tends to oversegment some trees, and especially tends to oversegment large buttress trees. v1.1.0 introduces an over-segmentation solver that significantly reduces the occurrence of such problems (which were already relatively rare).](figures/chap_instance/overfitting.png)
 
-## Cleaning understory
+## Cleaning understory {#sec-understory}
 
 At this stage, the scene is largely segmented. If everything went well, every tree, sapling, and bush has been segmented and assigned an ID. However, in practice, it is unrealistic to expect every tiny feature, such as small bushes or saplings, to be perfectly segmented. These features are extremely complex, interleaved, and noisy.  
 
@@ -128,7 +128,7 @@ Be careful, `flag_small_trees()` does not removes points. It assigns all small i
 
 ![Cleaned scene after removing small-size instances](figures/chap_instance/cleaned.jpg){width=400px}
 
-## Buffer Clipping and Edge Artifacts
+## Buffer Clipping and Edge Artifacts {#sec-buffer}
 
 ::: {.callout-important}
 This section is of major importance. Please read it carefully.

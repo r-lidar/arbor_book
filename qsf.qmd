@@ -16,7 +16,7 @@ As described in previous chapters, the variable `las` contains the segmented sce
 qsf = qsf(las)
 ```
 
-The `qsf` function is blazingly fast and can produce several hundreds QSMs per minute!
+The `qsf` function is blazingly fast and can produce several hundred QSMs per minute! `qsf()` computes one QSM per tree but **excludes** trees that are in the buffer zone (see `flag_buffer()` in @sec-buffer) or that are flagged as low understory (see `flag_small_trees()` in @sec-understory). This makes sense since `flag_*` functions are designed to exclude trees for which we cannot obtain good results.
 
 ::: {.callout-tip}
 A `qsf` object is simply a `list` with an additional class to enable convenient printing and plotting methods. Thus, `qsf[[1]]` contains a `qsm` object.
