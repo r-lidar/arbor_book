@@ -386,9 +386,11 @@ Warning
 <li><code>qsf()</code> to build a QSF</li>
 <li><code>qsf_write()</code> for saving the QSMs in <code>.obj</code>, <code>.ply</code> <code>.csv</code> or <code>.qsm</code> for analyzing or for rendering in 3D software.</li>
 <li><code>qsf_treemap()</code> for saving forest in GIS vector files</li>
+<li><code>qsf_log()</code> to get a overview of troubleshooting</li>
 <li><code>qsf_segment_semantic()</code> for more accurate semantic segmentation</li>
 <li><code>qsf_merchantable()</code> (see <a href="forestry.html" class="quarto-xref"><span>Chapter 9</span></a>)</li>
 <li><code>plot()</code> for 3D rendering</li>
+<li><code>qsm_stat()</code> works with a QSF</li>
 </ul>
 </section>
 <section id="full-code" class="level3" data-number="8.3.2">
@@ -412,7 +414,8 @@ Warning
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_small_trees</span>(las, <span class="at">max_height =</span> <span class="dv">2</span>)</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_buffer</span>(las, see, <span class="sc">-</span>buffer)</span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>qsf <span class="ot">&lt;-</span> <span class="fu">qsf</span>(las, <span class="at">params =</span> params)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>log <span class="ot">&lt;-</span> <span class="fu">qsf_log</span>(qsf)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -852,7 +855,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

@@ -98,9 +98,12 @@ See @sec-opforestry for more information about forestry operations.
 - `qsf()` to build a QSF
 - `qsf_write()` for saving the QSMs in `.obj`, `.ply` `.csv` or `.qsm` for analyzing or for rendering in 3D software.
 - `qsf_treemap()` for saving forest in GIS vector files
+- `qsf_log()` to get a overview of troubleshooting
 - `qsf_segment_semantic()` for more accurate semantic segmentation
 - `qsf_merchantable()` (see @sec-opforestry)
 - `plot()` for 3D rendering
+- `qsm_stat()` works with a QSF
+
 
 ### Full Code
 
@@ -124,5 +127,6 @@ las <- segment_instance(las, see, params)
 las <- flag_small_trees(las, max_height = 2)
 las <- flag_buffer(las, see, -buffer)
 qsf <- qsf(las, params = params)
+log <- qsf_log(qsf)
 plot(qsf)
 ```
