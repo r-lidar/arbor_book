@@ -255,15 +255,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sec-tinytree" id="toc-sec-tinytree" class="nav-link" data-scroll-target="#sec-tinytree"><span class="header-section-number">7.6</span> Non-measurable Trees</a></li>
   <li><a href="#sec-edgecases" id="toc-sec-edgecases" class="nav-link" data-scroll-target="#sec-edgecases"><span class="header-section-number">7.7</span> Non-measurable Trees - edge cases</a></li>
   <li><a href="#sec-broketree" id="toc-sec-broketree" class="nav-link" data-scroll-target="#sec-broketree"><span class="header-section-number">7.8</span> Broken Trees</a></li>
-  <li><a href="#fitting-quality-assessment" id="toc-fitting-quality-assessment" class="nav-link" data-scroll-target="#fitting-quality-assessment"><span class="header-section-number">7.9</span> Fitting Quality Assessment</a></li>
-  <li><a href="#sec-warnings" id="toc-sec-warnings" class="nav-link" data-scroll-target="#sec-warnings"><span class="header-section-number">7.10</span> Message</a></li>
-  <li><a href="#other-details" id="toc-other-details" class="nav-link" data-scroll-target="#other-details"><span class="header-section-number">7.11</span> Other Details</a></li>
-  <li><a href="#final-note" id="toc-final-note" class="nav-link" data-scroll-target="#final-note"><span class="header-section-number">7.12</span> Final Note</a></li>
-  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"><span class="header-section-number">7.13</span> Code</a>
+  <li><a href="#qsm-algorithm-flow" id="toc-qsm-algorithm-flow" class="nav-link" data-scroll-target="#qsm-algorithm-flow"><span class="header-section-number">7.9</span> QSM Algorithm Flow</a></li>
+  <li><a href="#fitting-quality-assessment" id="toc-fitting-quality-assessment" class="nav-link" data-scroll-target="#fitting-quality-assessment"><span class="header-section-number">7.10</span> Fitting Quality Assessment</a></li>
+  <li><a href="#sec-warnings" id="toc-sec-warnings" class="nav-link" data-scroll-target="#sec-warnings"><span class="header-section-number">7.11</span> Message</a></li>
+  <li><a href="#other-details" id="toc-other-details" class="nav-link" data-scroll-target="#other-details"><span class="header-section-number">7.12</span> Other Details</a></li>
+  <li><a href="#final-note" id="toc-final-note" class="nav-link" data-scroll-target="#final-note"><span class="header-section-number">7.13</span> Final Note</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"><span class="header-section-number">7.14</span> Code</a>
   <ul class="collapse">
-  <li><a href="#minimal-snippet" id="toc-minimal-snippet" class="nav-link" data-scroll-target="#minimal-snippet"><span class="header-section-number">7.13.1</span> Minimal snippet</a></li>
-  <li><a href="#function-list" id="toc-function-list" class="nav-link" data-scroll-target="#function-list"><span class="header-section-number">7.13.2</span> Function list</a></li>
-  <li><a href="#full-code" id="toc-full-code" class="nav-link" data-scroll-target="#full-code"><span class="header-section-number">7.13.3</span> Full Code</a></li>
+  <li><a href="#minimal-snippet" id="toc-minimal-snippet" class="nav-link" data-scroll-target="#minimal-snippet"><span class="header-section-number">7.14.1</span> Minimal snippet</a></li>
+  <li><a href="#function-list" id="toc-function-list" class="nav-link" data-scroll-target="#function-list"><span class="header-section-number">7.14.2</span> Function list</a></li>
+  <li><a href="#full-code" id="toc-full-code" class="nav-link" data-scroll-target="#full-code"><span class="header-section-number">7.14.3</span> Full Code</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -564,8 +565,13 @@ This type of problem occurs rarely and only in young trees, small and branchy en
 :::
 -->
 </section>
-<section id="fitting-quality-assessment" class="level2" data-number="7.9">
-<h2 data-number="7.9" class="anchored" data-anchor-id="fitting-quality-assessment"><span class="header-section-number">7.9</span> Fitting Quality Assessment</h2>
+<section id="qsm-algorithm-flow" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="qsm-algorithm-flow"><span class="header-section-number">7.9</span> QSM Algorithm Flow</h2>
+<p>This flowchart summarises the various cases described above</p>
+<p><a href="figures/chap_qsm/flow.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="figures/chap_qsm/flow.svg" class="img-fluid"></a></p>
+</section>
+<section id="fitting-quality-assessment" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="fitting-quality-assessment"><span class="header-section-number">7.10</span> Fitting Quality Assessment</h2>
 <p>The QSM records a <code>quality</code> attribute (accessible via <code>qsm$quality</code>) that indicates the quality of radius fitting. The codes are defined as follows. The associated colors are arbitrary and correspond only to the figure below; the default color scheme may change in future versions.</p>
 <ul>
 <li><strong>0 – Unknown</strong>: Undefined state. This is a bug, it should never occur.</li>
@@ -578,13 +584,13 @@ This type of problem occurs rarely and only in young trees, small and branchy en
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qsm, <span class="at">color =</span> <span class="st">"quality"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_qsm/quality0.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Radius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement."><img src="figures/chap_qsm/quality0.png" class="img-fluid figure-img" width="500" alt="Radius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement."></a></p>
+<p><a href="figures/chap_qsm/quality0.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Radius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement."><img src="figures/chap_qsm/quality0.png" class="img-fluid figure-img" width="500" alt="Radius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement."></a></p>
 <figcaption>Radius fitting quality classes used in the QSM. Colors are illustrative only and do not represent a fixed or permanent color scheme. Blue: prolongation; Green: reconstuction; Yellow: interpolation; Orange: good measurement; Red: exellent measurement.</figcaption>
 </figure>
 </div>
 </section>
-<section id="sec-warnings" class="level2" data-number="7.10">
-<h2 data-number="7.10" class="anchored" data-anchor-id="sec-warnings"><span class="header-section-number">7.10</span> Message</h2>
+<section id="sec-warnings" class="level2" data-number="7.11">
+<h2 data-number="7.11" class="anchored" data-anchor-id="sec-warnings"><span class="header-section-number">7.11</span> Message</h2>
 <p>In version 0.14.0, the function <code>qsm()</code> can throw four warnings:</p>
 <ul>
 <li>For non-measurable trees because they are too small and therefore not reliably measurable (<a href="#sec-tinytree" class="quarto-xref"><span>Section 7.6</span></a>).</li>
@@ -594,24 +600,24 @@ This type of problem occurs rarely and only in young trees, small and branchy en
 </ul>
 <p>It is possible to retrieve the warning emitted by a QSM with <code>qsm_message()</code>. This section written in June 2026 may become out of sync when the reader is reading these pages but <code>qsm_message()</code> will remain a valid command.</p>
 </section>
-<section id="other-details" class="level2" data-number="7.11">
-<h2 data-number="7.11" class="anchored" data-anchor-id="other-details"><span class="header-section-number">7.11</span> Other Details</h2>
+<section id="other-details" class="level2" data-number="7.12">
+<h2 data-number="7.12" class="anchored" data-anchor-id="other-details"><span class="header-section-number">7.12</span> Other Details</h2>
 <p>We have not gone into depth about how the architecture is recomputed, how the quality of the RANSAC Orbicular Fitting is assessed, how errors near the base of the tree are handled for robustness, or how unnecessary computations are skipped. Throughout this book, many such details are intentionally omitted. Otherwise, the book would be endless, and the effort required to explain and illustrate every single step would be colossal. Our goal here is to present the overarching concepts to provide a clear overall understanding.</p>
 <p>One interesting feature is the ability to handle problematic situations at the base of trees. Semantic segmentation is not perfect, and even when it is perfect, the forest does not have the courtesy to conform to our reconstruction rules. In the example below, a tree has fallen between a forked tree. The wood classification is correct, the irregular structure at the bottom is indeed wood, and it is technically connected to the tree of interest. From a segmentation standpoint, this is valid. However, such a structure would break the QSM reconstruction.</p>
 <p>As shown in the image, our QSMs remain robust in these situations and are extended to the ground without following the fallen trunk.</p>
-<p><a href="figures/chap_qsm/robustness.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="figures/chap_qsm/robustness.png" class="img-fluid" width="300"></a></p>
+<p><a href="figures/chap_qsm/robustness.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="figures/chap_qsm/robustness.png" class="img-fluid" width="300"></a></p>
 </section>
-<section id="final-note" class="level2" data-number="7.12">
-<h2 data-number="7.12" class="anchored" data-anchor-id="final-note"><span class="header-section-number">7.12</span> Final Note</h2>
+<section id="final-note" class="level2" data-number="7.13">
+<h2 data-number="7.13" class="anchored" data-anchor-id="final-note"><span class="header-section-number">7.13</span> Final Note</h2>
 <p>Arbor’s QSMs are designed to be fast and robust. We are no longer dealing with single trees manually extracted and carefully inspected before generating one QSM at a time. Instead, Arbor is built to process tens of thousands of QSMs automatically, in contexts where semantic and instance segmentation are imperfect, and where 90% of instances may be leaf-on, non-measurable saplings.</p>
 <p>To achieve this, Arbor’s QSM module is intentionally strict and highly conservative in what it considers a valid measurement. As a rule of thumb, if a tree is only partially sampled and Arbor fits a valid circle to a half cross-section, the measurement may still be rejected, even if the fit itself is correct (RANSAC is highly robust). For this reason, trees should be sampled over 360 degrees.</p>
 <p>Partially scanned trees, such as those commonly obtained from TLS data, may be technically measurable, but Arbor will generally fail to measure them reliably. A warning should be issued when Arbor detects poor overall measurement quality.</p>
 <p>As stated in previous chapters: production-grade software requires production-grade data.</p>
 </section>
-<section id="code" class="level2" data-number="7.13">
-<h2 data-number="7.13" class="anchored" data-anchor-id="code"><span class="header-section-number">7.13</span> Code</h2>
-<section id="minimal-snippet" class="level3" data-number="7.13.1">
-<h3 data-number="7.13.1" class="anchored" data-anchor-id="minimal-snippet"><span class="header-section-number">7.13.1</span> Minimal snippet</h3>
+<section id="code" class="level2" data-number="7.14">
+<h2 data-number="7.14" class="anchored" data-anchor-id="code"><span class="header-section-number">7.14</span> Code</h2>
+<section id="minimal-snippet" class="level3" data-number="7.14.1">
+<h3 data-number="7.14.1" class="anchored" data-anchor-id="minimal-snippet"><span class="header-section-number">7.14.1</span> Minimal snippet</h3>
 <p>If readers have followed the book so far, they should now have a variable <code>las</code> in which every tree has been segmented, each with its own unique ID. The following code sample selects a random tree, computes its QSM, and plots the result. Loop over all trees is done via the <code>qsf()</code> function (<a href="qsf.html" class="quarto-xref"><span>Chapter 8</span></a>).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample a random tree</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>id   <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">unique</span>(las<span class="sc">$</span>treeID), <span class="dv">1</span>)</span>
@@ -634,8 +640,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="function-list" class="level3" data-number="7.13.2">
-<h3 data-number="7.13.2" class="anchored" data-anchor-id="function-list"><span class="header-section-number">7.13.2</span> Function list</h3>
+<section id="function-list" class="level3" data-number="7.14.2">
+<h3 data-number="7.14.2" class="anchored" data-anchor-id="function-list"><span class="header-section-number">7.14.2</span> Function list</h3>
 <ul>
 <li><code>qsm()</code> to build a QSM</li>
 <li><code>qsm_dbh()</code>, <code>qsm_volume()</code> to extract DBH and Volume</li>
@@ -647,8 +653,8 @@ Tip
 <li><code>plot_qsm()</code> or <code>plot()</code> for 3D rendering</li>
 </ul>
 </section>
-<section id="full-code" class="level3" data-number="7.13.3">
-<h3 data-number="7.13.3" class="anchored" data-anchor-id="full-code"><span class="header-section-number">7.13.3</span> Full Code</h3>
+<section id="full-code" class="level3" data-number="7.14.3">
+<h3 data-number="7.14.3" class="anchored" data-anchor-id="full-code"><span class="header-section-number">7.14.3</span> Full Code</h3>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lidR)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arbor)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1113,7 +1119,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","loop":false,"closeEffect":"zoom","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","loop":false,"openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {

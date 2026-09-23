@@ -1,0 +1,1525 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="0 0 1292.3328 914.875"
+   width="1292.3328"
+   height="914.875"
+   id="svg237"
+   sodipodi:docname="gemini-svg(1).svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview239"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.78173913"
+     inkscape:cx="1054.6997"
+     inkscape:cy="559.01001"
+     inkscape:window-width="1920"
+     inkscape:window-height="1140"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg237" />
+  <defs
+     id="defs61">
+    <!-- Gradients -->
+    <linearGradient
+       id="bg-grad"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         offset="0%"
+         stop-color="#0F172A"
+         id="stop2" />
+      <stop
+         offset="100%"
+         stop-color="#1E293B"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="primary-grad"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1">
+      <stop
+         offset="0%"
+         stop-color="#1E293B"
+         id="stop7" />
+      <stop
+         offset="100%"
+         stop-color="#334155"
+         id="stop9" />
+    </linearGradient>
+    <linearGradient
+       id="decision-grad"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1">
+      <stop
+         offset="0%"
+         stop-color="#7C3AED"
+         id="stop12" />
+      <stop
+         offset="100%"
+         stop-color="#5B21B6"
+         id="stop14" />
+    </linearGradient>
+    <linearGradient
+       id="success-grad"
+       x1="-0.48204207"
+       y1="-1.1669106"
+       x2="141.88104"
+       y2="141.19618"
+       gradientTransform="matrix(1.5558808,0,0,0.64272276,184.99216,800.35)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#059669"
+         id="stop17" />
+      <stop
+         offset="100%"
+         stop-color="#047857"
+         id="stop19" />
+    </linearGradient>
+    <linearGradient
+       id="warning-grad"
+       x1="-0.48204207"
+       y1="-1.1669106"
+       x2="141.88104"
+       y2="141.19618"
+       gradientTransform="scale(1.5558808,0.64272276)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#DC2626"
+         id="stop22" />
+      <stop
+         offset="100%"
+         stop-color="#B91C1C"
+         id="stop24" />
+    </linearGradient>
+    <linearGradient
+       id="alt-success-grad"
+       x1="-0.48204207"
+       y1="-1.1669106"
+       x2="141.88104"
+       y2="141.19618"
+       gradientTransform="scale(1.5558808,0.64272276)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#0284C7"
+         id="stop27" />
+      <stop
+         offset="100%"
+         stop-color="#0369A1"
+         id="stop29" />
+    </linearGradient>
+    <linearGradient
+       id="amber-grad"
+       x1="-0.48204207"
+       y1="-1.1669106"
+       x2="141.88104"
+       y2="141.19618"
+       gradientTransform="scale(1.5558808,0.64272276)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#D97706"
+         id="stop32" />
+      <stop
+         offset="100%"
+         stop-color="#B45309"
+         id="stop34" />
+    </linearGradient>
+    <!-- Inkscape-Friendly Drop Shadow Filter -->
+    <filter
+       id="drop-shadow"
+       x="-0.70666652"
+       y="-0.58888889"
+       width="2.4133332"
+       height="2.5111111">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="4"
+         id="feGaussianBlur37" />
+      <feOffset
+         dx="0"
+         dy="6"
+         result="offsetblur"
+         id="feOffset39" />
+      <feComponentTransfer
+         id="feComponentTransfer43">
+        <feFuncA
+           type="linear"
+           slope="0.4"
+           id="feFuncA41" />
+      </feComponentTransfer>
+      <feMerge
+         id="feMerge49">
+        <feMergeNode
+           id="feMergeNode45" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode47" />
+      </feMerge>
+    </filter>
+    <!-- Arrow Markers -->
+    <marker
+       id="arrow"
+       viewBox="0 0 10 10"
+       refX="6"
+       refY="5"
+       markerWidth="7"
+       markerHeight="7"
+       orient="auto">
+      <path
+         d="M 0,1 10,5 0,9 Z"
+         fill="#94a3b8"
+         id="path52" />
+    </marker>
+    <marker
+       id="arrow-green"
+       viewBox="0 0 10 10"
+       refX="6"
+       refY="5"
+       markerWidth="7"
+       markerHeight="7"
+       orient="auto">
+      <path
+         d="M 0,1 10,5 0,9 Z"
+         fill="#10b981"
+         id="path55" />
+    </marker>
+    <marker
+       id="arrow-red"
+       viewBox="0 0 10 10"
+       refX="6"
+       refY="5"
+       markerWidth="7"
+       markerHeight="7"
+       orient="auto">
+      <path
+         d="M 0,1 10,5 0,9 Z"
+         fill="#ef4444"
+         id="path58" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#primary-grad"
+       id="linearGradient1074"
+       x1="-0.3505578"
+       y1="-1.6045856"
+       x2="131.22546"
+       y2="129.97144"
+       gradientTransform="scale(2.1394475,0.46741039)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#primary-grad"
+       id="linearGradient1076"
+       x1="-0.3505578"
+       y1="-1.6045856"
+       x2="131.22546"
+       y2="129.97144"
+       gradientTransform="scale(2.1394475,0.46741039)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#primary-grad"
+       id="linearGradient1078"
+       x1="-0.3505578"
+       y1="-1.6045856"
+       x2="131.22546"
+       y2="129.97144"
+       gradientTransform="scale(2.1394475,0.46741039)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#decision-grad"
+       id="linearGradient1080"
+       x1="-89.533485"
+       y1="-89.533485"
+       x2="89.533485"
+       y2="89.533485"
+       gradientTransform="scale(1.4719601,0.67936622)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#primary-grad"
+       id="linearGradient1082"
+       x1="-0.37847766"
+       y1="-1.4862171"
+       x2="121.49133"
+       y2="120.38359"
+       gradientTransform="scale(1.9816229,0.50463688)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#primary-grad"
+       id="linearGradient1084"
+       x1="-0.36371648"
+       y1="-1.5465343"
+       x2="126.45209"
+       y2="125.26928"
+       gradientTransform="scale(2.0620457,0.4849553)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#decision-grad"
+       id="linearGradient1086"
+       x1="-68.30806"
+       y1="-68.30806"
+       x2="68.30806"
+       y2="68.30806"
+       gradientTransform="scale(1.490712,0.67082039)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#decision-grad"
+       id="linearGradient1088"
+       x1="-68.30806"
+       y1="-68.30806"
+       x2="68.30806"
+       y2="68.30806"
+       gradientTransform="scale(1.490712,0.67082039)"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       id="note-shadow"
+       x="-0.050420166"
+       y="-0.073170732"
+       width="1.1008403"
+       height="1.195122">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="5"
+         id="feGaussianBlur4901" />
+      <feOffset
+         dx="0"
+         dy="8"
+         result="offsetblur"
+         id="feOffset4903" />
+      <feComponentTransfer
+         id="feComponentTransfer4907">
+        <feFuncA
+           type="linear"
+           slope="0.35"
+           id="feFuncA4905" />
+      </feComponentTransfer>
+      <feMerge
+         id="feMerge4913">
+        <feMergeNode
+           id="feMergeNode4909" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode4911" />
+      </feMerge>
+    </filter>
+    <filter
+       id="fold-shadow"
+       x="-0.17"
+       y="-0.12"
+       width="1.29"
+       height="1.29">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="2"
+         id="feGaussianBlur4916" />
+      <feOffset
+         dx="-2"
+         dy="2"
+         result="offsetblur"
+         id="feOffset4918" />
+      <feComponentTransfer
+         id="feComponentTransfer4922">
+        <feFuncA
+           type="linear"
+           slope="0.25"
+           id="feFuncA4920" />
+      </feComponentTransfer>
+      <feMerge
+         id="feMerge4928">
+        <feMergeNode
+           id="feMergeNode4924" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode4926" />
+      </feMerge>
+    </filter>
+    <linearGradient
+       id="note-body-grad"
+       x1="-11.371285"
+       y1="-12.663477"
+       x2="267.22519"
+       y2="265.93301"
+       gradientTransform="matrix(1.0552897,0,0,0.94760707,742.46683,230.22842)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#FEF08A"
+         id="stop4931" />
+      <stop
+         offset="100%"
+         stop-color="#FDE047"
+         id="stop4933" />
+    </linearGradient>
+    <linearGradient
+       id="note-fold-grad"
+       x1="223.2"
+       y1="-4.7999997"
+       x2="274.79999"
+       y2="46.799999"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(710.46683,230.22842)">
+      <stop
+         offset="0%"
+         stop-color="#EAB308"
+         id="stop4936" />
+      <stop
+         offset="100%"
+         stop-color="#CA8A04"
+         id="stop4938" />
+    </linearGradient>
+    <linearGradient
+       id="tape-grad"
+       x1="0"
+       y1="0"
+       x2="97.211113"
+       y2="0"
+       gradientTransform="matrix(1.8184135,0,0,0.36004115,742.46683,230.22842)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#FFFFFF"
+         stop-opacity="0.15"
+         id="stop4941" />
+      <stop
+         offset="50%"
+         stop-color="#FFFFFF"
+         stop-opacity="0.4"
+         id="stop4943" />
+      <stop
+         offset="100%"
+         stop-color="#FFFFFF"
+         stop-opacity="0.15"
+         id="stop4945" />
+    </linearGradient>
+    <filter
+       id="note-shadow-7"
+       x="-0.050420162"
+       y="-0.073170732"
+       width="1.1008403"
+       height="1.195122">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="5"
+         id="feGaussianBlur4901-5" />
+      <feOffset
+         dx="0"
+         dy="8"
+         result="offsetblur"
+         id="feOffset4903-3" />
+      <feComponentTransfer
+         id="feComponentTransfer4907-5">
+        <feFuncA
+           type="linear"
+           slope="0.35"
+           id="feFuncA4905-6" />
+      </feComponentTransfer>
+      <feMerge
+         id="feMerge4913-2">
+        <feMergeNode
+           id="feMergeNode4909-9" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode4911-1" />
+      </feMerge>
+    </filter>
+    <filter
+       id="fold-shadow-6"
+       x="-0.17"
+       y="-0.12"
+       width="1.29"
+       height="1.29">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="2"
+         id="feGaussianBlur4916-0" />
+      <feOffset
+         dx="-2"
+         dy="2"
+         result="offsetblur"
+         id="feOffset4918-6" />
+      <feComponentTransfer
+         id="feComponentTransfer4922-2">
+        <feFuncA
+           type="linear"
+           slope="0.25"
+           id="feFuncA4920-6" />
+      </feComponentTransfer>
+      <feMerge
+         id="feMerge4928-1">
+        <feMergeNode
+           id="feMergeNode4924-8" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode4926-7" />
+      </feMerge>
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#note-body-grad"
+       id="linearGradient49402"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0552897,0,0,0.94760707,12,559.88351)"
+       x1="-11.371285"
+       y1="-12.663477"
+       x2="267.22519"
+       y2="265.93301" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#tape-grad"
+       id="linearGradient49404"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.5869587,0,0,0.31421371,57.260487,547.46826)"
+       x1="0"
+       y1="0"
+       x2="97.211113"
+       y2="0" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#note-fold-grad"
+       id="linearGradient49406"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-20,559.88351)"
+       x1="223.2"
+       y1="-4.7999997"
+       x2="274.79999"
+       y2="46.799999" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#note-body-grad"
+       id="linearGradient80966"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0552897,0,0,0.94760707,906.43399,251.21552)"
+       x1="-11.371285"
+       y1="-12.663477"
+       x2="267.22519"
+       y2="265.93301" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#tape-grad"
+       id="linearGradient80968"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.5869587,0,0,0.31421371,908.11625,295.15449)"
+       x1="0"
+       y1="0"
+       x2="97.211113"
+       y2="0" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#note-fold-grad"
+       id="linearGradient80970"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(874.43399,251.21552)"
+       x1="223.2"
+       y1="-4.7999997"
+       x2="274.79999"
+       y2="46.799999" />
+    <filter
+       id="note-shadow-6"
+       x="-0.050420147"
+       y="-0.073170732"
+       width="1.1008403"
+       height="1.195122">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="5"
+         id="feGaussianBlur4901-1" />
+      <feOffset
+         dx="0"
+         dy="8"
+         result="offsetblur"
+         id="feOffset4903-2" />
+      <feComponentTransfer
+         id="feComponentTransfer4907-9">
+        <feFuncA
+           type="linear"
+           slope="0.35"
+           id="feFuncA4905-3" />
+      </feComponentTransfer>
+      <feMerge
+         id="feMerge4913-1">
+        <feMergeNode
+           id="feMergeNode4909-94" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode4911-7" />
+      </feMerge>
+    </filter>
+    <filter
+       id="fold-shadow-61"
+       x="-0.17"
+       y="-0.12"
+       width="1.29"
+       height="1.29">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="2"
+         id="feGaussianBlur4916-06" />
+      <feOffset
+         dx="-2"
+         dy="2"
+         result="offsetblur"
+         id="feOffset4918-3" />
+      <feComponentTransfer
+         id="feComponentTransfer4922-20">
+        <feFuncA
+           type="linear"
+           slope="0.25"
+           id="feFuncA4920-61" />
+      </feComponentTransfer>
+      <feMerge
+         id="feMerge4928-5">
+        <feMergeNode
+           id="feMergeNode4924-5" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode4926-4" />
+      </feMerge>
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#note-body-grad"
+       id="linearGradient81185"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0552897,0,0,0.94760707,1042.3327,551.51508)"
+       x1="-11.371285"
+       y1="-12.663477"
+       x2="267.22519"
+       y2="265.93301" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#tape-grad"
+       id="linearGradient81187"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.5869587,0,0,0.31421371,1034.5839,582.64667)"
+       x1="0"
+       y1="0"
+       x2="97.211113"
+       y2="0" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#note-fold-grad"
+       id="linearGradient81189"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(1010.3327,551.51508)"
+       x1="223.2"
+       y1="-4.7999997"
+       x2="274.79999"
+       y2="46.799999" />
+  </defs>
+  <!-- Background -->
+  <!-- Flowchart Title -->
+  <text
+     x="644.99219"
+     y="-13.65"
+     text-anchor="middle"
+     fill="#f8fafc"
+     font-family="sans-serif"
+     font-size="24px"
+     font-weight="bold"
+     id="text65"
+     style="fill:#3a6086;fill-opacity:1" />
+  <!-- CONNECTOR LINES -->
+  <g
+     stroke-width="2.5"
+     fill="none"
+     id="g89"
+     transform="translate(144.99216,-54.65)">
+    <!-- Main Vertical Spine -->
+    <path
+       d="m 500,125 v 40"
+       stroke="#94a3b8"
+       marker-end="url(#arrow)"
+       id="path67" />
+    <path
+       d="m 500,235 v 40"
+       stroke="#94a3b8"
+       marker-end="url(#arrow)"
+       id="path69" />
+    <path
+       d="m 500,345 v 50"
+       stroke="#94a3b8"
+       marker-end="url(#arrow)"
+       id="path71" />
+    <!-- DBH Branching -->
+    <path
+       d="M 370,455 H 260 v 80"
+       stroke="#10b981"
+       marker-end="url(#arrow-green)"
+       id="path73" />
+    <path
+       d="m 630,455 h 110 v 80"
+       stroke="#ef4444"
+       marker-end="url(#arrow-red)"
+       id="path75" />
+    <!-- Left Sub-pipeline -->
+    <path
+       d="m 260,605 v 50"
+       stroke="#94a3b8"
+       marker-end="url(#arrow)"
+       id="path77" />
+    <path
+       d="M 180,715 H 150 V 845"
+       stroke="#10b981"
+       marker-end="url(#arrow-green)"
+       id="path79" />
+    <path
+       d="m 340,715 h 30 v 130"
+       stroke="#ef4444"
+       marker-end="url(#arrow-red)"
+       id="path81" />
+    <!-- Right Sub-pipeline -->
+    <path
+       d="m 740,605 v 50"
+       stroke="#94a3b8"
+       marker-end="url(#arrow)"
+       id="path83" />
+    <path
+       d="M 660,715 H 630 V 845"
+       stroke="#10b981"
+       marker-end="url(#arrow-green)"
+       id="path85" />
+    <path
+       d="m 820,715 h 30 v 130"
+       stroke="#ef4444"
+       marker-end="url(#arrow-red)"
+       id="path87" />
+  </g>
+  <!-- BRANCH LABELS -->
+  <g
+     font-family="sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="g115"
+     transform="translate(144.99216,-54.65)">
+    <!-- DBH Branch Badges -->
+    <rect
+       x="290"
+       y="433"
+       width="45"
+       height="22"
+       rx="4"
+       fill="#064e3b"
+       id="rect91" />
+    <text
+       x="312"
+       y="448"
+       fill="#a7f3d0"
+       id="text93">YES</text>
+    <rect
+       x="665"
+       y="433"
+       width="45"
+       height="22"
+       rx="4"
+       fill="#7f1d1d"
+       id="rect95" />
+    <text
+       x="687"
+       y="448"
+       fill="#fecdd3"
+       id="text97">NO</text>
+    <!-- Left Radii Decision Badges -->
+    <rect
+       x="130"
+       y="755"
+       width="45"
+       height="22"
+       rx="4"
+       fill="#064e3b"
+       id="rect99" />
+    <text
+       x="152"
+       y="770"
+       fill="#a7f3d0"
+       id="text101">YES</text>
+    <rect
+       x="345"
+       y="755"
+       width="45"
+       height="22"
+       rx="4"
+       fill="#7f1d1d"
+       id="rect103" />
+    <text
+       x="367"
+       y="770"
+       fill="#fecdd3"
+       id="text105">NO</text>
+    <!-- Right Radii Decision Badges -->
+    <rect
+       x="610"
+       y="755"
+       width="45"
+       height="22"
+       rx="4"
+       fill="#064e3b"
+       id="rect107" />
+    <text
+       x="632"
+       y="770"
+       fill="#a7f3d0"
+       id="text109">YES</text>
+    <rect
+       x="830"
+       y="755"
+       width="45"
+       height="22"
+       rx="4"
+       fill="#7f1d1d"
+       id="rect111" />
+    <text
+       x="852"
+       y="770"
+       fill="#fecdd3"
+       id="text113">NO</text>
+  </g>
+  <!-- NODES -->
+  <g
+     transform="translate(504.99216,10.35)"
+     filter="url(#drop-shadow)"
+     id="g123"
+     style="font-family:sans-serif">
+    <rect
+       width="280"
+       height="60"
+       rx="10"
+       fill="url(#primary-grad)"
+       stroke="#475569"
+       stroke-width="1.5"
+       id="rect117"
+       style="fill:url(#linearGradient1074)"
+       x="0"
+       y="0" />
+    <path
+       d="M 39,37 A 8,8 0 0 1 35,23 12,12 0 0 1 57,21 10,10 0 0 1 67,31 8,8 0 0 1 63,37 Z"
+       fill="none"
+       stroke="#38bdf8"
+       stroke-width="2"
+       stroke-linejoin="round"
+       id="path119" />
+    <text
+       x="80"
+       y="36"
+       fill="#f8fafc"
+       font-size="16px"
+       font-weight="600"
+       id="text121">Point Cloud Tree</text>
+  </g>
+  <g
+     transform="translate(504.99216,120.35)"
+     filter="url(#drop-shadow)"
+     id="g131"
+     style="font-family:sans-serif">
+    <rect
+       width="280"
+       height="60"
+       rx="10"
+       fill="url(#primary-grad)"
+       stroke="#475569"
+       stroke-width="1.5"
+       id="rect125"
+       style="fill:url(#linearGradient1076)"
+       x="0"
+       y="0" />
+    <path
+       d="m 40,18 v 24 m -5,-20 5,-4 5,4 m -10,16 5,4 5,-4 M 32,30 h 16"
+       fill="none"
+       stroke="#38bdf8"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path127" />
+    <text
+       x="80"
+       y="36"
+       fill="#f8fafc"
+       font-size="16px"
+       font-weight="600"
+       id="text129">Measure Height</text>
+  </g>
+  <g
+     transform="translate(504.99216,230.35)"
+     filter="url(#drop-shadow)"
+     id="g143"
+     style="font-family:sans-serif">
+    <rect
+       width="280"
+       height="60"
+       rx="10"
+       fill="url(#primary-grad)"
+       stroke="#475569"
+       stroke-width="1.5"
+       id="rect133"
+       style="fill:url(#linearGradient1078)"
+       x="0"
+       y="0" />
+    <circle
+       cx="40"
+       cy="30"
+       r="12"
+       fill="none"
+       stroke="#38bdf8"
+       stroke-width="2"
+       id="circle135" />
+    <line
+       x1="28"
+       y1="30"
+       x2="52"
+       y2="30"
+       stroke="#38bdf8"
+       stroke-width="2"
+       stroke-dasharray="2, 2"
+       id="line137" />
+    <text
+       x="80"
+       y="28"
+       fill="#f8fafc"
+       font-size="16px"
+       font-weight="600"
+       id="text139">Estimate DBH</text>
+    <text
+       x="80"
+       y="45"
+       fill="#94a3b8"
+       font-size="12px"
+       id="text141">From height (allometry)</text>
+  </g>
+  <g
+     transform="translate(644.99216,400.35)"
+     filter="url(#drop-shadow)"
+     id="g151"
+     style="font-family:sans-serif">
+    <path
+       d="M 0,-60 130,0 0,60 -130,0 Z"
+       fill="url(#decision-grad)"
+       stroke="#a78bfa"
+       stroke-width="1.5"
+       id="path145"
+       style="fill:url(#linearGradient1080)" />
+    <text
+       x="0"
+       y="-8"
+       fill="#ddd6fe"
+       font-size="18px"
+       text-anchor="middle"
+       font-weight="bold"
+       id="text147" />
+    <text
+       x="0"
+       y="0"
+       fill="#ffffff"
+       font-size="15px"
+       font-weight="600"
+       text-anchor="middle"
+       id="text149">DBH Big Enough?</text>
+  </g>
+  <g
+     transform="translate(284.99216,490.35)"
+     filter="url(#drop-shadow)"
+     id="g159"
+     style="font-family:sans-serif">
+    <rect
+       width="240"
+       height="60"
+       rx="10"
+       fill="url(#primary-grad)"
+       stroke="#475569"
+       stroke-width="1.5"
+       id="rect153"
+       style="fill:url(#linearGradient1082)"
+       x="0"
+       y="0" />
+    <path
+       d="m 40,24 a 6,6 0 1 0 0,12 6,6 0 1 0 0,-12 m 0,-6 v 3 m 0,18 v 3 M 28,30 h 3 m 18,0 h 3"
+       stroke="#38bdf8"
+       stroke-width="2.5"
+       stroke-linecap="round"
+       id="path155" />
+    <text
+       x="70"
+       y="36"
+       fill="#f8fafc"
+       font-size="15px"
+       font-weight="600"
+       id="text157">Run QSM Module</text>
+  </g>
+  <g
+     transform="translate(754.99216,490.35)"
+     filter="url(#drop-shadow)"
+     id="g169"
+     style="font-family:sans-serif">
+    <rect
+       width="260"
+       height="60"
+       rx="10"
+       fill="url(#primary-grad)"
+       stroke="#475569"
+       stroke-width="1.5"
+       id="rect161"
+       style="fill:url(#linearGradient1084)"
+       x="0"
+       y="0" />
+    <path
+       d="m 35,25 a 5,5 0 1 0 0,10 5,5 0 1 0 0,-10 m 10,-4 v 18"
+       stroke="#38bdf8"
+       stroke-width="2"
+       stroke-linecap="round"
+       id="path163" />
+    <text
+       x="65"
+       y="28"
+       fill="#f8fafc"
+       font-size="15px"
+       font-weight="600"
+       id="text165">Run QSM Variant</text>
+    <text
+       x="65"
+       y="45"
+       fill="#94a3b8"
+       font-size="11px"
+       id="text167">Test if we have few good radii</text>
+  </g>
+  <g
+     transform="translate(404.99216,660.35)"
+     filter="url(#drop-shadow)"
+     id="g177"
+     style="font-family:sans-serif">
+    <path
+       d="M 0,-45 100,0 0,45 -100,0 Z"
+       fill="url(#decision-grad)"
+       stroke="#a78bfa"
+       stroke-width="1.5"
+       id="path171"
+       style="fill:url(#linearGradient1086)" />
+    <text
+       x="0"
+       y="-3"
+       fill="#ffffff"
+       font-size="13px"
+       font-weight="600"
+       text-anchor="middle"
+       id="text173">Valid Radii</text>
+    <text
+       x="0"
+       y="14"
+       fill="#ffffff"
+       font-size="13px"
+       font-weight="600"
+       text-anchor="middle"
+       id="text175">Measured?</text>
+  </g>
+  <g
+     transform="translate(884.99216,660.35)"
+     filter="url(#drop-shadow)"
+     id="g185"
+     style="font-family:sans-serif">
+    <path
+       d="M 0,-45 100,0 0,45 -100,0 Z"
+       fill="url(#decision-grad)"
+       stroke="#a78bfa"
+       stroke-width="1.5"
+       id="path179"
+       style="fill:url(#linearGradient1088)" />
+    <text
+       x="0"
+       y="-3"
+       fill="#ffffff"
+       font-size="13px"
+       font-weight="600"
+       text-anchor="middle"
+       id="text181">Valid Radii</text>
+    <text
+       x="0"
+       y="14"
+       fill="#ffffff"
+       font-size="13px"
+       font-weight="600"
+       text-anchor="middle"
+       id="text183">Measured?</text>
+  </g>
+  <rect
+     width="220"
+     height="90"
+     rx="12"
+     fill="url(#success-grad)"
+     stroke="#34d399"
+     stroke-width="1.5"
+     id="rect187"
+     style="font-family:sans-serif;fill:url(#success-grad);filter:url(#drop-shadow)"
+     x="184.99216"
+     y="800.34998" />
+  <path
+     d="m 222.99216,850.35 v 10 m 0,-38 c -3.23138,-1.02729 -11.13877,0.35038 -12.66675,4.53295 -1.52798,4.18257 -0.11565,3.03213 -0.3533,8.10471 -0.23765,5.07257 -4.38982,5.01623 -0.6373,12.30809 3.75252,7.29186 21.32877,1.50919 24.4085,-0.49357 3.07973,-2.00276 2.95988,-6.17285 3.40486,-10.33054 0.44498,-4.15769 -2.39719,-8.7863 -4.33739,-10.30338 -1.9402,-1.51708 -6.58724,-2.79097 -9.81862,-3.81826 z m -3.4878,27.80296 v 10"
+     fill="none"
+     stroke="#a7f3d0"
+     stroke-width="2"
+     stroke-linejoin="round"
+     id="path189"
+     style="font-family:sans-serif;filter:url(#drop-shadow)"
+     sodipodi:nodetypes="cczzzzzzzzcc" />
+  <text
+     x="254.99216"
+     y="838.34998"
+     fill="#ffffff"
+     font-size="16px"
+     font-weight="bold"
+     id="text191"
+     style="font-family:sans-serif;filter:url(#drop-shadow)">Measured QSM</text>
+  <rect
+     x="254.99216"
+     y="848.34998"
+     width="90"
+     height="20"
+     rx="10"
+     fill="#064e3b"
+     id="rect193"
+     style="font-family:sans-serif;filter:url(#drop-shadow)" />
+  <text
+     x="299.99216"
+     y="862.34998"
+     fill="#a7f3d0"
+     font-size="11px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text195"
+     style="font-family:sans-serif;filter:url(#drop-shadow)">Normal Tree</text>
+  <g
+     transform="translate(422.32547,800.35)"
+     filter="url(#drop-shadow)"
+     id="g209"
+     style="font-family:sans-serif">
+    <rect
+       width="220"
+       height="90"
+       rx="12"
+       fill="url(#warning-grad)"
+       stroke="#f87171"
+       stroke-width="1.5"
+       id="rect199"
+       style="fill:url(#warning-grad)"
+       x="0"
+       y="0" />
+    <path
+       d="M 36,26 50,52 H 22 Z m 0,10 v 6 m 0,4 v 2"
+       fill="none"
+       stroke="#fecdd3"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path201" />
+    <text
+       x="65"
+       y="38"
+       fill="#ffffff"
+       font-size="16px"
+       font-weight="bold"
+       id="text203">Allometry QSM</text>
+    <rect
+       x="65"
+       y="48"
+       width="75"
+       height="20"
+       rx="10"
+       fill="#7f1d1d"
+       id="rect205" />
+    <text
+       x="102"
+       y="62"
+       fill="#fecdd3"
+       font-size="11px"
+       font-weight="bold"
+       text-anchor="middle"
+       id="text207">Fallback</text>
+  </g>
+  <g
+     transform="translate(659.65879,800.35)"
+     filter="url(#drop-shadow)"
+     id="g221"
+     style="font-family:sans-serif">
+    <rect
+       width="220"
+       height="90"
+       rx="12"
+       fill="url(#alt-success-grad)"
+       stroke="#38bdf8"
+       stroke-width="1.5"
+       id="rect211"
+       style="fill:url(#alt-success-grad)"
+       x="0"
+       y="0" />
+    <path
+       d="m 35.38296,40.446108 -5.592548,-2.74398 m 7.534125,17.477853 2.540727,-0.08322 c 0.379745,-7.410012 -3.258089,-22.056416 -3.933767,-26.224437 -0.33784,-2.08401 -0.889629,-2.05983 -1.241856,-1.37675 0,0 -0.783588,1.57487 -1.437967,0.325693 0.173459,4.58823 0.511826,5.721677 1.180986,7.852173 0.66916,2.130495 0.9503,4.772668 0.9503,4.772668 z m 5.649475,-27.189546 -5.327201,5.919753"
+       fill="none"
+       stroke="#bae6fd"
+       stroke-width="2"
+       stroke-linejoin="round"
+       id="path213"
+       sodipodi:nodetypes="ccccccczcccc" />
+    <path
+       d="m 5.8879307,53.960661 v 0 c 7.4100123,0.379745 21.8512903,-1.978224 26.0193113,-2.653902 2.08401,-0.33784 2.05983,-0.889629 1.37675,-1.241856 0,0 -1.57487,-0.783588 -0.325693,-1.437967 -4.58823,0.173459 -5.721677,0.511826 -7.852173,1.180986 -6.396923,1.491117 -12.709422,3.295036 -19.2181953,4.152739 z"
+       fill="none"
+       stroke="#bae6fd"
+       stroke-width="2"
+       stroke-linejoin="round"
+       id="path213-7"
+       sodipodi:nodetypes="ccccccc"
+       style="font-family:sans-serif" />
+    <text
+       x="65"
+       y="38"
+       fill="#ffffff"
+       font-size="16px"
+       font-weight="bold"
+       id="text215">Measured QSM</text>
+    <rect
+       x="65"
+       y="48"
+       width="90"
+       height="20"
+       rx="10"
+       fill="#0c4a6e"
+       id="rect217" />
+    <text
+       x="110"
+       y="62"
+       fill="#bae6fd"
+       font-size="11px"
+       font-weight="bold"
+       text-anchor="middle"
+       id="text219">Broken Tree</text>
+  </g>
+  <g
+     transform="translate(896.99216,800.35)"
+     filter="url(#drop-shadow)"
+     id="g233"
+     style="font-family:sans-serif">
+    <rect
+       width="220"
+       height="90"
+       rx="12"
+       fill="url(#amber-grad)"
+       stroke="#fbbf24"
+       stroke-width="1.5"
+       id="rect223"
+       style="fill:url(#amber-grad)"
+       x="0"
+       y="0" />
+    <path
+       d="M 36,54 V 36 m 0,8 C 26,44 24,34 24,34 c 10,0 12,8 12,8 m 0,-4 C 46,38 48,28 48,28 38,28 36,36 36,36"
+       fill="none"
+       stroke="#fef3c7"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path225" />
+    <text
+       x="65"
+       y="38"
+       fill="#ffffff"
+       font-size="16px"
+       font-weight="bold"
+       id="text227">Allometry QSM</text>
+    <rect
+       x="65"
+       y="48"
+       width="75"
+       height="20"
+       rx="10"
+       fill="#78350f"
+       id="rect229" />
+    <text
+       x="102"
+       y="62"
+       fill="#fef3c7"
+       font-size="11px"
+       font-weight="bold"
+       text-anchor="middle"
+       id="text231">Sapling</text>
+  </g>
+  <path
+     d="M 918.43399,251.21552 H 1104.434 l 40,40 v 112 c 0,6.62742 -5.3726,12 -12,12 H 918.43399 c -6.62742,0 -12,-5.37258 -12,-12 v -140 c 0,-6.62742 5.37258,-12 12,-12 z"
+     fill="url(#note-body-grad)"
+     filter="url(#note-shadow)"
+     id="path4950"
+     style="fill:url(#linearGradient80966)"
+     sodipodi:nodetypes="sccssssss"
+     transform="matrix(0.8727161,0,0,0.8727161,117.05671,75.914662)" />
+  <rect
+     x="908.11621"
+     y="295.15448"
+     width="154.27002"
+     height="30.545063"
+     rx="5.7137041"
+     fill="url(#tape-grad)"
+     id="rect4952"
+     style="fill:url(#linearGradient80968);stroke-width:0.706148" />
+  <path
+     d="m 1104.434,251.21552 v 30 a 10,10 0 0 0 10,10 h 30 z"
+     fill="url(#note-fold-grad)"
+     filter="url(#fold-shadow)"
+     id="path4954"
+     style="fill:url(#linearGradient80970)"
+     transform="matrix(0.8727161,0,0,0.8727161,117.05671,75.914662)" />
+  <text
+     x="924.94965"
+     y="315.86032"
+     fill="#713f12"
+     font-size="13.9635px"
+     font-weight="bold"
+     letter-spacing="0.5"
+     id="text4958"
+     style="font-family:sans-serif;text-anchor:start;stroke-width:0.872716">NOTE</text>
+  <line
+     x1="924.94965"
+     y1="324.58749"
+     x2="1074.0479"
+     y2="324.58749"
+     stroke="#ca8a04"
+     stroke-width="1.15359"
+     stroke-dasharray="4, 3"
+     opacity="0.6"
+     id="line4960"
+     style="font-family:sans-serif;text-anchor:start" />
+  <text
+     x="920.60864"
+     y="348.36893"
+     fill="#854d0e"
+     font-size="11.3453px"
+     font-weight="600"
+     id="text4964"
+     style="font-family:sans-serif;text-anchor:start;stroke-width:0.872716"><tspan
+       sodipodi:role="line"
+       x="920.60864"
+       y="348.36893"
+       id="tspan45503"
+       style="stroke-width:0.872716">The tree is small, so we</tspan><tspan
+       sodipodi:role="line"
+       x="920.60864"
+       y="362.55054"
+       style="stroke-width:0.872716"
+       id="tspan158085">don't even try to measure</tspan><tspan
+       sodipodi:role="line"
+       x="920.60864"
+       y="376.73218"
+       style="stroke-width:0.872716"
+       id="tspan158087">it. The risk would be to</tspan><tspan
+       sodipodi:role="line"
+       x="920.60864"
+       y="390.91379"
+       style="stroke-width:0.872716"
+       id="tspan158089">find some false-positive</tspan><tspan
+       sodipodi:role="line"
+       x="920.60864"
+       y="405.09543"
+       style="stroke-width:0.872716"
+       id="tspan158091">radii and generate an</tspan><tspan
+       sodipodi:role="line"
+       x="920.60864"
+       y="419.27704"
+       style="stroke-width:0.872716"
+       id="tspan158093">oversized QSM.</tspan></text>
+  <path
+     d="m 1054.3327,551.51508 h 186.0001 l 40,40 v 112 c 0,6.62742 -5.3726,12 -12,12 h -214.0001 c -6.6274,0 -12,-5.37258 -12,-12 v -140 c 0,-6.62742 5.3726,-12 12,-12 z"
+     fill="url(#note-body-grad)"
+     filter="url(#note-shadow)"
+     id="path4950-7"
+     style="fill:url(#linearGradient81185);filter:url(#note-shadow-6)"
+     sodipodi:nodetypes="sccssssss"
+     transform="matrix(0.8727161,0,0,0.8727161,124.92335,101.33059)" />
+  <rect
+     x="1034.5839"
+     y="582.64667"
+     width="154.27002"
+     height="30.545063"
+     rx="5.7137041"
+     fill="url(#tape-grad)"
+     id="rect4952-6"
+     style="fill:url(#linearGradient81187);stroke-width:0.706148" />
+  <path
+     d="m 1240.3328,551.51508 v 30 a 10,10 0 0 0 10,10 h 30 z"
+     fill="url(#note-fold-grad)"
+     filter="url(#fold-shadow)"
+     id="path4954-5"
+     style="fill:url(#linearGradient81189);filter:url(#fold-shadow-61)"
+     transform="matrix(0.8727161,0,0,0.8727161,124.92335,101.33059)" />
+  <text
+     x="1051.4174"
+     y="603.35254"
+     fill="#713f12"
+     font-size="13.9635px"
+     font-weight="bold"
+     letter-spacing="0.5"
+     id="text4958-6"
+     style="font-family:sans-serif;text-anchor:start;stroke-width:0.872716">NOTE</text>
+  <line
+     x1="1051.4174"
+     y1="612.07971"
+     x2="1200.5155"
+     y2="612.07971"
+     stroke="#ca8a04"
+     stroke-width="1.15359"
+     stroke-dasharray="4, 3"
+     opacity="0.6"
+     id="line4960-9"
+     style="font-family:sans-serif;text-anchor:start" />
+  <text
+     x="1047.0762"
+     y="632.37024"
+     fill="#854d0e"
+     font-size="11.3453px"
+     font-weight="600"
+     id="text4964-3"
+     style="font-family:sans-serif;text-anchor:start;stroke-width:0.872716"><tspan
+       sodipodi:role="line"
+       x="1047.0762"
+       y="632.37024"
+       id="tspan127615"
+       style="stroke-width:0.872716">Broken trees are trees too</tspan><tspan
+       sodipodi:role="line"
+       x="1047.0762"
+       y="646.55188"
+       style="stroke-width:0.872716"
+       id="tspan165051">small to have large enough</tspan><tspan
+       sodipodi:role="line"
+       x="1047.0762"
+       y="660.73346"
+       style="stroke-width:0.872716"
+       id="tspan165053">diameters but where we</tspan><tspan
+       sodipodi:role="line"
+       x="1047.0762"
+       y="674.9151"
+       style="stroke-width:0.872716"
+       id="tspan165055">actually find large diameters</tspan><tspan
+       sodipodi:role="line"
+       x="1047.0762"
+       y="689.09674"
+       style="stroke-width:0.872716"
+       id="tspan165057">using a low-computation</tspan><tspan
+       sodipodi:role="line"
+       x="1047.0762"
+       y="703.27838"
+       style="stroke-width:0.872716"
+       id="tspan165059">variant of the algorithm.</tspan></text>
+  <path
+     d="m 24,559.88351 h 186.00003 l 40,40 v 112 c 0,6.62742 -5.3726,12 -12,12 H 24 c -6.62742,0 -12,-5.37258 -12,-12 v -140 c 0,-6.62742 5.37258,-12 12,-12 z"
+     fill="url(#note-body-grad)"
+     filter="url(#note-shadow)"
+     id="path4950-9"
+     style="fill:url(#linearGradient49402);filter:url(#note-shadow-7)"
+     sodipodi:nodetypes="sccssssss"
+     transform="matrix(0.8727161,0,0,0.8727161,46.787894,58.848901)" />
+  <rect
+     x="57.260464"
+     y="547.4682"
+     width="154.27002"
+     height="30.545063"
+     rx="5.7137041"
+     fill="url(#tape-grad)"
+     id="rect4952-2"
+     style="fill:url(#linearGradient49404);stroke-width:0.706148" />
+  <path
+     d="m 210.00003,559.88351 v 30 a 10,10 0 0 0 10,10 h 30 z"
+     fill="url(#note-fold-grad)"
+     filter="url(#fold-shadow)"
+     id="path4954-0"
+     style="fill:url(#linearGradient49406);filter:url(#fold-shadow-6)"
+     transform="matrix(0.8727161,0,0,0.8727161,46.787894,58.848901)" />
+  <text
+     x="74.09391"
+     y="568.17407"
+     fill="#713f12"
+     font-size="13.9635px"
+     font-weight="bold"
+     letter-spacing="0.5"
+     id="text4958-2"
+     style="font-family:sans-serif;text-anchor:start;stroke-width:0.872716">NOTE</text>
+  <line
+     x1="74.09391"
+     y1="576.90125"
+     x2="223.19211"
+     y2="576.90125"
+     stroke="#ca8a04"
+     stroke-width="1.15359"
+     stroke-dasharray="4, 3"
+     opacity="0.6"
+     id="line4960-3"
+     style="font-family:sans-serif;text-anchor:start" />
+  <text
+     x="69.752861"
+     y="600.68268"
+     fill="#854d0e"
+     font-size="11.3453px"
+     font-weight="600"
+     id="text4964-7"
+     style="font-family:sans-serif;text-anchor:start;stroke-width:0.872716"><tspan
+       sodipodi:role="line"
+       x="69.752861"
+       y="600.68268"
+       id="tspan74956"
+       style="stroke-width:0.872716">Sometimes we don't have</tspan><tspan
+       sodipodi:role="line"
+       x="69.752861"
+       y="614.86432"
+       style="stroke-width:0.872716"
+       id="tspan174471">a single valid radius. Falling</tspan><tspan
+       sodipodi:role="line"
+       x="69.752861"
+       y="629.0459"
+       style="stroke-width:0.872716"
+       id="tspan174473">back to an allometry-based</tspan><tspan
+       sodipodi:role="line"
+       x="69.752861"
+       y="643.22754"
+       style="stroke-width:0.872716"
+       id="tspan174475">QSM ensures we have a</tspan><tspan
+       sodipodi:role="line"
+       x="69.752861"
+       y="657.40918"
+       style="stroke-width:0.872716"
+       id="tspan174477">tree rather than nothing.</tspan><tspan
+       sodipodi:role="line"
+       x="69.752861"
+       y="671.59082"
+       style="stroke-width:0.872716"
+       id="tspan174479" /></text>
+  <text
+     x="1106.3125"
+     y="432.01877"
+     fill="#854d0e"
+     font-size="13px"
+     font-weight="600"
+     id="text4968"
+     style="font-family:sans-serif;text-anchor:start" />
+</svg>

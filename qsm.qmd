@@ -343,6 +343,12 @@ This type of problem occurs rarely and only in young trees, small and branchy en
 :::
 -->
 
+## QSM Algorithm Flow
+
+This flowchart summarises the various cases described above
+
+![](figures/chap_qsm/flow.svg)
+
 ## Fitting Quality Assessment
 
 The QSM records a `quality` attribute (accessible via `qsm$quality`) that indicates the quality of radius fitting. The codes are defined as follows. The associated colors are arbitrary and correspond only to the figure below; the default color scheme may change in future versions.
