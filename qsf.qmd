@@ -1,5 +1,9 @@
 # Quantitative Structure Forest {#sec-qsf}
 
+```{r, echo=FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
 A **Quantitative Structure Model (QSM)** is a three-dimensional representation of a single individual tree that explicitly describes its geometry and topology (stems, branches, radii, volumes). QSMs provide a physically meaningful model, rather than a purely statistical description.
 
 In this book, we extend this concept from individual trees to entire forests by introducing the **Quantitative Structure Forest (QSF)**. A QSF is a coherent collection of QSMs that together reconstruct the three-dimensional structure of all trees within a forested area.
@@ -22,11 +26,59 @@ The `qsf` function is blazingly fast and can produce several hundred QSMs per mi
 A `qsf` object is simply a `list` with an additional class to enable convenient printing and plotting methods. Thus, `qsf[[1]]` contains a `qsm` object.
 :::
 
-`qsf()` does not throw any warnings because, on a typical 1/4-hectare plot with 400 saplings and 200 young trees, this would generate at least 600 warnings. This is unmanageable. Indeed, `qsm()` warns about non-measurable young trees. Instead, all QSMs record a message. Users can call `qsf_log()` to obtain a summary of troubleshooting.
-
 Be careful: by default, `qsf()` produces a QSM for every instance taller than 2 m. This can create a large number of QSMs with negligible volume, which is not always desirable. The function provides a parameter to control this threshold e.g. `qsf(las, min_height = 4)`.
 
-## What to Do with a QSF?
+## QSF Log Analysis {#sec-log}
+
+As mentioned earlier, arbor's QSM module is not built like other QSM software on the market. It does not process one tree fed by a user but instead processes thousands of tree instances fed by a machine, including (among others) small saplings that are not measurable considering the accuracy of MLS sensors. In these cases, arbor's function `qsm()` creates allometry-based QSMs with a warning (see section @sec-edgecases).
+
+However, `qsf()` does not throw any warnings. Indeed, on a plot with e.g. 400 saplings and 200 young trees, this would generate at least 600 warnings. This is unmanageable for users. Instead, all QSMs record a message. Users can call `qsf_log()` to obtain a troubleshooting summary.
+
+```{r, echo=FALSE}
+library(arbor)
+f <- system.file("extdata", "oak-plantation.qsf", package="arbor")
+qsf <- qsf_read(f)
+```
+
+In the example below, we have 11 trees too short to be measurable according to allometry. These QSMs are purely allometry-based. We also have 7 trees without any measurement. Those trees are tall enough to be measured (in theory), but for some reason the QSM module found 0 valid measurements. Those trees should be inspected (spoiler: they are short trees with low foliage and indistinct trunks).
+
+```{r}
+logs <- qsf_log(qsf)
+logs
+```
+
+Users can query the logs. It is just a nested `list`. E.g.:
+
+```r
+logs$W2
+```
+
+The function `qsf_filter()` and its user-friendly derivatives allow the QSF object to be subset to retain only the trees of interest, without querying the log manually.
+
+```{r}
+saplings  <- qsf_filter_sapling(qsf)
+nomeasure <- qsf_filter_nomeasure(qsf)
+goodtrees <- qsf_filter_ok(qsf)
+```
+
+The function `qsm_treeid()` allows the user to retrieve the tree ID of a QSM. It also applies to a QSF and thus allows the corresponding trees to be extracted from the point cloud. For example:
+
+```r
+ids <- qsm_treeid(nomeasure)
+cloud <- filter_poi(las, treeID %in% ids)
+
+x <- plot_instance(cloud)
+plot(nomeasure, add = x, pal = "chocolate4")
+```
+
+:::{.callout-tip}
+It is also posible to use `cloud = las %in% nomeasure` as shortcut.
+:::
+
+![Five trees have 0 measurements. The QSM module was not able to measure anything on those trees. Instead, it built allometry-based QSMs, considering that having a realistic result is better than missing trees](figures/chap_qsf/nomeasure.png)
+
+
+## What To Do With a QSF?
 
 ### 3D Rendering
 
@@ -82,7 +134,7 @@ With a QSF, it becomes possible to reclassify points based on each individual QS
 
 
 ```r
-las = qsf_segment_semantic(las, qsf)
+las <- qsf_segment_semantic(las, qsf)
 ```
 
 ![Raw semantic segmentation (left) and post-processing using QSMs and a QSF (right)](figures/chap_qsf/segment_from_qsf.jpg){width=800px}
@@ -101,6 +153,7 @@ See @sec-opforestry for more information about forestry operations.
 - `qsf_log()` to get a overview of troubleshooting
 - `qsf_segment_semantic()` for more accurate semantic segmentation
 - `qsf_merchantable()` (see @sec-opforestry)
+- `qsf_filter()` to select QSMs of interest.
 - `plot()` for 3D rendering
 - `qsm_stat()` works with a QSF
 

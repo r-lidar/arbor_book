@@ -11,6 +11,8 @@ options(rgl.useNULL = TRUE) # Suppress the separate rgl window during knitting
 
 Recent book update
 
+- 2026-09-26: Added section @sec-flowchart with in depth explanation of the QSM module flowchart.
+- 2026-09-23: Added section @sec-log with in depth explanation how to manage logging messages after using `qsf` with `qsf_log()` and `qsf_filter()`
 - 2026-09-17: Added details on trees excluded by the `qsf()` function. It was unclear to users why `qsf()` does not compute QSMs for all trees. See section @sec-qsf.
 - 2026-09-08: Added section @sec-oversegmentation that introduces v1.1.0 over-segmentation solver.
 

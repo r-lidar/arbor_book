@@ -343,12 +343,6 @@ This type of problem occurs rarely and only in young trees, small and branchy en
 :::
 -->
 
-## QSM Algorithm Flow
-
-This flowchart summarises the various cases described above
-
-![](figures/chap_qsm/flow.svg)
-
 ## Fitting Quality Assessment
 
 The QSM records a `quality` attribute (accessible via `qsm$quality`) that indicates the quality of radius fitting. The codes are defined as follows. The associated colors are arbitrary and correspond only to the figure below; the default color scheme may change in future versions.
@@ -377,6 +371,30 @@ In version 0.14.0, the function `qsm()` can throw four warnings:
 
 It is possible to retrieve the warning emitted by a QSM with `qsm_message()`. This section written in June 2026 may become out of sync when the reader is reading these pages but `qsm_message()` will remain a valid command.
 
+
+## QSM Algorithm Flow {#sec-flowchart}
+
+This flowchart summarises the various cases described above.
+
+First, the height of the tree is measured. Using the height, we estimate the diameter using allometry. This estimated diameter allows us to discriminate between trees that are "probably measurable" and those that are "probably not measurable".
+
+*Probably measurable trees* pass through the QSM algorithm, which can have two outcomes:
+
+1. A well-measured tree, producing a reliable QSM.
+2. A tree that cannot be measured, producing an allometry-based QSM.
+
+This is where having an adequate DBH allometric model matters. Why would the QSM fail to measure the tree? There can be segmentation issues, ivy on the trunk, various sampling issues such as sampling noise or SLAM misalignment, or an erroneous DTM.  A tree may also simply be too small to be measured reliably. After all, the threshold is fairly arbitrary. There are literally a million ways for the process to fail. However, overall, the algorithm does not fail very often on good quality dataset.
+
+*Probably non-measurable trees* go through another pipeline. Originally, the QSM module produced a purely allometry-based QSM for these trees. However, we realised that broken trees were also being included in this process. In practice, the internal routine applies a low-cost variant of the main algorithm to quickly check whether there is something measurable. If there is, it tries to measure the tree for as long as there is enough information to do so. Otherwise, we follow the alternative path: we build a purely DBH allometry-based QSM for trees that are too small to be measured, which are also referred to as **saplings** in this book.
+
+The allometry is less important for these trees because they virtually represent less than 1% of the total volume. Producing one QSM per sapling matters more for counting regeneration than for estimating carbon.
+
+Last but not least, for *probably measurable trees*, we also emit a warning when the measured DBH is surprisingly large compared with the allometric estimate. This does not mean that the QSM is wrong. It simply means that the result is unusual enough to warrant a manual check.
+
+When processing tens of thousands of trees, we can never be completely protected against errors. Even an error rate of one in a thousand can result in dozens of problematic trees in a large dataset. The algorithm therefore includes safeguards designed to flag unusual results for manual inspection rather than silently accepting them.
+
+![Flowchart illustrating the different processing paths used to produce a quantitative structural model (QSM) from a detected tree. ](figures/chap_qsm/flow.svg)
+
 ## Other Details
 
 We have not gone into depth about how the architecture is recomputed, how the quality of the RANSAC Orbicular Fitting is assessed, how errors near the base of the tree are handled for robustness, or how unnecessary computations are skipped. Throughout this book, many such details are intentionally omitted. Otherwise, the book would be endless, and the effort required to explain and illustrate every single step would be colossal. Our goal here is to present the overarching concepts to provide a clear overall understanding.
@@ -395,7 +413,7 @@ To achieve this, Arbor’s QSM module is intentionally strict and highly conserv
 
 Partially scanned trees, such as those commonly obtained from TLS data, may be technically measurable, but Arbor will generally fail to measure them reliably. A warning should be issued when Arbor detects poor overall measurement quality.
 
-As stated in previous chapters: production-grade software requires production-grade data.
+**As stated in previous chapters: production-grade software requires production-grade data.**
 
 ## Code
 

@@ -248,18 +248,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#building-a-qsf" id="toc-building-a-qsf" class="nav-link active" data-scroll-target="#building-a-qsf"><span class="header-section-number">8.1</span> Building a QSF</a></li>
-  <li><a href="#what-to-do-with-a-qsf" id="toc-what-to-do-with-a-qsf" class="nav-link" data-scroll-target="#what-to-do-with-a-qsf"><span class="header-section-number">8.2</span> What to Do with a QSF?</a>
+  <li><a href="#sec-log" id="toc-sec-log" class="nav-link" data-scroll-target="#sec-log"><span class="header-section-number">8.2</span> QSF Log Analysis</a></li>
+  <li><a href="#what-to-do-with-a-qsf" id="toc-what-to-do-with-a-qsf" class="nav-link" data-scroll-target="#what-to-do-with-a-qsf"><span class="header-section-number">8.3</span> What To Do With a QSF?</a>
   <ul class="collapse">
-  <li><a href="#d-rendering" id="toc-d-rendering" class="nav-link" data-scroll-target="#d-rendering"><span class="header-section-number">8.2.1</span> 3D Rendering</a></li>
-  <li><a href="#tree-map-volume-inventory" id="toc-tree-map-volume-inventory" class="nav-link" data-scroll-target="#tree-map-volume-inventory"><span class="header-section-number">8.2.2</span> Tree Map &amp; Volume Inventory</a></li>
-  <li><a href="#export-to-3d-software" id="toc-export-to-3d-software" class="nav-link" data-scroll-target="#export-to-3d-software"><span class="header-section-number">8.2.3</span> Export to 3D Software</a></li>
-  <li><a href="#reclassifying-wood-and-foliage" id="toc-reclassifying-wood-and-foliage" class="nav-link" data-scroll-target="#reclassifying-wood-and-foliage"><span class="header-section-number">8.2.4</span> Reclassifying Wood and Foliage</a></li>
-  <li><a href="#merchandable-volume" id="toc-merchandable-volume" class="nav-link" data-scroll-target="#merchandable-volume"><span class="header-section-number">8.2.5</span> Merchandable Volume</a></li>
+  <li><a href="#d-rendering" id="toc-d-rendering" class="nav-link" data-scroll-target="#d-rendering"><span class="header-section-number">8.3.1</span> 3D Rendering</a></li>
+  <li><a href="#tree-map-volume-inventory" id="toc-tree-map-volume-inventory" class="nav-link" data-scroll-target="#tree-map-volume-inventory"><span class="header-section-number">8.3.2</span> Tree Map &amp; Volume Inventory</a></li>
+  <li><a href="#export-to-3d-software" id="toc-export-to-3d-software" class="nav-link" data-scroll-target="#export-to-3d-software"><span class="header-section-number">8.3.3</span> Export to 3D Software</a></li>
+  <li><a href="#reclassifying-wood-and-foliage" id="toc-reclassifying-wood-and-foliage" class="nav-link" data-scroll-target="#reclassifying-wood-and-foliage"><span class="header-section-number">8.3.4</span> Reclassifying Wood and Foliage</a></li>
+  <li><a href="#merchandable-volume" id="toc-merchandable-volume" class="nav-link" data-scroll-target="#merchandable-volume"><span class="header-section-number">8.3.5</span> Merchandable Volume</a></li>
   </ul></li>
-  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"><span class="header-section-number">8.3</span> Code</a>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code"><span class="header-section-number">8.4</span> Code</a>
   <ul class="collapse">
-  <li><a href="#function-list" id="toc-function-list" class="nav-link" data-scroll-target="#function-list"><span class="header-section-number">8.3.1</span> Function list</a></li>
-  <li><a href="#full-code" id="toc-full-code" class="nav-link" data-scroll-target="#full-code"><span class="header-section-number">8.3.2</span> Full Code</a></li>
+  <li><a href="#function-list" id="toc-function-list" class="nav-link" data-scroll-target="#function-list"><span class="header-section-number">8.4.1</span> Function list</a></li>
+  <li><a href="#full-code" id="toc-full-code" class="nav-link" data-scroll-target="#full-code"><span class="header-section-number">8.4.2</span> Full Code</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -308,48 +309,92 @@ Tip
 <p>A <code>qsf</code> object is simply a <code>list</code> with an additional class to enable convenient printing and plotting methods. Thus, <code>qsf[[1]]</code> contains a <code>qsm</code> object.</p>
 </div>
 </div>
-<p><code>qsf()</code> does not throw any warnings because, on a typical 1/4-hectare plot with 400 saplings and 200 young trees, this would generate at least 600 warnings. This is unmanageable. Indeed, <code>qsm()</code> warns about non-measurable young trees. Instead, all QSMs record a message. Users can call <code>qsf_log()</code> to obtain a summary of troubleshooting.</p>
 <p>Be careful: by default, <code>qsf()</code> produces a QSM for every instance taller than 2 m. This can create a large number of QSMs with negligible volume, which is not always desirable. The function provides a parameter to control this threshold e.g.&nbsp;<code>qsf(las, min_height = 4)</code>.</p>
 </section>
-<section id="what-to-do-with-a-qsf" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="what-to-do-with-a-qsf"><span class="header-section-number">8.2</span> What to Do with a QSF?</h2>
-<section id="d-rendering" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="d-rendering"><span class="header-section-number">8.2.1</span> 3D Rendering</h3>
-<p>The first thing we can do with a QSF is render it in 3D within R.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qsf, <span class="at">pal =</span> <span class="st">"chocolate4"</span>) <span class="sc">|&gt;</span> lidR<span class="sc">::</span><span class="fu">add_dtm3d</span>(dtm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="figures/chap_qsf/qsf1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figures/chap_qsf/qsf1.jpg" class="img-fluid" width="400"></a></p>
-<p><a href="figures/chap_qsf/qsf3.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figures/chap_qsf/qsf3.jpg" class="img-fluid" width="400"></a></p>
+<section id="sec-log" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="sec-log"><span class="header-section-number">8.2</span> QSF Log Analysis</h2>
+<p>As mentioned earlier, arbor’s QSM module is not built like other QSM software on the market. It does not process one tree fed by a user but instead processes thousands of tree instances fed by a machine, including (among others) small saplings that are not measurable considering the accuracy of MLS sensors. In these cases, arbor’s function <code>qsm()</code> creates allometry-based QSMs with a warning (see section <a href="qsm.html#sec-edgecases" class="quarto-xref"><span>Section 7.7</span></a>).</p>
+<p>However, <code>qsf()</code> does not throw any warnings. Indeed, on a plot with e.g.&nbsp;400 saplings and 200 young trees, this would generate at least 600 warnings. This is unmanageable for users. Instead, all QSMs record a message. Users can call <code>qsf_log()</code> to obtain a troubleshooting summary.</p>
+<p>In the example below, we have 11 trees too short to be measurable according to allometry. These QSMs are purely allometry-based. We also have 7 trees without any measurement. Those trees are tall enough to be measured (in theory), but for some reason the QSM module found 0 valid measurements. Those trees should be inspected (spoiler: they are short trees with low foliage and indistinct trunks).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>logs <span class="ot">&lt;-</span> <span class="fu">qsf_log</span>(qsf)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>logs</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [W3] warning  Small tree allometry           n = 11 trees</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [W2] warning  No valid measure               n = 7 trees</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Users can query the logs. It is just a nested <code>list</code>. E.g.:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>logs<span class="sc">$</span>W2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The function <code>qsf_filter()</code> and its user-friendly derivatives allow the QSF object to be subset to retain only the trees of interest, without querying the log manually.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>saplings  <span class="ot">&lt;-</span> <span class="fu">qsf_filter_sapling</span>(qsf)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nomeasure <span class="ot">&lt;-</span> <span class="fu">qsf_filter_nomeasure</span>(qsf)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>goodtrees <span class="ot">&lt;-</span> <span class="fu">qsf_filter_ok</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The function <code>qsm_treeid()</code> allows the user to retrieve the tree ID of a QSM. It also applies to a QSF and thus allows the corresponding trees to be extracted from the point cloud. For example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ids <span class="ot">&lt;-</span> <span class="fu">qsm_treeid</span>(nomeasure)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cloud <span class="ot">&lt;-</span> <span class="fu">filter_poi</span>(las, treeID <span class="sc">%in%</span> ids)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">plot_instance</span>(cloud)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nomeasure, <span class="at">add =</span> x, <span class="at">pal =</span> <span class="st">"chocolate4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is also posible to use <code>cloud = las %in% nomeasure</code> as shortcut.</p>
+</div>
+</div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_qsf/qsf2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="3D rendering of a QSF. QSF computed in 4 seconds"><img src="figures/chap_qsf/qsf2.jpg" class="img-fluid figure-img" width="400" alt="3D rendering of a QSF. QSF computed in 4 seconds"></a></p>
+<p><a href="figures/chap_qsf/nomeasure.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Five trees have 0 measurements. The QSM module was not able to measure anything on those trees. Instead, it built allometry-based QSMs, considering that having a realistic result is better than missing trees"><img src="figures/chap_qsf/nomeasure.png" class="img-fluid figure-img" alt="Five trees have 0 measurements. The QSM module was not able to measure anything on those trees. Instead, it built allometry-based QSMs, considering that having a realistic result is better than missing trees"></a></p>
+<figcaption>Five trees have 0 measurements. The QSM module was not able to measure anything on those trees. Instead, it built allometry-based QSMs, considering that having a realistic result is better than missing trees</figcaption>
+</figure>
+</div>
+</section>
+<section id="what-to-do-with-a-qsf" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="what-to-do-with-a-qsf"><span class="header-section-number">8.3</span> What To Do With a QSF?</h2>
+<section id="d-rendering" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="d-rendering"><span class="header-section-number">8.3.1</span> 3D Rendering</h3>
+<p>The first thing we can do with a QSF is render it in 3D within R.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qsf, <span class="at">pal =</span> <span class="st">"chocolate4"</span>) <span class="sc">|&gt;</span> lidR<span class="sc">::</span><span class="fu">add_dtm3d</span>(dtm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="figures/chap_qsf/qsf1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figures/chap_qsf/qsf1.jpg" class="img-fluid" width="400"></a></p>
+<p><a href="figures/chap_qsf/qsf3.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="figures/chap_qsf/qsf3.jpg" class="img-fluid" width="400"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="figures/chap_qsf/qsf2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="3D rendering of a QSF. QSF computed in 4 seconds"><img src="figures/chap_qsf/qsf2.jpg" class="img-fluid figure-img" width="400" alt="3D rendering of a QSF. QSF computed in 4 seconds"></a></p>
 <figcaption>3D rendering of a QSF. QSF computed in 4 seconds</figcaption>
 </figure>
 </div>
 </section>
-<section id="tree-map-volume-inventory" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="tree-map-volume-inventory"><span class="header-section-number">8.2.2</span> Tree Map &amp; Volume Inventory</h3>
+<section id="tree-map-volume-inventory" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="tree-map-volume-inventory"><span class="header-section-number">8.3.2</span> Tree Map &amp; Volume Inventory</h3>
 <p>A QSF can also be used to perform complete forest inventories, producing a tree map with detailed information for each tree, such as basal area, volume, height, and other structural attributes.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tm <span class="ot">&lt;-</span> <span class="fu">qsf_treemap</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tm <span class="ot">&lt;-</span> <span class="fu">qsf_treemap</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_qsf/treemap.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="A tree map with volume displayed (trees are scaled ×2 for rendering)"><img src="figures/chap_qsf/treemap.jpg" class="img-fluid figure-img" width="500" alt="A tree map with volume displayed (trees are scaled ×2 for rendering)"></a></p>
+<p><a href="figures/chap_qsf/treemap.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="A tree map with volume displayed (trees are scaled ×2 for rendering)"><img src="figures/chap_qsf/treemap.jpg" class="img-fluid figure-img" width="500" alt="A tree map with volume displayed (trees are scaled ×2 for rendering)"></a></p>
 <figcaption>A tree map with volume displayed (trees are scaled ×2 for rendering)</figcaption>
 </figure>
 </div>
 </section>
-<section id="export-to-3d-software" class="level3" data-number="8.2.3">
-<h3 data-number="8.2.3" class="anchored" data-anchor-id="export-to-3d-software"><span class="header-section-number">8.2.3</span> Export to 3D Software</h3>
+<section id="export-to-3d-software" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="export-to-3d-software"><span class="header-section-number">8.3.3</span> Export to 3D Software</h3>
 <p>The <code>qsf()</code> function includes an option to export all trees into separate folders. Users can also use <code>qsf_write()</code> to export individual trees to formats such as <code>.qsm</code>, <code>.obj</code>, <code>.stl</code>, <code>.ply</code>, <code>.csv</code> or other formats supported by 3D software. For example, Blender can be used as an open-source solution for realistic rendering while CloudCompare can be use for casual rendering.</p>
-<p><a href="figures/chap_qsf/render2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="figures/chap_qsf/render2.jpg" class="img-fluid" width="500"></a></p>
+<p><a href="figures/chap_qsf/render2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="figures/chap_qsf/render2.jpg" class="img-fluid" width="500"></a></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_qsf/render1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Rendering with Blender"><img src="figures/chap_qsf/render1.jpg" class="img-fluid figure-img" width="500" alt="Rendering with Blender"></a></p>
+<p><a href="figures/chap_qsf/render1.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Rendering with Blender"><img src="figures/chap_qsf/render1.jpg" class="img-fluid figure-img" width="500" alt="Rendering with Blender"></a></p>
 <figcaption>Rendering with Blender</figcaption>
 </figure>
 </div>
 </section>
-<section id="reclassifying-wood-and-foliage" class="level3" data-number="8.2.4">
-<h3 data-number="8.2.4" class="anchored" data-anchor-id="reclassifying-wood-and-foliage"><span class="header-section-number">8.2.4</span> Reclassifying Wood and Foliage</h3>
+<section id="reclassifying-wood-and-foliage" class="level3" data-number="8.3.4">
+<h3 data-number="8.3.4" class="anchored" data-anchor-id="reclassifying-wood-and-foliage"><span class="header-section-number">8.3.4</span> Reclassifying Wood and Foliage</h3>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -365,23 +410,23 @@ Warning
 </div>
 <p>Our semantic segmentation is not perfect. It intentionally over-segments in order to ensure that the entire tree branching structure is captured. As a result, this approach produces numerous false positives in foliage (by design) and some false negatives (not by design). The semantic segmentation is therefore not intended for direct scientific use; it is primarily designed to support QSM reconstruction.</p>
 <p>With a QSF, it becomes possible to reclassify points based on each individual QSM. This reclassification can be useful for downstream analyses such as estimating Plant Area Index (PAI) or Leaf Area Index (LAI), where a more accurate separation between wood and foliage is required.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>las <span class="ot">=</span> <span class="fu">qsf_segment_semantic</span>(las, qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">qsf_segment_semantic</span>(las, qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="figures/chap_qsf/segment_from_qsf.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Raw semantic segmentation (left) and post-processing using QSMs and a QSF (right)"><img src="figures/chap_qsf/segment_from_qsf.jpg" class="img-fluid figure-img" width="800" alt="Raw semantic segmentation (left) and post-processing using QSMs and a QSF (right)"></a></p>
+<p><a href="figures/chap_qsf/segment_from_qsf.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Raw semantic segmentation (left) and post-processing using QSMs and a QSF (right)"><img src="figures/chap_qsf/segment_from_qsf.jpg" class="img-fluid figure-img" width="800" alt="Raw semantic segmentation (left) and post-processing using QSMs and a QSF (right)"></a></p>
 <figcaption>Raw semantic segmentation (left) and post-processing using QSMs and a QSF (right)</figcaption>
 </figure>
 </div>
 </section>
-<section id="merchandable-volume" class="level3" data-number="8.2.5">
-<h3 data-number="8.2.5" class="anchored" data-anchor-id="merchandable-volume"><span class="header-section-number">8.2.5</span> Merchandable Volume</h3>
+<section id="merchandable-volume" class="level3" data-number="8.3.5">
+<h3 data-number="8.3.5" class="anchored" data-anchor-id="merchandable-volume"><span class="header-section-number">8.3.5</span> Merchandable Volume</h3>
 <p>See <a href="forestry.html" class="quarto-xref"><span>Chapter 9</span></a> for more information about forestry operations.</p>
 </section>
 </section>
-<section id="code" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="code"><span class="header-section-number">8.3</span> Code</h2>
-<section id="function-list" class="level3" data-number="8.3.1">
-<h3 data-number="8.3.1" class="anchored" data-anchor-id="function-list"><span class="header-section-number">8.3.1</span> Function list</h3>
+<section id="code" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="code"><span class="header-section-number">8.4</span> Code</h2>
+<section id="function-list" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="function-list"><span class="header-section-number">8.4.1</span> Function list</h3>
 <ul>
 <li><code>qsf()</code> to build a QSF</li>
 <li><code>qsf_write()</code> for saving the QSMs in <code>.obj</code>, <code>.ply</code> <code>.csv</code> or <code>.qsm</code> for analyzing or for rendering in 3D software.</li>
@@ -389,33 +434,34 @@ Warning
 <li><code>qsf_log()</code> to get a overview of troubleshooting</li>
 <li><code>qsf_segment_semantic()</code> for more accurate semantic segmentation</li>
 <li><code>qsf_merchantable()</code> (see <a href="forestry.html" class="quarto-xref"><span>Chapter 9</span></a>)</li>
+<li><code>qsf_filter()</code> to select QSMs of interest.</li>
 <li><code>plot()</code> for 3D rendering</li>
 <li><code>qsm_stat()</code> works with a QSF</li>
 </ul>
 </section>
-<section id="full-code" class="level3" data-number="8.3.2">
-<h3 data-number="8.3.2" class="anchored" data-anchor-id="full-code"><span class="header-section-number">8.3.2</span> Full Code</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lidR)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arbor)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> arbor_parameters_default</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>global<span class="sc">$</span>cut_above_ground <span class="ot">=</span> <span class="fl">0.25</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> <span class="st">"-keep_random_fraction 0.25"</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>buffer <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">readTLS</span>(file, <span class="at">select =</span> <span class="st">"xyz"</span>, <span class="at">filter =</span> filter)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">hybrid_homogeneization</span>(las)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_ground</span>(las)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">wood_likelihood</span>(las, params)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_semantic</span>(las, params)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>see <span class="ot">&lt;-</span> <span class="fu">find_seeds</span>(las, params)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_instance</span>(las, see, params)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_small_trees</span>(las, <span class="at">max_height =</span> <span class="dv">2</span>)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_buffer</span>(las, see, <span class="sc">-</span>buffer)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>qsf <span class="ot">&lt;-</span> <span class="fu">qsf</span>(las, <span class="at">params =</span> params)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>log <span class="ot">&lt;-</span> <span class="fu">qsf_log</span>(qsf)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="full-code" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="full-code"><span class="header-section-number">8.4.2</span> Full Code</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lidR)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arbor)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> arbor_parameters_default</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>global<span class="sc">$</span>cut_above_ground <span class="ot">=</span> <span class="fl">0.25</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> <span class="st">"-keep_random_fraction 0.25"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>buffer <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">readTLS</span>(file, <span class="at">select =</span> <span class="st">"xyz"</span>, <span class="at">filter =</span> filter)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">hybrid_homogeneization</span>(las)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_ground</span>(las)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">wood_likelihood</span>(las, params)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_semantic</span>(las, params)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>see <span class="ot">&lt;-</span> <span class="fu">find_seeds</span>(las, params)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">segment_instance</span>(las, see, params)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_small_trees</span>(las, <span class="at">max_height =</span> <span class="dv">2</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>las <span class="ot">&lt;-</span> <span class="fu">flag_buffer</span>(las, see, <span class="sc">-</span>buffer)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>qsf <span class="ot">&lt;-</span> <span class="fu">qsf</span>(las, <span class="at">params =</span> params)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>log <span class="ot">&lt;-</span> <span class="fu">qsf_log</span>(qsf)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qsf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
@@ -855,7 +901,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"openEffect":"zoom","descPosition":"bottom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
