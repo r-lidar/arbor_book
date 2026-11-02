@@ -44,7 +44,7 @@
     "href": "index.html#minimum-requirements",
     "title": "Arbor: The Complete R Tutorial Book",
     "section": "Minimum Requirements",
-    "text": "Minimum Requirements\n\nLaptop with at least 32 GB of RAM and 6 cores:\nThis workflow is computationally demanding and requires significant memory. On a laptop with 32 GB of RAM, it is possible to process 5,000–6,000 m² in one batch smoothly. Beyond that, the RAM capacity may be exceeded.\nHigh-quality data:\nThe point cloud must be collected using a state-of-the-art walking pattern to ensure proper SLAM alignment and homogeneous sampling. Trees should be scanned from all sides, not just one. Following established best practices will ensure optimal results.\nReasonably low noise levels:\nMobile laser scanners naturally produce A LOT of noise, and that’s perfectly fine. However, we occasionally encounter datasets where the noise level is stratospheric, to the point of being unusable. While we understand that not everyone can afford top-tier sensors, there is a reasonable limit. The point cloud should look clean and well-defined, which is achievable even without the most expensive equipment (see 2.2 Point Cloud Quality).\nOperating System:\nLinux or Windows. R packages built under MacOS don’t support parallelization with OpenMP. Without parallelization Arbor will be much slower. We do not recommend using Arbor on a Mac.",
+    "text": "Minimum Requirements\n\nLaptop with at least 16 GB of RAM and 6 cores:\nThis workflow is computationally demanding and requires significant memory. On a laptop with 16 GB of RAM, it is possible to process 5,000 m² in one batch smoothly. Count roughly 10 GB per 5,000 m².\nHigh-quality data:\nThe point cloud must be collected using a state-of-the-art walking pattern to ensure proper SLAM alignment and homogeneous sampling. Trees should be scanned from all sides, not just one. Following established best practices will ensure optimal results.\nReasonably low noise levels:\nMobile laser scanners naturally produce A LOT of noise, and that’s perfectly fine. However, we occasionally encounter datasets where the noise level is stratospheric, to the point of being unusable. While we understand that not everyone can afford top-tier sensors, there is a reasonable limit. The point cloud should look clean and well-defined, which is achievable even without the most expensive equipment (see 2.2 Point Cloud Quality).\nOperating System:\nLinux or Windows. R packages built under MacOS don’t support parallelization with OpenMP. Without parallelization Arbor will be much slower. We do not recommend using Arbor on a Mac.",
     "crumbs": [
       "Preface"
     ]
@@ -95,6 +95,16 @@
     "title": "1  What is Arbor?",
     "section": "1.3 Arbor Studio",
     "text": "1.3 Arbor Studio\nArborStudio is a desktop application with a graphical user interface designed for users who prefer a drag-and-drop workflow: load files, click a few buttons, and generate outputs without writing code.\nBut ArborStudio is much more than a simple GUI. It is also an interactive editor that allows manual correction of classifications using tools specifically designed for forestry workflows. Users can inspect point clouds, manually reassign points to the correct trees, refit QSMs, and use other specialized editing tools. The software is intended for two main types of users:\n\nPractitioners: to work outside R without coding\nResearchers: to easily achieve perfect segmentation manually in order to build validation datasets and/or train models\n\n\n\n\n\n\n\nNote\n\n\n\nArborStudio is currently under active development and is not yet publicly available. It may or may not be released as open source. Depending on the level of community interest and financial support for ArborStudio’s development, the software may eventually be released either for free or under a commercial license.\nRegardless of the business model chosen for ArborStudio, the core Arbor engine will remain fully free and open source.\n\n\nThe video below presents an early prototype of ArborStudio and its ability to quickly and easily perform manual instance corrections.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>What is Arbor?</span>"
+    ]
+  },
+  {
+    "objectID": "arbor.html#diagram",
+    "href": "arbor.html#diagram",
+    "title": "1  What is Arbor?",
+    "section": "1.4 Diagram",
+    "text": "1.4 Diagram\n\n\n\n\n\n\n\n\n\n\nR ecosystem\n\nStandalone software\n\n\nR bindings\n\nbuilt on the C++ engine\n\n\n\nships with\n\n\n\n\n\nC++\n\nlibarbor\nC++ core engine\n\n\n\n\n\nR\n\narbor\nR interface to libarbor\n\n\n\n\n\n\n\n\n\n\narborShinyReport\nInteractive forest reports\n\n\n\n\n\n\n\n\n\n\n\narborInventoryMerger\nField inventory merging\n\n\n\n\n\n\n\n\nCommand-line tools\narbor segment, qsf, report\n\n\n\n\n\n\n\n\n\n\n\nArborStudio\nDesktop GUI\n\nin development\n\n\n\nbuilt on libarbor\n\nbuilt on the arbor R package\n\nnot public yet",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>What is Arbor?</span>"
     ]

@@ -1,0 +1,232 @@
+<!-- arbor ecosystem diagram: self-contained fragment (no external dependencies).
+Text, colors and links: edit the PROJECTS object in the script and the href on each node. -->
+<div class="arbmap" id="arbmap">
+<style>
+.arbmap{position:relative;width:100%;max-width:1040px;margin:1.5rem auto;color:inherit;font-family:inherit;
+--c-libarbor:#1e8a5f;--c-arbor:#2766b4;--c-shiny:#1597a6;--c-merger:#6b57c9;--c-cli:#c0477a;--c-studio:#d98a10}
+.arbmap svg{display:block;width:100%;height:auto;overflow:visible}
+.arbmap .zone{stroke-width:1.3;stroke-dasharray:3 5}
+.arbmap .zone.zr{fill:var(--c-arbor);fill-opacity:.05;stroke:var(--c-arbor);stroke-opacity:.45}
+.arbmap .zone.zs{fill:var(--c-studio);fill-opacity:.06;stroke:var(--c-studio);stroke-opacity:.5}
+.arbmap .zone-label{font-size:13.5px;font-weight:600}
+.arbmap .zone-label.zr{fill:var(--c-arbor)}
+.arbmap .zone-label.zs{fill:var(--c-studio)}
+.arbmap .edge{fill:none;stroke-width:2.2;opacity:.6;transition:opacity .15s,stroke-width .15s}
+.arbmap .edge.from-libarbor{stroke:var(--c-libarbor)}
+.arbmap .edge.from-arbor{stroke:var(--c-arbor)}
+.arbmap .edge-label{font-size:12px;font-style:italic;fill:currentColor;opacity:.65;transition:opacity .15s}
+.arbmap .node{cursor:pointer;outline:none;transition:opacity .15s}
+.arbmap a.node,.arbmap a.node:hover,.arbmap a.node:focus,.arbmap a.node:visited,.arbmap a.node:active{color:inherit!important;text-decoration:none!important;border:0!important;box-shadow:none!important}
+.arbmap a.node text{text-decoration:none!important}
+.arbmap .node .bg{fill:var(--c);fill-opacity:.11;stroke:var(--c);stroke-width:2;transition:fill-opacity .15s,stroke-width .15s}
+.arbmap .node.core .bg{stroke-width:2.8;fill-opacity:.16}
+.arbmap .badge-bg{fill:var(--c)}
+.arbmap .node .t{font-size:15px;font-weight:700;fill:currentColor}
+.arbmap .node .s{font-size:12px;fill:currentColor;opacity:.75}
+.arbmap .node .pill{fill:var(--c)}
+.arbmap .node .pill-t{font-size:10.5px;font-weight:600;fill:#fff}
+.arbmap .node.gui .bg{stroke-dasharray:8 4}
+.arbmap .node:hover .bg,.arbmap .node:focus-visible .bg,.arbmap .node.on .bg{fill-opacity:.24;stroke-width:3.2}
+.arbmap .node:focus-visible .bg{stroke:currentColor;stroke-dasharray:none}
+.arbmap.dim .node:not(.on),.arbmap.dim .edge:not(.on),.arbmap.dim .edge-label:not(.on){opacity:.2}
+.arbmap .edge.on{opacity:1;stroke-width:3.2}
+.arbmap .legend text{font-size:12px;fill:currentColor;opacity:.7}
+.arbmap .tip{position:absolute;z-index:20;width:320px;max-width:calc(100% - 12px);padding:12px 14px 10px 16px;border-radius:10px;
+background:var(--bs-body-bg,#fff);color:var(--bs-body-color,#222);border:1px solid rgba(128,128,128,.4);border-left:5px solid var(--c,#888);
+box-shadow:0 8px 26px rgba(0,0,0,.22);font-size:13.5px;line-height:1.45;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .12s}
+.arbmap .tip.show{opacity:1;visibility:visible}
+.arbmap .tip .hd{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.arbmap .tip .hd svg{flex:none;width:34px;height:34px}
+.arbmap .tip h4{margin:0;font-size:15.5px;font-weight:700;line-height:1.2}
+.arbmap .tip .kind{font-size:12px;color:var(--c);font-weight:600}
+.arbmap .tip p{margin:0 0 6px}
+.arbmap .tip ul{margin:0 0 6px;padding-left:18px}
+.arbmap .tip code{font-size:12px}
+.arbmap .tip .status{display:inline-block;margin:0 0 6px;padding:1px 9px;border-radius:99px;font-size:12px;font-weight:600;background:var(--c);color:#fff}
+.arbmap .tip .go{margin:6px 0 0;font-size:12px;opacity:.7}
+@media (max-width:640px){.arbmap .node .t{font-size:18px}.arbmap .node .s{font-size:14px}.arbmap .edge-label,.arbmap .zone-label{font-size:16px}}
+@media (prefers-reduced-motion:reduce){.arbmap *{transition:none!important}}
+</style>
+<svg viewBox="0 0 1040 530" role="group" aria-label="How the arbor projects are related">
+<defs>
+<marker id="arbmap-ar-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1e8a5f"/></marker>
+<marker id="arbmap-ar-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2766b4"/></marker>
+</defs>
+<rect class="zone zr" x="20" y="30" width="770" height="320" rx="16"/>
+<text class="zone-label zr" x="40" y="56">R ecosystem</text>
+<rect class="zone zs" x="810" y="196" width="212" height="154" rx="16"/>
+<text class="zone-label zs" x="828" y="221">Standalone software</text>
+<!-- edges: from the foundation to what is built on it -->
+<path class="edge from-libarbor" data-from="libarbor" data-to="arbor" marker-end="url(#arbmap-ar-g)" d="M404 410 L404 322"/>
+<text class="edge-label" data-from="libarbor" data-to="arbor" x="414" y="380">R bindings</text>
+<path class="edge from-libarbor" data-from="libarbor" data-to="studio" marker-end="url(#arbmap-ar-g)" d="M524 450 C916 450 916 400 916 330"/>
+<text class="edge-label" data-from="libarbor" data-to="studio" x="560" y="440">built on the C++ engine</text>
+<path class="edge from-arbor" data-from="arbor" data-to="shiny" marker-end="url(#arbmap-ar-b)" d="M370 240 C340 192 170 210 152 156"/>
+<path class="edge from-arbor" data-from="arbor" data-to="merger" marker-end="url(#arbmap-ar-b)" d="M404 240 L404 156"/>
+<path class="edge from-arbor" data-from="arbor" data-to="cli" marker-end="url(#arbmap-ar-b)" d="M438 240 C468 192 638 210 656 156"/>
+<text class="edge-label" data-from="arbor" data-to="cli" x="560" y="212">ships with</text>
+<!-- nodes: each badge is drawn around (0,0) so the tooltip can reuse it -->
+<a class="node core" style="--c:var(--c-libarbor)" data-id="libarbor" href="https://github.com/r-lidar/arbor" target="_blank" rel="noopener">
+<rect class="bg" x="284" y="410" width="240" height="80" rx="13"/>
+<g class="badge" transform="translate(318 450)">
+<circle class="badge-bg" r="21"/>
+<text y="4.6" text-anchor="middle" fill="#fff" font-size="13" font-weight="800" letter-spacing="-.3">C++</text>
+</g>
+<text class="t" x="350" y="445">libarbor</text>
+<text class="s" x="350" y="465">C++ core engine</text>
+</a>
+<a class="node r" style="--c:var(--c-arbor)" data-id="arbor" href="https://github.com/r-lidar/arbor" target="_blank" rel="noopener">
+<rect class="bg" x="284" y="240" width="240" height="80" rx="13"/>
+<g class="badge" transform="translate(318 280)">
+<circle class="badge-bg" r="21"/>
+<text y="8" text-anchor="middle" fill="#fff" font-size="22" font-weight="800">R</text>
+</g>
+<text class="t" x="350" y="275">arbor</text>
+<text class="s" x="350" y="295">R interface to libarbor</text>
+</a>
+<a class="node r" style="--c:var(--c-shiny)" data-id="shiny" href="https://github.com/r-lidar-lab/arborShinyReport" target="_blank" rel="noopener">
+<rect class="bg" x="32" y="74" width="240" height="80" rx="13"/>
+<g class="badge" transform="translate(66 114)">
+<circle class="badge-bg" r="21"/>
+<!-- report page with a bar chart -->
+<g transform="translate(-13.2 -13.2) scale(1.1)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M5.5 2.5h9L19 7v14.5H5.5z"/><path d="M14.5 2.5V7H19"/><path d="M9 18.5v-3M12.2 18.5v-6M15.4 18.5v-4.2"/>
+</g>
+</g>
+<text class="t" x="98" y="109">arborShinyReport</text>
+<text class="s" x="98" y="129">Interactive forest reports</text>
+</a>
+<a class="node r" style="--c:var(--c-merger)" data-id="merger" href="https://github.com/r-lidar-lab/arborInventoryMerger" target="_blank" rel="noopener">
+<rect class="bg" x="284" y="74" width="240" height="80" rx="13"/>
+<g class="badge" transform="translate(318 114)">
+<circle class="badge-bg" r="21"/>
+<!-- field inventory clipboard with checked rows -->
+<g transform="translate(-13.2 -13.2) scale(1.1)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<rect x="5" y="4" width="14" height="17.5" rx="2"/><rect x="9" y="2.3" width="6" height="3.6" rx="1" fill="var(--c)"/>
+<path d="M8.2 11.2l1.3 1.3 2.2-2.4M13.8 11.5h2.4M8.2 16.2l1.3 1.3 2.2-2.4M13.8 16.5h2.4"/>
+</g>
+</g>
+<text class="t" x="350" y="109">arborInventoryMerger</text>
+<text class="s" x="350" y="129">Field inventory merging</text>
+</a>
+<a class="node r" style="--c:var(--c-cli)" data-id="cli" href="https://r-lidar.github.io/arbor_book/cmd.html" target="_blank" rel="noopener">
+<rect class="bg" x="536" y="74" width="240" height="80" rx="13"/>
+<g class="badge" transform="translate(570 114)">
+<circle class="badge-bg" r="21"/>
+<!-- shell prompt -->
+<g fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-10 -7l7 7-7 7M1 8h9"/></g>
+</g>
+<text class="t" x="602" y="109">Command-line tools</text>
+<text class="s" x="602" y="129">arbor segment, qsf, report</text>
+</a>
+<a class="node gui" style="--c:var(--c-studio)" data-id="studio" href="https://r-lidar.github.io/arbor_book/arbor.html#arbor-studio" target="_blank" rel="noopener">
+<rect class="bg" x="822" y="236" width="188" height="90" rx="13"/>
+<g class="badge" transform="translate(856 270)">
+<circle class="badge-bg" r="21"/>
+<!-- application window with a mouse pointer -->
+<g transform="translate(-13.2 -13.2) scale(1.1)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2" y="3.5" width="20" height="14.5" rx="2"/><path d="M2 7.5h20"/>
+<path d="M11.5 10.5v9.5l2.4-2.3 1.8 3.4 1.7-.9-1.8-3.4h3.3z" fill="#fff" stroke="var(--c)" stroke-width="1.2"/>
+</g>
+</g>
+<text class="t" x="888" y="265">ArborStudio</text>
+<text class="s" x="888" y="284">Desktop GUI</text>
+<rect class="pill" x="888" y="295" width="106" height="18" rx="9"/>
+<text class="pill-t" x="941" y="308" text-anchor="middle">in development</text>
+</a>
+<g class="legend" transform="translate(32 520)">
+<line x1="0" y1="-4" x2="30" y2="-4" stroke="#1e8a5f" stroke-width="2.2" marker-end="url(#arbmap-ar-g)"/>
+<text x="40" y="0">built on libarbor</text>
+<line x1="170" y1="-4" x2="200" y2="-4" stroke="#2766b4" stroke-width="2.2" marker-end="url(#arbmap-ar-b)"/>
+<text x="210" y="0">built on the arbor R package</text>
+<rect x="410" y="-13" width="24" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" opacity=".6"/>
+<text x="442" y="0">not public yet</text>
+</g>
+</svg>
+<div class="tip" role="tooltip" aria-hidden="true"></div>
+<script>
+(function(){
+var root=document.getElementById('arbmap'); if(!root||root.dataset.ready) return; root.dataset.ready='1';
+var tip=root.querySelector('.tip');
+// ---- Edit tooltip text here (colors: --c-* variables in the style block) --
+var PROJECTS={
+libarbor:{name:'libarbor',kind:'C++ library, core engine',
+body:'The workhorse behind everything else. Processes mobile laser scanning (MLS) forest point clouds from ground classification to individual QSM reconstruction.',
+list:['Ground, wood/foliage and tree instance segmentation','Quantitative structure models (QSM) of whole plots','About 700 QSMs per minute on a laptop'],
+note:'Open source, GPL-3.'},
+arbor:{name:'arbor',kind:'R package',
+body:'The R interface to libarbor. Runs the full pipeline from R, from raw scan to forest model, and lets you build custom workflows.',
+list:['Install from r-lidar.r-universe.dev','Documented in the Arbor Book'],
+note:'Open source, GPL-3.'},
+shiny:{name:'arborShinyReport',kind:'R package, built on arbor',
+body:'Turns an arbor result (segmented point cloud and forest model) into an interactive Shiny report for exploring a forest inventory.',
+code:'shiny_report(qsf, las)'},
+merger:{name:'arborInventoryMerger',kind:'R package, built on arbor',
+body:'A specialized tool designed for a French lab. Merges ground-truth field inventories with arbor\u2019s tree segmentation output.'},
+cli:{name:'Command-line tools',kind:'Terminal tools, shipped with the arbor R package',
+body:'Run arbor from a terminal, without opening R.',
+list:['arbor segment: ground, semantic and instance segmentation','arbor qsf: 3D model of the forest','arbor report: PDF summary of the scene'],
+note:'Install with arbor::install_cmd_tools().'},
+studio:{name:'ArborStudio',kind:'Desktop application with a graphical interface',status:'In development, not public yet',
+body:'A classic installable GUI built on libarbor. Load files, click, and get outputs without writing code.',
+list:['Interactive editing: reassign points to trees, refit QSMs','For practitioners working outside R and for researchers building validation datasets'],
+note:'Release model (free or commercial) not decided. The core engine stays open source.'}
+};
+// -------------------------------------------------------------------------
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function html(p,badge){
+var h='<div class="hd"><svg viewBox="-22 -22 44 44" aria-hidden="true">'+badge+'</svg><div><h4>'+esc(p.name)+'</h4><div class="kind">'+esc(p.kind)+'</div></div></div>';
+if(p.status) h+='<div><span class="status">'+esc(p.status)+'</span></div>';
+h+='<p>'+esc(p.body)+'</p>';
+if(p.code) h+='<p><code>'+esc(p.code)+'</code></p>';
+if(p.list) h+='<ul>'+p.list.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';
+if(p.note) h+='<p>'+esc(p.note)+'</p>';
+return h+'<p class="go">Click to open the project page</p>';
+}
+var nodes=[].slice.call(root.querySelectorAll('.node'));
+var links=[].slice.call(root.querySelectorAll('[data-from]'));
+// Compress a label slightly if the page font makes it wider than its box
+function fitText(){
+nodes.forEach(function(n){
+var bg=n.querySelector('.bg');
+[].forEach.call(n.querySelectorAll('.t,.s'),function(t){
+t.removeAttribute('textLength');
+var avail=(+bg.getAttribute('x'))+(+bg.getAttribute('width'))-12-(+t.getAttribute('x'));
+var w=t.getComputedTextLength();
+if(w>avail){t.setAttribute('textLength',avail);t.setAttribute('lengthAdjust','spacingAndGlyphs');}
+});
+});
+}
+try{fitText();}catch(e){}
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){try{fitText();}catch(e){}});
+function highlight(id){
+root.classList.add('dim');
+nodes.forEach(function(n){var d=n.dataset.id, rel=d===id;
+links.forEach(function(e){if((e.dataset.from===id&&e.dataset.to===d)||(e.dataset.to===id&&e.dataset.from===d)) rel=true;});
+n.classList.toggle('on',rel);});
+links.forEach(function(e){e.classList.toggle('on',e.dataset.from===id||e.dataset.to===id);});
+}
+function clear(){root.classList.remove('dim');nodes.concat(links).forEach(function(e){e.classList.remove('on');});}
+function show(n){
+var p=PROJECTS[n.dataset.id];
+tip.style.setProperty('--c',getComputedStyle(n).getPropertyValue('--c'));
+tip.innerHTML=html(p,n.querySelector('.badge').innerHTML); tip.setAttribute('aria-hidden','false');
+highlight(n.dataset.id);
+var r=root.getBoundingClientRect(), b=n.getBoundingClientRect(), tw=tip.offsetWidth, th=tip.offsetHeight;
+var x=b.left-r.left+b.width/2-tw/2; x=Math.max(6,Math.min(x,r.width-tw-6));
+var below=b.bottom-r.top+10, above=b.top-r.top-th-10;
+var y=((b.top-r.top)<r.height*0.4||above<0)?below:above;
+tip.style.left=x+'px'; tip.style.top=y+'px'; tip.classList.add('show');
+}
+function hide(){tip.classList.remove('show');tip.setAttribute('aria-hidden','true');clear();}
+nodes.forEach(function(n){
+var p=PROJECTS[n.dataset.id];
+n.setAttribute('aria-label',p.name+': '+p.kind);
+n.addEventListener('mouseenter',function(){show(n);});
+n.addEventListener('mouseleave',hide);
+n.addEventListener('focus',function(){show(n);});
+n.addEventListener('blur',hide);
+});
+})();
+</script>
+</div>

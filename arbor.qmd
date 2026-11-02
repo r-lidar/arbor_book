@@ -37,3 +37,10 @@ Regardless of the business model chosen for ArborStudio, the core Arbor engine w
 The video below presents an early prototype of ArborStudio and its ability to quickly and easily perform manual instance corrections.
 
 {{<video https://youtu.be/QNecPrQvmwc >}}
+
+## Diagram
+::: {.column-page}
+```{=html}
+{{< include figures/arbor-ecosystem.html >}}
+```
+:::

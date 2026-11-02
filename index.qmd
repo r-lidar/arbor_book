@@ -107,8 +107,8 @@ install.packages('arbor', repos = c('https://r-lidar.r-universe.dev', 'https://c
 
 ## Minimum Requirements
 
-- **Laptop with at least 32 GB of RAM and 6 cores**:  
-  This workflow is computationally demanding and requires significant memory. On a laptop with 32 GB of RAM, it is possible to process 5,000–6,000 m² in one batch smoothly. Beyond that, the RAM capacity may be exceeded.
+- **Laptop with at least 16 GB of RAM and 6 cores**:  
+  This workflow is computationally demanding and requires significant memory. On a laptop with 16 GB of RAM, it is possible to process 5,000 m² in one batch smoothly. Count roughly 10 GB per 5,000 m².
 
 - **High-quality data**:  
   The point cloud must be collected using a state-of-the-art walking pattern to ensure proper SLAM alignment and homogeneous sampling. Trees should be scanned from all sides, not just one. Following established best practices will ensure optimal results.
